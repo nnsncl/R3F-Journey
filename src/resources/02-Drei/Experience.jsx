@@ -1,8 +1,14 @@
 import React from "react";
-import { OrbitControls, TransformControls, PivotControls } from "@react-three/drei";
+import {
+    OrbitControls,
+    TransformControls,
+    PivotControls,
+    Html
+} from "@react-three/drei";
 
 export const Experience = () => {
     const gizmoTargRef = React.useRef();
+    const pivotRef = React.useRef();
 
     return (
         <React.Fragment>
@@ -15,11 +21,22 @@ export const Experience = () => {
                 depthTest={false}
                 lineWidth={3}
                 scale={1}
-                fixed={true}
+                fixed={false}
             >
-                <mesh position-x={-2}>
-                    <sphereGeometry />
+                <mesh
+                    position-x={-2}
+                >
+                    <sphereGeometry ref={pivotRef} />
                     <meshStandardMaterial color="orange" />
+                    <Html
+                        position={[1, 1, 0]}
+                        wrapperClass="label"
+                        distanceFactor={8}
+                        // occlude={[pivotRef, gizmoTargRef]}
+                        center
+                    >
+                        Sphere
+                    </Html>
                 </mesh>
             </PivotControls>
 
@@ -35,6 +52,7 @@ export const Experience = () => {
                 <planeGeometry />
                 <meshStandardMaterial color="greenyellow" />
             </mesh>
+
 
         </React.Fragment>
     );
