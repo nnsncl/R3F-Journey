@@ -12,19 +12,19 @@ export const Experience = () => {
 
     // Called on each frame before rendering the scene
     useFrame((state, delta) => {
-        const angle = state.clock.elapsedTime;
-        const arbitraryValue = (Math.PI * 3);
+        // const angle = state.clock.elapsedTime;
+        // const arbitraryValue = (Math.PI * 3);
 
         // groupRef.current.rotation.y += delta;
         cubeRef.current.rotation.y += delta;
-        state.camera.position.x = Math.sin(angle) * arbitraryValue;
-        state.camera.position.z = Math.cos(angle) * arbitraryValue;
-        state.camera.lookAt(0, 0, 0);
+        // state.camera.position.x = Math.sin(angle) * arbitraryValue;
+        // state.camera.position.z = Math.cos(angle) * arbitraryValue;
+        // state.camera.lookAt(0, 0, 0);
     });
 
     return (
         <React.Fragment>
-            {/* <orbitControls args={[camera, gl.domElement]} /> */}
+            <orbitControls args={[camera, gl.domElement]} />
             <directionalLight position={[1, 2, 3]} intensity={1.5} />
             <ambientLight intensity={0.5} />
             <group ref={groupRef}>

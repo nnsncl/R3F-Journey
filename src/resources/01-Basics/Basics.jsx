@@ -1,6 +1,7 @@
 import React from "react";
 import { Canvas } from "@react-three/fiber";
 import { Experience } from './Experience';
+import * as THREE from 'three';
 
 export const Basics = () => {
     /**
@@ -15,9 +16,17 @@ export const Basics = () => {
         far: 200,
         position: [1, 2, 6]
     }
-
+    const glSettings = {
+        antialias: true,
+        toneMapping: THREE.ACESFilmicToneMapping,
+        outputEncoding: THREE.sRGBEncoding
+    }
     return (
-        <Canvas camera={cameraSettings} >
+        <Canvas
+            dpr={[1, 2]} // Clamped Pixel ratio
+            camera={cameraSettings}
+            gl={glSettings}
+        >
             <Experience />
         </Canvas>
     );
