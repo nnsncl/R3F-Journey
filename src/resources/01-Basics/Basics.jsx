@@ -1,7 +1,13 @@
 import React from "react";
+import { Canvas } from "@react-three/fiber";
 
 export const Basics = () => {
     return (
-        <h1>R3F-Basics</h1>
+        <Canvas>
+            <mesh>
+                <torusKnotGeometry />
+                <meshNormalMaterial />
+            </mesh>
+        </Canvas>
     );
 };
