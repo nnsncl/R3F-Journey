@@ -1,9 +1,10 @@
 import React from "react";
-import { Basics } from "./resources";
+import { Basics, Drei } from "./resources";
 
 const App = () => {
     return (
-        <Basics />
+        // <Basics />
+        <Drei />
     );
 };
 export default App;
