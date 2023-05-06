@@ -7,15 +7,17 @@ export const Basics = () => {
      * In order to enabled R3F hooks, components muist be wrapped into the
      * Canvas element
      */
+
+    const cameraSettings = {
+        fov: 45,
+        // zoom: 100,
+        near: 0.1,
+        far: 200,
+        position: [1, 2, 6]
+    }
+
     return (
-        <Canvas
-            orthographic
-            camera={{
-                fov: 45,
-                near: 0.1,
-                far: 200,
-                position: [1, 2, 6]
-            }} >
+        <Canvas camera={cameraSettings} >
             <Experience />
         </Canvas>
     );
