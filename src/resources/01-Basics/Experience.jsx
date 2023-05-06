@@ -1,14 +1,21 @@
-import React from "react";
-import { Canvas } from "@react-three/fiber";
+import React, { useRef } from "react";
+import { useFrame } from "@react-three/fiber";
 
 export const Experience = () => {
+    const cubeRef = useRef()
+    // Called on each frame before rendering the scene
+    useFrame((state, delta) => {
+
+        cubeRef.current.rotation.y += delta;
+    })
+
     return (
         <React.Fragment>
             <mesh position-x={-2}>
                 <sphereGeometry />
                 <meshBasicMaterial color='orange' />
             </mesh>
-            <mesh scale={1.5} position-x={2} rotation-y={Math.PI * 0.25} >
+            <mesh ref={cubeRef} scale={1.5} position-x={2} rotation-y={Math.PI * 0.25} >
                 <boxGeometry scale={1.5} />
                 {/* <boxGeometry args={[1.5, 32, 32]} /> */}
                 <meshBasicMaterial color='mediumPurple' />
