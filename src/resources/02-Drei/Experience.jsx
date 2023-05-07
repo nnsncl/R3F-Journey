@@ -3,7 +3,8 @@ import {
     OrbitControls,
     TransformControls,
     PivotControls,
-    Html
+    Html,
+    Text,
 } from "@react-three/drei";
 
 export const Experience = () => {
@@ -53,7 +54,16 @@ export const Experience = () => {
                 <meshStandardMaterial color="greenyellow" />
             </mesh>
 
-
+            <Text
+                fontSize={1}
+                color='white'
+                characters="abcdefghijklmnopqrstuvwxyz0123456789!"
+                position-y={2}
+                textAlign="center"
+            >
+                R3F
+                <meshNormalMaterial />
+            </Text>
         </React.Fragment>
     );
 };
