@@ -1,8 +1,13 @@
 import React from "react";
 import { OrbitControls } from "@react-three/drei";
 import { button, useControls } from "leva";
+import { Perf } from "r3f-perf";
 
 export const Experience = () => {
+    const { showPerfs } = useControls('perfs', {
+        showPerfs: false,
+    })
+
     const { ambiant, directional } = useControls('lights', {
         ambiant: {
             value: 0.5,
@@ -52,6 +57,10 @@ export const Experience = () => {
 
     return (
         <React.Fragment>
+            {showPerfs && (
+                <Perf position="bottom-left" visible={showPerfs} />
+            )}
+
             <OrbitControls makeDefault />
             <directionalLight position={[1, 2, 3]} intensity={directional} />
             <ambientLight intensity={ambiant} />
