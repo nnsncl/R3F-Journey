@@ -1,18 +1,9 @@
 import React from "react";
 import { OrbitControls } from "@react-three/drei";
-import { useControls } from "leva";
+import { button, useControls } from "leva";
 
 export const Experience = () => {
-    const {
-        ambiant,
-        directional,
-        cubePosition,
-        spherePosition,
-        sphereColor,
-        cubeColor,
-        sphereVisible,
-        floorColor,
-    } = useControls({
+    const { ambiant, directional } = useControls('lights', {
         ambiant: {
             value: 0.5,
             min: 0,
@@ -24,14 +15,9 @@ export const Experience = () => {
             min: 0,
             max: 10,
             step: 0.1,
-        },
-        cubePosition: {
-            value: { x: -2, y: 0 },
-            joystick: 'invertY',
-            min: -10,
-            max: 10,
-            step: 0.1,
-        },
+        }
+    })
+    const { spherePosition, sphereColor, sphereVisible } = useControls('sphere', {
         sphereVisible: true,
         spherePosition: {
             value: { x: 2, y: 0 },
@@ -41,8 +27,27 @@ export const Experience = () => {
             step: 0.1,
         },
         sphereColor: 'orange',
+    })
+    const { cubePosition, cubeColor } = useControls('cube', {
+        cubePosition: {
+            value: { x: -2, y: 0 },
+            joystick: 'invertY',
+            min: -10,
+            max: 10,
+            step: 0.1,
+        },
         cubeColor: 'mediumpurple',
-        floorColor: 'greenyellow'
+    })
+    const { floorColor } = useControls('floor', {
+        floorColor: 'greenyellow',
+    })
+    const { /** miscs **/ } = useControls('misc', {
+        dropdown: {
+            options: ['a', 'b', 'c']
+        },
+        click: button(() => {
+            console.log('Click')
+        })
     })
 
     return (
