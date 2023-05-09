@@ -1,10 +1,15 @@
 import React from "react";
-import { Basics, Drei } from "./resources";
+import {
+    Basics,
+    Drei,
+    Debug
+} from "./resources";
 
 const App = () => {
     return (
-        // <Basics />
-        <Drei />
+        <React.StrictMode>
+            <Debug />
+        </React.StrictMode>
     );
 };
 export default App;
