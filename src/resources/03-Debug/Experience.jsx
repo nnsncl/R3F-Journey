@@ -10,6 +10,7 @@ export const Experience = () => {
         spherePosition,
         sphereColor,
         cubeColor,
+        sphereVisible,
         floorColor,
     } = useControls({
         ambiant: {
@@ -31,6 +32,7 @@ export const Experience = () => {
             max: 10,
             step: 0.1,
         },
+        sphereVisible: true,
         spherePosition: {
             value: { x: 2, y: 0 },
             joystick: 'invertY',
@@ -49,7 +51,7 @@ export const Experience = () => {
             <directionalLight position={[1, 2, 3]} intensity={directional} />
             <ambientLight intensity={ambiant} />
 
-            <mesh position={[spherePosition.x, spherePosition.y, 0]} >
+            <mesh position={[spherePosition.x, spherePosition.y, 0]} visible={sphereVisible}>
                 <sphereGeometry />
                 <meshStandardMaterial color={sphereColor} />
             </mesh>
