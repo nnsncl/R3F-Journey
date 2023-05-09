@@ -1,20 +1,52 @@
 import React from "react";
 import { OrbitControls } from "@react-three/drei";
+import { useControls } from "leva";
 
 export const Experience = () => {
+    const {
+        ambiant,
+        directional,
+        cubePositionX,
+        spherePositionX,
+    } = useControls({
+        ambiant: {
+            value: 0.5,
+            min: 0,
+            max: 10,
+            step: 0.1,
+        },
+        directional: {
+            value: 1.5,
+            min: 0,
+            max: 10,
+            step: 0.1,
+        },
+        cubePositionX: {
+            value: -2,
+            min: -10,
+            max: 10,
+            step: 0.1,
+        },
+        spherePositionX: {
+            value: 2,
+            min: -10,
+            max: 10,
+            step: 0.1,
+        },
+    })
 
     return (
         <React.Fragment>
             <OrbitControls makeDefault />
-            <directionalLight position={[1, 2, 3]} intensity={1.5} />
-            <ambientLight intensity={0.5} />
+            <directionalLight position={[1, 2, 3]} intensity={directional} />
+            <ambientLight intensity={ambiant} />
 
-            <mesh position-x={-2} >
+            <mesh position-x={spherePositionX} >
                 <sphereGeometry />
                 <meshStandardMaterial color="orange" />
             </mesh>
 
-            <mesh position-x={2} scale={1.5} >
+            <mesh position-x={cubePositionX} scale={1.5} >
                 <boxGeometry />
                 <meshStandardMaterial color="mediumpurple" />
             </mesh>
