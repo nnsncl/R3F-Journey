@@ -6,8 +6,8 @@ export const Experience = () => {
     const {
         ambiant,
         directional,
-        cubePositionX,
-        spherePositionX,
+        cubePosition,
+        spherePosition,
         sphereColor,
         cubeColor,
         floorColor,
@@ -24,14 +24,16 @@ export const Experience = () => {
             max: 10,
             step: 0.1,
         },
-        cubePositionX: {
-            value: -2,
+        cubePosition: {
+            value: { x: -2, y: 0 },
+            joystick: 'invertY',
             min: -10,
             max: 10,
             step: 0.1,
         },
-        spherePositionX: {
-            value: 2,
+        spherePosition: {
+            value: { x: 2, y: 0 },
+            joystick: 'invertY',
             min: -10,
             max: 10,
             step: 0.1,
@@ -47,12 +49,12 @@ export const Experience = () => {
             <directionalLight position={[1, 2, 3]} intensity={directional} />
             <ambientLight intensity={ambiant} />
 
-            <mesh position-x={spherePositionX} >
+            <mesh position={[spherePosition.x, spherePosition.y, 0]} >
                 <sphereGeometry />
                 <meshStandardMaterial color={sphereColor} />
             </mesh>
 
-            <mesh position-x={cubePositionX} scale={1.5} >
+            <mesh position={[cubePosition.x, cubePosition.y, 0]} scale={1.5} >
                 <boxGeometry />
                 <meshStandardMaterial color={cubeColor} />
             </mesh>
