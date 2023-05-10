@@ -2,13 +2,14 @@ import React from "react";
 import {
     Basics,
     Drei,
-    Debug
+    Debug,
+    EnvStaging
 } from "./resources";
 
 const App = () => {
     return (
         <React.StrictMode>
-            <Debug />
+            <EnvStaging />
         </React.StrictMode>
     );
 };
