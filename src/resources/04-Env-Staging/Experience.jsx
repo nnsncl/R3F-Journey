@@ -1,6 +1,6 @@
 import React from "react";
 import * as THREE from 'three';
-import { OrbitControls, useHelper, BakeShadows } from "@react-three/drei";
+import { OrbitControls, useHelper, BakeShadows, SoftShadows } from "@react-three/drei";
 import { DebugControls } from "./Debug";
 import { Perf } from "r3f-perf";
 
@@ -18,11 +18,22 @@ export const Experience = () => {
     } = DebugControls()
     const dl_ref = React.useRef();
     useHelper(dl_ref, THREE.DirectionalLightHelper, 1)
-
+    // SoftShadows({
+    //     frustum: 3.75,
+    //     size: 0.005,
+    //     near: 9.5,
+    //     samples: 16,
+    //     rings: 12
+    // })
     return (
         <React.Fragment>
             {/* Calculate shadow position once */}
             <BakeShadows />
+            <SoftShadows
+                size={10}
+                samples={10}
+                focus={0}
+            />
             {showPerfs && (
                 <Perf position="bottom-left" visible={showPerfs} />
             )}
@@ -34,12 +45,12 @@ export const Experience = () => {
                 position={[1, 2, 3]}
                 intensity={directional}
                 shadow-mapSize={[1024, 1024]}
-            // shadow-camera-near={1}
-            // shadow-camera-far={10}
-            // shadow-camera-top={2}
-            // shadow-camera-right={2}
-            // shadow-camera-bottom={-2}
-            // shadow-camera-left={-2}
+                shadow-camera-near={1}
+                shadow-camera-far={10}
+                shadow-camera-top={5}
+                shadow-camera-right={5}
+                shadow-camera-bottom={-5}
+                shadow-camera-left={-5}
             />
             <ambientLight intensity={ambiant} />
 
