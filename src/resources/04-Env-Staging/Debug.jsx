@@ -31,7 +31,7 @@ export const DebugControls = () => {
     })
     const { cubePosition, cubeColor } = useControls('cube', {
         cubePosition: {
-            value: { x: -2, y: 0 },
+            value: { x: -2, y: 0.5 },
             joystick: 'invertY',
             min: -10,
             max: 10,

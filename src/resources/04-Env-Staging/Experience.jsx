@@ -25,7 +25,7 @@ export const Experience = () => {
         floorColor,
     } = DebugControls()
     const dl_ref = React.useRef();
-    useHelper(dl_ref, THREE.DirectionalLightHelper, 1)
+    // useHelper(dl_ref, THREE.DirectionalLightHelper, 1)
 
     return (
         <React.Fragment>
@@ -43,13 +43,22 @@ export const Experience = () => {
             <OrbitControls makeDefault />
 
             <AccumulativeShadows
-                position={[0, -0.90, 0]}
-                scale={100}
+                position={[0, -0.99, 0]}
+                scale={10}
+                color="#d5c197"
+                opacity={0.6}
+                frames={Infinity}
+                blend={200}
+                temporal
             >
-                {/* <RandomizedLight castShadow amount={10} frames={100} position={[10, 10, -20]} /> */}
-                <directionalLight
-                    position={[1, 2, 3]}
+                <RandomizedLight
                     castShadow
+                    intensity={1}
+                    amount={8}
+                    radius={1}
+                    ambient={0.5}
+                    bias={0.001}
+                    position={[1, 2, 3]}
                 />
             </AccumulativeShadows>
 
@@ -75,13 +84,14 @@ export const Experience = () => {
                 </mesh>
             </Float>
 
+            <Float speed={5} floatIntensity={2}>
+                <mesh castShadow position={[cubePosition.x, cubePosition.y, 0]} scale={1.5} >
+                    <boxGeometry />
+                    <meshStandardMaterial color={cubeColor} />
+                </mesh>
+            </Float>
 
-            <mesh castShadow position={[cubePosition.x, cubePosition.y, 0]} scale={1.5} >
-                <boxGeometry />
-                <meshStandardMaterial color={cubeColor} />
-            </mesh>
-
-            <mesh position-y={-1} rotation-x={- Math.PI * 0.5} scale={100}>
+            <mesh position-y={-1} rotation-x={- Math.PI * 0.5} scale={10}>
                 <planeGeometry />
                 <meshStandardMaterial color={floorColor} />
             </mesh>
