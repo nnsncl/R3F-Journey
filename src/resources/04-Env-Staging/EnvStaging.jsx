@@ -2,7 +2,7 @@ import React from "react";
 import { Canvas } from "@react-three/fiber";
 import { Experience } from './Experience';
 import { Leva } from "leva";
-import * as THREE from 'three';
+// import * as THREE from 'three';
 
 export const EnvStaging = () => {
 
@@ -24,7 +24,7 @@ export const EnvStaging = () => {
                     position: [- 4, 3, 6]
                 }}
             >
-                <color args={['#212121']} attach='background' />
+                <color args={['ivory']} attach='background' />
                 <Experience />
             </Canvas>
         </React.Fragment>

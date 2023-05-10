@@ -27,7 +27,7 @@ export const DebugControls = () => {
             max: 10,
             step: 0.1,
         },
-        sphereColor: 'orange',
+        sphereColor: 'ivory',
     })
     const { cubePosition, cubeColor } = useControls('cube', {
         cubePosition: {
@@ -37,10 +37,10 @@ export const DebugControls = () => {
             max: 10,
             step: 0.1,
         },
-        cubeColor: 'mediumpurple',
+        cubeColor: 'ivory',
     })
     const { floorColor } = useControls('floor', {
-        floorColor: 'greenyellow',
+        floorColor: 'ivory',
     })
 
     return {

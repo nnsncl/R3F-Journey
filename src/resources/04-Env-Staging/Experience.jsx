@@ -1,5 +1,6 @@
 import React from "react";
-import { OrbitControls } from "@react-three/drei";
+import * as THREE from 'three';
+import { OrbitControls, useHelper } from "@react-three/drei";
 import { DebugControls } from "./Debug";
 import { Perf } from "r3f-perf";
 
@@ -15,6 +16,8 @@ export const Experience = () => {
         cubeColor,
         floorColor,
     } = DebugControls()
+    const dl_ref = React.useRef();
+    useHelper(dl_ref, THREE.DirectionalLightHelper, 1)
 
     return (
         <React.Fragment>
@@ -23,7 +26,7 @@ export const Experience = () => {
             )}
 
             <OrbitControls makeDefault />
-            <directionalLight position={[1, 2, 3]} intensity={directional} />
+            <directionalLight ref={dl_ref} position={[1, 2, 3]} intensity={directional} />
             <ambientLight intensity={ambiant} />
 
             <mesh position={[spherePosition.x, spherePosition.y, 0]} visible={sphereVisible}>
