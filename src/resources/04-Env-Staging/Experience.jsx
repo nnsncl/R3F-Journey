@@ -26,20 +26,20 @@ export const Experience = () => {
             )}
 
             <OrbitControls makeDefault />
-            <directionalLight ref={dl_ref} position={[1, 2, 3]} intensity={directional} />
+            <directionalLight ref={dl_ref} castShadow position={[1, 2, 3]} intensity={directional} />
             <ambientLight intensity={ambiant} />
 
-            <mesh position={[spherePosition.x, spherePosition.y, 0]} visible={sphereVisible}>
+            <mesh castShadow position={[spherePosition.x, spherePosition.y, 0]} visible={sphereVisible}>
                 <sphereGeometry />
                 <meshStandardMaterial color={sphereColor} />
             </mesh>
 
-            <mesh position={[cubePosition.x, cubePosition.y, 0]} scale={1.5} >
+            <mesh castShadow position={[cubePosition.x, cubePosition.y, 0]} scale={1.5} >
                 <boxGeometry />
                 <meshStandardMaterial color={cubeColor} />
             </mesh>
 
-            <mesh position-y={-1} rotation-x={- Math.PI * 0.5} scale={10}>
+            <mesh receiveShadow position-y={-1} rotation-x={- Math.PI * 0.5} scale={10}>
                 <planeGeometry />
                 <meshStandardMaterial color={floorColor} />
             </mesh>
