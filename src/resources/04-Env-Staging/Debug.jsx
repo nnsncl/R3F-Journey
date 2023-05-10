@@ -21,7 +21,7 @@ export const DebugControls = () => {
     const { spherePosition, sphereColor, sphereVisible } = useControls('sphere', {
         sphereVisible: true,
         spherePosition: {
-            value: { x: 2, y: 0 },
+            value: { x: 2, y: 1 },
             joystick: 'invertY',
             min: -10,
             max: 10,
