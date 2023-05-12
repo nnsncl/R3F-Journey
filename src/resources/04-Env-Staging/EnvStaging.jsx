@@ -16,7 +16,7 @@ export const EnvStaging = () => {
         <React.Fragment>
             <Leva collapsed />
             <Canvas
-                shadows={true}
+                // shadows={true}
                 // onCreated={gl_created}
                 camera={{
                     fov: 45,

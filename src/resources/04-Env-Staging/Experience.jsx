@@ -1,4 +1,5 @@
 import React from "react";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from 'three';
 import {
     OrbitControls,
@@ -7,7 +8,8 @@ import {
     BakeShadows,
     SoftShadows,
     Float,
-    RandomizedLight
+    RandomizedLight,
+    ContactShadows,
 } from "@react-three/drei";
 import { DebugControls } from "./Debug";
 import { Perf } from "r3f-perf";
@@ -23,6 +25,9 @@ export const Experience = () => {
         cubePosition,
         cubeColor,
         floorColor,
+        contactShadowColor,
+        contactShadowOpacity,
+        contactShadowBlur,
     } = DebugControls()
     const dl_ref = React.useRef();
     // useHelper(dl_ref, THREE.DirectionalLightHelper, 1)
@@ -42,7 +47,7 @@ export const Experience = () => {
 
             <OrbitControls makeDefault />
 
-            <AccumulativeShadows
+            {/* <AccumulativeShadows
                 position={[0, -0.99, 0]}
                 scale={10}
                 color="#d5c197"
@@ -60,7 +65,15 @@ export const Experience = () => {
                     bias={0.001}
                     position={[1, 2, 3]}
                 />
-            </AccumulativeShadows>
+            </AccumulativeShadows> */}
+
+            <ContactShadows
+                position={[0, -0.99, 0]}
+                color={contactShadowColor}
+                opacity={contactShadowOpacity}
+                blur={contactShadowBlur}
+                far={5}
+            />
 
             <directionalLight
                 ref={dl_ref}
