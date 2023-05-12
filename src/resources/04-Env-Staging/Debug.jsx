@@ -40,15 +40,15 @@ export const DebugControls = () => {
         cubeColor: 'ivory',
     })
     const { contactShadowColor, contactShadowOpacity, contactShadowBlur } = useControls('shadows', {
-        contactShadowColor: 'ivory',
+        contactShadowColor: '#212121',
         contactShadowOpacity: {
-            value: 0.3,
+            value: 0.1,
             min: 0,
             max: 1,
             step: 0.1,
         },
         contactShadowBlur: {
-            value: 1,
+            value: 5,
             min: 0,
             max: 10,
             step: 0.1,
@@ -56,6 +56,11 @@ export const DebugControls = () => {
     })
     const { floorColor } = useControls('floor', {
         floorColor: 'ivory',
+    })
+    const { sunPos } = useControls('sky', {
+        sunPos: {
+            value: [1, 2, 3]
+        }
     })
 
     return {
@@ -70,6 +75,7 @@ export const DebugControls = () => {
         floorColor,
         contactShadowColor,
         contactShadowOpacity,
-        contactShadowBlur
+        contactShadowBlur,
+        sunPos
     }
 }

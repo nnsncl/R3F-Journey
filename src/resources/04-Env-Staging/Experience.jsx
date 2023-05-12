@@ -10,6 +10,7 @@ import {
     Float,
     RandomizedLight,
     ContactShadows,
+    Sky,
 } from "@react-three/drei";
 import { DebugControls } from "./Debug";
 import { Perf } from "r3f-perf";
@@ -28,6 +29,7 @@ export const Experience = () => {
         contactShadowColor,
         contactShadowOpacity,
         contactShadowBlur,
+        sunPos
     } = DebugControls()
     const dl_ref = React.useRef();
     // useHelper(dl_ref, THREE.DirectionalLightHelper, 1)
@@ -78,7 +80,7 @@ export const Experience = () => {
             <directionalLight
                 ref={dl_ref}
                 castShadow
-                position={[1, 2, 3]}
+                position={sunPos}
                 intensity={directional}
                 shadow-mapSize={[1024, 1024]}
                 shadow-camera-near={1}
@@ -89,6 +91,8 @@ export const Experience = () => {
                 shadow-camera-left={-5}
             />
             <ambientLight intensity={ambiant} />
+
+            <Sky sunPosition={sunPos} />
 
             <Float speed={10} floatIntensity={1}>
                 <mesh castShadow position={[spherePosition.x, spherePosition.y, 0]} visible={sphereVisible}>
