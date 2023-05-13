@@ -4,6 +4,7 @@ import { useControls } from "leva";
 import * as THREE from 'three';
 import {
     OrbitControls,
+    Stage,
     useHelper,
     AccumulativeShadows,
     BakeShadows,
@@ -20,23 +21,26 @@ import { DebugControls } from "./Debug";
 import { Perf } from "r3f-perf";
 
 export const Experience = () => {
-    const {
-        showPerfs,
-        // ambiant,
-        // directional,
-        spherePosition,
-        sphereColor,
-        sphereVisible,
-        cubePosition,
-        cubeColor,
-        // floorColor,
-        contactShadowColor,
-        contactShadowOpacity,
-        contactShadowBlur,
-        // sunPos,
-    } = DebugControls()
+    // const {
+    //     showPerfs,
+    //     // ambiant,
+    //     // directional,
+    //     spherePosition,
+    //     sphereColor,
+    //     sphereVisible,
+    //     cubePosition,
+    //     cubeColor,
+    //     // floorColor,
+    //     contactShadowColor,
+    //     contactShadowOpacity,
+    //     contactShadowBlur,
+    //     // sunPos,
+    // } = DebugControls()
     const dl_ref = React.useRef();
     // useHelper(dl_ref, THREE.DirectionalLightHelper, 1)
+    const { active } = useControls('monitor', {
+        active: false,
+    })
     const { envMapIntensity, height, radius, scale } = useControls('environment map', {
         envMapIntensity: {
             value: 0.6,
@@ -63,7 +67,7 @@ export const Experience = () => {
 
     return (
         <React.Fragment>
-            <Environment
+            {/* <Environment
                 // background
                 ground={{
                     height,
@@ -94,13 +98,11 @@ export const Experience = () => {
                     form='ring'
                     toneMapped
                 />
-                {/* <mesh position-z={-5} scale={10} >
+                <mesh position-z={-5} scale={10} >
                     <planeGeometry />
                     <meshBasicMaterial color={[100, 0, 0]} />
-                </mesh> */}
-            </Environment>
-
-
+                </mesh>
+            </Environment> */}
             {/* Calculate shadow position once */}
             {/* <BakeShadows /> */}
             {/* <SoftShadows
@@ -108,12 +110,8 @@ export const Experience = () => {
                 samples={10}
                 focus={0}
             /> */}
-            {showPerfs && (
-                <Perf position="bottom-left" visible={showPerfs} />
-            )}
-
-            <OrbitControls makeDefault />
-
+            {/* <Perf position="bottom-left" visible={true} />
+            <OrbitControls makeDefault /> */}
             {/* <AccumulativeShadows
                 position={[0, -0.99, 0]}
                 scale={10}
@@ -133,15 +131,13 @@ export const Experience = () => {
                     position={[1, 2, 3]}
                 />
             </AccumulativeShadows> */}
-
-            <ContactShadows
+            {/* <ContactShadows
                 position={[0, 0, 0]}
                 color={contactShadowColor}
                 opacity={contactShadowOpacity}
                 blur={contactShadowBlur}
                 far={5}
-            />
-
+            /> */}
             {/* <directionalLight
                 ref={dl_ref}
                 castShadow
@@ -156,10 +152,8 @@ export const Experience = () => {
                 shadow-camera-left={-5}
             /> */}
             {/* <ambientLight intensity={ambiant} /> */}
-
             {/* <Sky sunPosition={sunPos} /> */}
-
-            <Float speed={10} floatIntensity={1}>
+            {/* <Float speed={10} floatIntensity={1}>
                 <mesh
                     castShadow
                     position={[spherePosition.x, spherePosition.y, 0]}
@@ -169,7 +163,6 @@ export const Experience = () => {
                     <meshStandardMaterial color={sphereColor} envMapIntensity={envMapIntensity} />
                 </mesh>
             </Float>
-
             <mesh
                 castShadow
                 position={[cubePosition.x, cubePosition.y, 0]}
@@ -177,7 +170,7 @@ export const Experience = () => {
             >
                 <boxGeometry />
                 <meshStandardMaterial color={cubeColor} envMapIntensity={envMapIntensity} />
-            </mesh>
+            </mesh> */}
             {/* <mesh
                 position-y={-1}
                 rotation-x={- Math.PI * 0.5}
@@ -194,6 +187,27 @@ export const Experience = () => {
                 />
                 <meshStandardMaterial color={floorColor} />
             </mesh> */}
+
+            <Stage>
+                {active && <Perf position="bottom-left" />}
+                <OrbitControls makeDefault />
+                <mesh
+                    castShadow
+                    position={[2, 2, 0]}
+                >
+                    <sphereGeometry />
+                    <meshStandardMaterial color={"ivory"} envMapIntensity={envMapIntensity} />
+                </mesh>
+                <mesh
+                    castShadow
+                    position={[-2, 1, 0]}
+                    scale={1.5}
+                >
+                    <boxGeometry />
+                    <meshStandardMaterial color={'ivory'} envMapIntensity={envMapIntensity} />
+                </mesh>
+            </Stage>
+
         </React.Fragment>
     );
 };

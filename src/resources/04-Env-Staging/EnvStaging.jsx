@@ -25,7 +25,7 @@ export const EnvStaging = () => {
                     position: [4, 6, 15]
                 }}
             >
-                <color args={['ivory']} attach='background' />
+                {/* <color args={['ivory']} attach='background' /> */}
                 <Experience />
             </Canvas>
         </React.Fragment>
