@@ -12,7 +12,9 @@ import {
     RandomizedLight,
     ContactShadows,
     Sky,
-    Environment
+    Environment,
+    MeshReflectorMaterial,
+    Lightformer
 } from "@react-three/drei";
 import { DebugControls } from "./Debug";
 import { Perf } from "r3f-perf";
@@ -37,7 +39,7 @@ export const Experience = () => {
     // useHelper(dl_ref, THREE.DirectionalLightHelper, 1)
     const { envMapIntensity } = useControls('environment map', {
         envMapIntensity: {
-            value: 5,
+            value: 0.6,
             min: 0,
             max: 10,
             step: 0.1,
@@ -62,11 +64,19 @@ export const Experience = () => {
             //     // ]
             // }
             >
-                <color args={['#212121']} attach="background" />
-                <mesh position-z={-5} scale={10} >
+                <color args={['#000000']} attach="background" />
+                <Lightformer
+                    position-z={-5}
+                    scale={10}
+                    color='red'
+                    intensity={10}
+                    form='circle'
+                    toneMapped
+                />
+                {/* <mesh position-z={-5} scale={10} >
                     <planeGeometry />
                     <meshBasicMaterial color={[100, 0, 0]} />
-                </mesh>
+                </mesh> */}
             </Environment>
 
 
@@ -153,10 +163,18 @@ export const Experience = () => {
             <mesh
                 position-y={-1}
                 rotation-x={- Math.PI * 0.5}
-                scale={10}
+                scale={100}
             >
                 <planeGeometry />
-                <meshStandardMaterial color={floorColor} envMapIntensity={envMapIntensity} />
+                <MeshReflectorMaterial
+                    color="#212121"
+                    resolution={512}
+                    blur={[1000, 1000]}
+                    envMapIntensity={envMapIntensity / 2}
+                    mixBlur={1000}
+                    mirror={1}
+                />
+                {/* <meshStandardMaterial color={floorColor}  /> */}
             </mesh>
         </React.Fragment>
     );
