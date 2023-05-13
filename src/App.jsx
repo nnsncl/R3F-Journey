@@ -3,13 +3,14 @@ import {
     Basics,
     Drei,
     Debug,
-    EnvStaging
+    EnvStaging,
+    Models,
 } from "./resources";
 
 const App = () => {
     return (
         <React.StrictMode>
-            <EnvStaging />
+            <Models />
         </React.StrictMode>
     );
 };

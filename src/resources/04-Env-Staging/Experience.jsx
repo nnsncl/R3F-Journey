@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import {
     OrbitControls,
     Stage,
+    Backdrop,
     useHelper,
     AccumulativeShadows,
     BakeShadows,
@@ -188,7 +189,11 @@ export const Experience = () => {
                 <meshStandardMaterial color={floorColor} />
             </mesh> */}
 
-            <Stage>
+            <Stage preset='rembrandt' shadows={{
+                type: 'contact',
+                opacity: 0.2,
+                blur: 3
+            }}>
                 {active && <Perf position="bottom-left" />}
                 <OrbitControls makeDefault />
                 <mesh
