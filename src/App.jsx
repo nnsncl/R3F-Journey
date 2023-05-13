@@ -5,12 +5,13 @@ import {
     Debug,
     EnvStaging,
     Models,
+    Text,
 } from "./resources";
 
 const App = () => {
     return (
         <React.StrictMode>
-            <Models />
+            <Text />
         </React.StrictMode>
     );
 };
