@@ -22,14 +22,14 @@ import { Perf } from "r3f-perf";
 export const Experience = () => {
     const {
         showPerfs,
-        ambiant,
-        directional,
+        // ambiant,
+        // directional,
         spherePosition,
         sphereColor,
         sphereVisible,
         cubePosition,
         cubeColor,
-        floorColor,
+        // floorColor,
         contactShadowColor,
         contactShadowOpacity,
         contactShadowBlur,
@@ -37,21 +37,42 @@ export const Experience = () => {
     } = DebugControls()
     const dl_ref = React.useRef();
     // useHelper(dl_ref, THREE.DirectionalLightHelper, 1)
-    const { envMapIntensity } = useControls('environment map', {
+    const { envMapIntensity, height, radius, scale } = useControls('environment map', {
         envMapIntensity: {
             value: 0.6,
             min: 0,
             max: 10,
             step: 0.1,
         },
+        height: {
+            value: 20,
+            min: 0,
+            max: 100,
+        },
+        radius: {
+            value: 40,
+            min: 10,
+            max: 1000,
+        },
+        scale: {
+            value: 30,
+            min: 10,
+            max: 1000,
+        },
     })
 
     return (
         <React.Fragment>
             <Environment
-                background
-            // sunset | dawn | night | warehouse | forest | apartment | studio | city | park | lobby
-            // preset="night"
+                // background
+                ground={{
+                    height,
+                    radius,
+                    scale
+                }}
+                // sunset | dawn | night | warehouse | forest | apartment | studio | city | park | lobby
+                preset="apartment"
+            // resolution={32}
             // files={
             //     './envmaps/the_sky_is_on_fire_2k.hdr'
             //     // [
@@ -70,7 +91,7 @@ export const Experience = () => {
                     scale={10}
                     color='red'
                     intensity={10}
-                    form='circle'
+                    form='ring'
                     toneMapped
                 />
                 {/* <mesh position-z={-5} scale={10} >
@@ -114,7 +135,7 @@ export const Experience = () => {
             </AccumulativeShadows> */}
 
             <ContactShadows
-                position={[0, -0.99, 0]}
+                position={[0, 0, 0]}
                 color={contactShadowColor}
                 opacity={contactShadowOpacity}
                 blur={contactShadowBlur}
@@ -149,33 +170,30 @@ export const Experience = () => {
                 </mesh>
             </Float>
 
-            <Float speed={5} floatIntensity={2}>
-                <mesh
-                    castShadow
-                    position={[cubePosition.x, cubePosition.y, 0]}
-                    scale={1.5}
-                >
-                    <boxGeometry />
-                    <meshStandardMaterial color={cubeColor} envMapIntensity={envMapIntensity} />
-                </mesh>
-            </Float>
-
             <mesh
+                castShadow
+                position={[cubePosition.x, cubePosition.y, 0]}
+                scale={1.5}
+            >
+                <boxGeometry />
+                <meshStandardMaterial color={cubeColor} envMapIntensity={envMapIntensity} />
+            </mesh>
+            {/* <mesh
                 position-y={-1}
                 rotation-x={- Math.PI * 0.5}
-                scale={100}
+                scale={10}
             >
                 <planeGeometry />
                 <MeshReflectorMaterial
-                    color="#212121"
+                    color="ivory"
                     resolution={512}
                     blur={[1000, 1000]}
                     envMapIntensity={envMapIntensity / 2}
                     mixBlur={1000}
                     mirror={1}
                 />
-                {/* <meshStandardMaterial color={floorColor}  /> */}
-            </mesh>
+                <meshStandardMaterial color={floorColor} />
+            </mesh> */}
         </React.Fragment>
     );
 };

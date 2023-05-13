@@ -21,7 +21,7 @@ export const DebugControls = () => {
     const { spherePosition, sphereColor, sphereVisible } = useControls('sphere', {
         sphereVisible: true,
         spherePosition: {
-            value: { x: 2, y: 1 },
+            value: { x: 2, y: 2 },
             joystick: 'invertY',
             min: -10,
             max: 10,
@@ -42,7 +42,7 @@ export const DebugControls = () => {
     const { contactShadowColor, contactShadowOpacity, contactShadowBlur } = useControls('shadows', {
         contactShadowColor: '#212121',
         contactShadowOpacity: {
-            value: 0.1,
+            value: 0.2,
             min: 0,
             max: 1,
             step: 0.1,
