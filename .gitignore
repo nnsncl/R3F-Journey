@@ -24,3 +24,4 @@ pnpm-debug.log*
 # Misc
 three.min.js
 static
+public/*

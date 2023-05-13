@@ -57,11 +57,11 @@ export const DebugControls = () => {
     const { floorColor } = useControls('floor', {
         floorColor: 'ivory',
     })
-    const { sunPos } = useControls('sky', {
-        sunPos: {
-            value: [1, 2, 3]
-        }
-    })
+    // const { sunPos } = useControls('sky', {
+    //     sunPos: {
+    //         value: [1, 2, 3]
+    //     }
+    // })
 
     return {
         showPerfs,
@@ -76,6 +76,7 @@ export const DebugControls = () => {
         contactShadowColor,
         contactShadowOpacity,
         contactShadowBlur,
-        sunPos
+        // sunPos,
+        // envMapIntensity
     }
 }
