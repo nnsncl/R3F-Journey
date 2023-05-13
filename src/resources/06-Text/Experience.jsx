@@ -1,12 +1,11 @@
 import React from "react";
-import { Text3D, Center, OrbitControls } from "@react-three/drei";
+import { Text3D, Center, OrbitControls, useMatcapTexture } from "@react-three/drei";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
 
 export const Experience = () => {
-    const { showPerfs } = useControls('perfs', {
-        showPerfs: false,
-    })
+    const [matcapTexture] = useMatcapTexture('7B5254_E9DCC7_B19986_C8AC91', 256)
+    const { showPerfs } = useControls('perfs', { showPerfs: false })
 
     return (
         <React.Fragment>
@@ -25,7 +24,7 @@ export const Experience = () => {
                     bevelSegments={5}
                     font='./fonts/helvetiker_regular.typeface.json' >
                     r3f
-                    <meshNormalMaterial />
+                    <meshMatcapMaterial matcap={matcapTexture} />
                 </Text3D>
             </Center>
 
