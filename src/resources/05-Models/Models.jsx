@@ -14,6 +14,7 @@ export const Models = () => {
                     position: [- 4, 3, 6]
                 }}
             >
+                <color args={['ivory']} attach='background' />
                 <Experience />
             </Canvas>
         </React.Fragment>
