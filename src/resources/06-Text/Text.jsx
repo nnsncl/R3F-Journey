@@ -2,6 +2,7 @@ import React from "react";
 import { Canvas } from "@react-three/fiber";
 import { Experience } from './Experience';
 import { Leva } from "leva";
+
 export const Text = () => {
     return (
         <React.Fragment>
