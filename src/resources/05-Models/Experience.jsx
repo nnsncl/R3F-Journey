@@ -5,26 +5,9 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 import { useGLTF, Clone, OrbitControls } from "@react-three/drei";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
-import { MeshStandardMaterial } from "three";
+import { Hamburger } from "./Hamburger";
 
-const MODEL_PATH = './models/hamburger.glb'
-useGLTF.preload(MODEL_PATH)
-const Model = () => {
-    const model = useGLTF(MODEL_PATH)
-    // const model = useLoader(GLTFLoader, './models/hamburger.glb', (loader) => {
-    //     const draco = new DRACOLoader();
-    //     draco.setDecoderPath('./models/draco/');
-    //     loader.setDRACOLoader(draco);
-    // })
 
-    return (
-        <React.Fragment>
-            <Clone object={model.scene} scale={0.1} />
-            <Clone object={model.scene} position-x={-2} scale={0.1} />
-            <Clone object={model.scene} position-x={2} scale={0.1} />
-        </React.Fragment>
-    )
-}
 const MeshLoader = (props) => {
     return (
         <mesh {...props} >
@@ -48,7 +31,7 @@ export const Experience = () => {
             <ambientLight intensity={0.5} />
 
             <React.Suspense fallback={<MeshLoader position-y={0.5} scale={[2, 3, 2]} />} >
-                <Model />
+                <Hamburger scale={0.3} />
             </React.Suspense>
 
             <mesh position-y={-1} rotation-x={- Math.PI * 0.5} scale={10}>
