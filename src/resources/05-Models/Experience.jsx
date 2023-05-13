@@ -2,20 +2,28 @@ import React from "react";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
-import { useGLTF, OrbitControls } from "@react-three/drei";
+import { useGLTF, Clone, OrbitControls } from "@react-three/drei";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { MeshStandardMaterial } from "three";
 
+const MODEL_PATH = './models/hamburger.glb'
+useGLTF.preload(MODEL_PATH)
 const Model = () => {
-    const model = useGLTF('./models/hamburger.glb')
+    const model = useGLTF(MODEL_PATH)
     // const model = useLoader(GLTFLoader, './models/hamburger.glb', (loader) => {
     //     const draco = new DRACOLoader();
     //     draco.setDecoderPath('./models/draco/');
     //     loader.setDRACOLoader(draco);
     // })
 
-    return <primitive object={model.scene} scale={0.1} />
+    return (
+        <React.Fragment>
+            <Clone object={model.scene} scale={0.1} />
+            <Clone object={model.scene} position-x={-2} scale={0.1} />
+            <Clone object={model.scene} position-x={2} scale={0.1} />
+        </React.Fragment>
+    )
 }
 const MeshLoader = (props) => {
     return (
