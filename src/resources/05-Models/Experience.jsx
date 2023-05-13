@@ -1,14 +1,18 @@
 import React from "react";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 import { OrbitControls } from "@react-three/drei";
-import { button, useControls } from "leva";
+import { useControls } from "leva";
 import { Perf } from "r3f-perf";
 
 export const Experience = () => {
-    const model = useLoader(GLTFLoader, './models/hamburger.glb')
     const { showPerfs } = useControls('perfs', { showPerfs: false })
-
+    const model = useLoader(GLTFLoader, './models/hamburger-draco.glb', (loader) => {
+        const draco = new DRACOLoader();
+        draco.setDecoderPath('./models/draco/');
+        loader.setDRACOLoader(draco);
+    })
     return (
         <React.Fragment>
             {showPerfs && (
