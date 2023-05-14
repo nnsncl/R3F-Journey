@@ -6,13 +6,14 @@ import {
     EnvStaging,
     Models,
     Text,
+    Portal,
     Misc,
 } from "./resources";
 
 const App = () => {
     return (
         <React.StrictMode>
-            <Text />
+            <Portal />
         </React.StrictMode>
     );
 };
