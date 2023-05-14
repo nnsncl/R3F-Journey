@@ -6,6 +6,7 @@ import {
     EnvStaging,
     Models,
     Text,
+    Misc,
 } from "./resources";
 
 const App = () => {
