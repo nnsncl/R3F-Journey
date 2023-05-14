@@ -1,5 +1,6 @@
 import React from "react";
 import * as THREE from 'three'
+import { useFrame } from "@react-three/fiber";
 import { Text3D, Center, OrbitControls, useMatcapTexture, Clone } from "@react-three/drei";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
@@ -9,6 +10,7 @@ const material = new THREE.MeshMatcapMaterial()
 export const Experience = () => {
     const [matcapTexture] = useMatcapTexture('7B5254_E9DCC7_B19986_C8AC91', 256)
     const { showPerfs } = useControls('perfs', { showPerfs: false })
+    const torusGroupRef = React.useRef();
 
     React.useEffect(() => {
         matcapTexture.encoding = THREE.sRGBEncoding
@@ -17,6 +19,12 @@ export const Experience = () => {
         material.matcap = matcapTexture
         material.needsUpdate = true
     }, [])
+
+    useFrame((_, delta) => {
+        for (const torus of torusGroupRef.current.children) {
+            torus.rotation.y += delta * 0.2
+        }
+    })
 
     return (
         <React.Fragment>
@@ -39,24 +47,27 @@ export const Experience = () => {
                 </Text3D>
             </Center>
 
-            {[...Array(100)].map((_torus, key) => (
-                <mesh
-                    key={key}
-                    geometry={torusGeometry}
-                    material={material}
-                    position={[
-                        (Math.random() - 0.5) * 10,
-                        (Math.random() - 0.5) * 10,
-                        (Math.random() - 0.5) * 10,
-                    ]}
-                    scale={0.2 + Math.random() * 0.2}
-                    rotation={[
-                        Math.random() * Math.PI,
-                        Math.random() * Math.PI,
-                        0,
-                    ]}
-                />
-            ))}
+            <group ref={torusGroupRef}>
+                {[...Array(100)].map((_torus, key) => (
+                    <mesh
+                        key={key}
+                        geometry={torusGeometry}
+                        material={material}
+                        position={[
+                            (Math.random() - 0.5) * 10,
+                            (Math.random() - 0.5) * 10,
+                            (Math.random() - 0.5) * 10,
+                        ]}
+                        scale={0.2 + Math.random() * 0.2}
+                        rotation={[
+                            Math.random() * Math.PI,
+                            Math.random() * Math.PI,
+                            0,
+                        ]}
+                    />
+                ))}
+            </group>
+
         </React.Fragment>
     );
 };
