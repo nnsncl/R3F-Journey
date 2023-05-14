@@ -1,24 +1,27 @@
 import React from "react";
+import * as THREE from 'three'
 import { Text3D, Center, OrbitControls, useMatcapTexture, Clone } from "@react-three/drei";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
-import { MeshMatcapMaterial } from "three";
 
+const torusGeometry = new THREE.TorusGeometry(1, 0.6, 16, 32)
+const material = new THREE.MeshMatcapMaterial()
 export const Experience = () => {
     const [matcapTexture] = useMatcapTexture('7B5254_E9DCC7_B19986_C8AC91', 256)
     const { showPerfs } = useControls('perfs', { showPerfs: false })
 
-    const [torusGeometry, setTorusGeometry] = React.useState()
-    const [material, setMaterial] = React.useState()
+    React.useEffect(() => {
+        matcapTexture.encoding = THREE.sRGBEncoding
+        matcapTexture.needsUpdate = true
 
+        material.matcap = matcapTexture
+        material.needsUpdate = true
+    }, [])
 
     return (
         <React.Fragment>
             {showPerfs && <Perf position="bottom-left" visible={showPerfs} />}
             <OrbitControls makeDefault />
-
-            <torusGeometry ref={setTorusGeometry} position={[]} />
-            <meshMatcapMaterial ref={setMaterial} matcap={matcapTexture} />
 
             <Center>
                 <Text3D
@@ -30,7 +33,7 @@ export const Experience = () => {
                     bevelSize={0.02}
                     bevelOffset={0}
                     bevelSegments={5}
-                    material={matcapTexture}
+                    material={material}
                     font='./fonts/helvetiker_regular.typeface.json' >
                     r3f
                 </Text3D>
@@ -54,8 +57,6 @@ export const Experience = () => {
                     ]}
                 />
             ))}
-
-
         </React.Fragment>
     );
 };
