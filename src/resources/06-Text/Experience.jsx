@@ -9,6 +9,7 @@ export const Experience = () => {
     const { showPerfs } = useControls('perfs', { showPerfs: false })
 
     const [torusGeometry, setTorusGeometry] = React.useState()
+    const [material, setMaterial] = React.useState()
 
 
     return (
@@ -17,6 +18,8 @@ export const Experience = () => {
             <OrbitControls makeDefault />
 
             <torusGeometry ref={setTorusGeometry} position={[]} />
+            <meshMatcapMaterial ref={setMaterial} matcap={matcapTexture} />
+
             <Center>
                 <Text3D
                     size={0.75}
@@ -27,9 +30,9 @@ export const Experience = () => {
                     bevelSize={0.02}
                     bevelOffset={0}
                     bevelSegments={5}
+                    material={matcapTexture}
                     font='./fonts/helvetiker_regular.typeface.json' >
                     r3f
-                    <meshMatcapMaterial matcap={matcapTexture} />
                 </Text3D>
             </Center>
 
@@ -37,6 +40,7 @@ export const Experience = () => {
                 <mesh
                     key={key}
                     geometry={torusGeometry}
+                    material={material}
                     position={[
                         (Math.random() - 0.5) * 10,
                         (Math.random() - 0.5) * 10,
@@ -48,9 +52,7 @@ export const Experience = () => {
                         Math.random() * Math.PI,
                         0,
                     ]}
-                >
-                    <meshMatcapMaterial matcap={matcapTexture} />
-                </mesh>
+                />
             ))}
 
 
