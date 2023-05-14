@@ -1,5 +1,5 @@
 import React from "react";
-import { useGLTF, useTexture, OrbitControls, Center } from "@react-three/drei";
+import { useGLTF, useTexture, OrbitControls, Center, Sparkles } from "@react-three/drei";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
 
@@ -54,8 +54,16 @@ export const Experience = () => {
                     position={nodes.portalLight.position}
                     rotation={nodes.portalLight.rotation}
                 >
-                    <meshBasicMaterial color='red' />
+                    <meshBasicMaterial color='white' />
                 </mesh>
+
+                <Sparkles
+                    count={100}
+                    size={2}
+                    scale={[4, 2, 4]}
+                    position-y={1}
+                    speed={0.2}
+                />
             </Center>
         </React.Fragment>
     );

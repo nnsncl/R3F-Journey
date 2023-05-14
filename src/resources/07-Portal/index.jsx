@@ -8,6 +8,7 @@ export const Portal = () => {
         <React.Fragment>
             <Leva collapsed />
             <Canvas
+                flat // Fixes R3F default color encoding
                 camera={{
                     fov: 45,
                     near: 0.1,
