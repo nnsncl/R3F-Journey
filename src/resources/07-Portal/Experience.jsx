@@ -1,7 +1,11 @@
 import React from "react";
-import { useGLTF, useTexture, OrbitControls, Center, Sparkles } from "@react-three/drei";
+import * as THREE from "three"
+import { extend, useFrame } from "@react-three/fiber";
+import { useGLTF, useTexture, OrbitControls, Center, Sparkles, shaderMaterial } from "@react-three/drei";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
+import portalVertexShader from './shaders/vertex.glsl';
+import portalFragmentShader from './shaders/fragment.glsl';
 
 const Commons = () => {
     const { showPerfs } = useControls('perfs', { showPerfs: false })
@@ -18,11 +22,26 @@ const Commons = () => {
     )
 }
 
+const PortalMaterial = shaderMaterial(
+    {
+        uTime: 0,
+        uInnerColor: new THREE.Color('#FAFAFA'),
+        uOuterColor: new THREE.Color('#212121'),
+    },
+    portalVertexShader,
+    portalFragmentShader
+)
+extend({ PortalMaterial })
+
 export const Experience = () => {
     const { nodes } = useGLTF('./models/portal/portal.glb')
     const bakedTexture = useTexture('./models/portal/baked.jpg')
 
-    console.log(nodes)
+    const portalRef = React.useRef()
+    useFrame((_, delta) => {
+        portalRef.current.uTime += delta
+    })
+
     return (
         <React.Fragment>
             <color args={['#212121']} attach='background' />
@@ -54,7 +73,7 @@ export const Experience = () => {
                     position={nodes.portalLight.position}
                     rotation={nodes.portalLight.rotation}
                 >
-                    <meshBasicMaterial color='white' />
+                    <portalMaterial ref={portalRef} />
                 </mesh>
 
                 <Sparkles
