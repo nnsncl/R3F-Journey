@@ -8,11 +8,15 @@ export const Experience = () => {
     const [matcapTexture] = useMatcapTexture('7B5254_E9DCC7_B19986_C8AC91', 256)
     const { showPerfs } = useControls('perfs', { showPerfs: false })
 
+    const [torusGeometry, setTorusGeometry] = React.useState()
+
+
     return (
         <React.Fragment>
             {showPerfs && <Perf position="bottom-left" visible={showPerfs} />}
             <OrbitControls makeDefault />
 
+            <torusGeometry ref={setTorusGeometry} position={[]} />
             <Center>
                 <Text3D
                     size={0.75}
@@ -32,6 +36,7 @@ export const Experience = () => {
             {[...Array(100)].map((_torus, key) => (
                 <mesh
                     key={key}
+                    geometry={torusGeometry}
                     position={[
                         (Math.random() - 0.5) * 10,
                         (Math.random() - 0.5) * 10,
@@ -44,7 +49,6 @@ export const Experience = () => {
                         0,
                     ]}
                 >
-                    <torusGeometry position={[]} />
                     <meshMatcapMaterial matcap={matcapTexture} />
                 </mesh>
             ))}
