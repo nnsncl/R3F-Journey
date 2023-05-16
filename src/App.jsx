@@ -1,5 +1,6 @@
 import React from "react";
 import {
+    Misc,
     Basics,
     Drei,
     Debug,
@@ -7,13 +8,13 @@ import {
     Models,
     Text,
     Portal,
-    Misc,
+    MouseEvents,
 } from "./resources";
 
 const App = () => {
     return (
         <React.StrictMode>
-            <Portal />
+            <MouseEvents />
         </React.StrictMode>
     );
 };
