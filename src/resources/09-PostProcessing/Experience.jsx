@@ -3,7 +3,7 @@ import { OrbitControls } from "@react-three/drei";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
 
-import { EffectComposer, Vignette, Glitch, Noise, Bloom } from "@react-three/postprocessing";
+import { EffectComposer, Vignette, Glitch, Noise, Bloom, DepthOfField } from "@react-three/postprocessing";
 import { GlitchMode, BlendFunction } from "postprocessing";
 
 export const Experience = () => {
@@ -13,13 +13,12 @@ export const Experience = () => {
 
     return (
         <React.Fragment>
-            {showPerfs && (
-                <Perf position="bottom-left" visible={showPerfs} />
-            )}
-            <color args={['#212121']} attach='background' />
+            {showPerfs && (<Perf position="bottom-left" visible={showPerfs} />)}
+            <color args={['#FAFAFA']} attach='background' />
             <EffectComposer multisampling={8}>
-                <Noise premultiply blendFunction={BlendFunction.SOFT_LIGHT} />
-                <Bloom mipmapBlur intensity={2} luminanceThreshold={0} />
+                <DepthOfField focusDistance={0.025} focalLength={0.025} bokehScale={6} />
+                {/* <Noise premultiply blendFunction={BlendFunction.SOFT_LIGHT} />
+                <Bloom mipmapBlur intensity={2} luminanceThreshold={0} /> */}
                 {/* <Glitch delay={[0.5, 1]} duration={[0.1, 0.3]} strength={[0.1, 0.2]} mode={GlitchMode.CONSTANT_WILD} /> */}
                 {/* <Vignette offset={0.3} darkness={0.9} blendFunction={BlendFunction.NORMAL} /> */}
             </EffectComposer>
@@ -35,12 +34,13 @@ export const Experience = () => {
 
             <mesh position={[-2, 1, 0]} scale={1.5} >
                 <tetrahedronGeometry />
-                <meshBasicMaterial color={[10, 4, 2]} toneMapped={false} />
+                <meshStandardMaterial color={'ivory'} />
+                {/* <meshBasicMaterial color={[10, 4, 2]} toneMapped={false} /> */}
             </mesh>
 
-            <mesh position-y={-1} rotation-x={- Math.PI * 0.5} scale={100}>
+            <mesh position-y={-1} rotation-x={- Math.PI * 0.5} scale={10}>
                 <planeGeometry />
-                <meshStandardMaterial color="#212121" />
+                <meshStandardMaterial color="#FAFAFA" />
             </mesh>
 
         </React.Fragment>
