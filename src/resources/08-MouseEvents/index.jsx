@@ -8,6 +8,7 @@ export const MouseEvents = () => {
         <React.Fragment>
             <Leva collapsed />
             <Canvas
+                onPointerMissed={() => console.log('Event Outside Canvas geometries')}
                 camera={{
                     fov: 45,
                     near: 0.1,

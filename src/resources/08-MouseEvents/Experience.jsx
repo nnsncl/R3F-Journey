@@ -11,6 +11,8 @@ export const Experience = () => {
     const eventHandler = () => {
         cubeRef.current.material.color.set(`hsl(${Math.random() * 360}, 100%, 75%)`)
     }
+    const pointerEventHandler = () =>
+        !showSparkles && setShowSparkles(!showSparkles)
 
     useFrame((_, delta) => {
         cubeRef.current.rotation.y += delta
@@ -27,10 +29,20 @@ export const Experience = () => {
 
             <mesh
                 ref={cubeRef}
+                scale={[1, 1, 1]}
+                position={[2, 0, 0]}
+                onClick={(event) => event.stopPropagation()}
+            >
+                <boxGeometry />
+                <meshStandardMaterial color="red" />
+            </mesh>
+            <mesh
+                ref={cubeRef}
                 scale={[1, 1.5, 1]}
                 position={[0, 0, 0]}
                 onClick={eventHandler}
                 onContextMenu={() => setShowSparkles(!showSparkles)}
+                onPointerOver={pointerEventHandler}
             >
                 <octahedronGeometry />
                 <meshStandardMaterial color="ivory" />
