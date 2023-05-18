@@ -9,12 +9,13 @@ import {
     Text,
     Portal,
     MouseEvents,
+    PostProcessing,
 } from "./resources";
 
 const App = () => {
     return (
         <React.StrictMode>
-            <MouseEvents />
+            <PostProcessing />
         </React.StrictMode>
     );
 };
