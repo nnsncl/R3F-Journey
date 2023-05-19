@@ -28,25 +28,47 @@ export const Experience = () => {
         showPerfs: false,
     })
     const blurredVisionProps = useControls('Blurred Vision', {
-        frequency: 2,
-        amplitude: 0.1,
+        frequency: {
+            value: 7,
+            min: 1,
+            max: 20,
+        },
+        amplitude: {
+            value: 0.2,
+            min: 0,
+            max: 1,
+        },
+        offset: {
+            value: 0.1,
+            min: 0,
+            max: 1,
+        },
     })
     const customPPEffectRef = React.useRef()
+    const cubeRef = React.useRef()
 
+    useFrame((state, delta) => {
+        cubeRef.current.rotation.y += delta;
+        cubeRef.current.rotation.x += delta * (Math.PI * 0.25);
+    })
     return (
         <React.Fragment>
             {showPerfs && (<Perf position="bottom-left" visible={showPerfs} />)}
             <color args={['#212121']} attach='background' />
 
             <EffectComposer multisampling={8} >
-                <BlurredVision ref={customPPEffectRef} {...blurredVisionProps} />
+                <BlurredVision
+                    ref={customPPEffectRef}
+                    blendFunction={BlendFunction.DARKEN}
+                    {...blurredVisionProps}
+                />
             </EffectComposer>
 
             <OrbitControls makeDefault />
             <directionalLight position={[1, 2, 3]} intensity={1.5} />
             <ambientLight intensity={0.5} />
 
-            <mesh position={[-2, 1, 0]} scale={1.5}>
+            <mesh ref={cubeRef} position={[-2, 1, 0]} scale={1.5}>
                 <boxGeometry />
                 <meshStandardMaterial color={'tomato'} />
             </mesh>
