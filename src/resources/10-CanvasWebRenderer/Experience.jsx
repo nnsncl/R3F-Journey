@@ -24,8 +24,8 @@ export const Experience = () => {
             <PresentationControls
                 config={{ mass: 2, tension: 2000 }}
                 snap={{ mass: 4, tension: 2000 }}
-                polar={[-Math.PI / 3, Math.PI / 3]}
-                azimuth={[-Math.PI / 1.4, Math.PI / 2]}
+                polar={[-Math.PI, Math.PI]}
+                azimuth={[-Math.PI / 2, Math.PI / 2]}
             >
                 <Float rotationIntensity={0.5}>
                     <Phone position={[-0.2, -0.5, 0]} />
