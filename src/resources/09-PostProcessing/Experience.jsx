@@ -27,6 +27,10 @@ export const Experience = () => {
     const { showPerfs } = useControls('perfs', {
         showPerfs: false,
     })
+    const blurredVisionProps = useControls('Blurred Vision', {
+        frequency: 2,
+        amplitude: 0.1,
+    })
     const customPPEffectRef = React.useRef()
 
     return (
@@ -35,11 +39,7 @@ export const Experience = () => {
             <color args={['#212121']} attach='background' />
 
             <EffectComposer multisampling={8} >
-                <BlurredVision
-                    ref={customPPEffectRef}
-                    frequency={2}
-                    amplitude={0.1}
-                />
+                <BlurredVision ref={customPPEffectRef} {...blurredVisionProps} />
             </EffectComposer>
 
             <OrbitControls makeDefault />
