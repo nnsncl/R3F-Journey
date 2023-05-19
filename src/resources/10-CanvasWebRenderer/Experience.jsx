@@ -1,5 +1,10 @@
 import React from "react";
-import { Environment, Float, PresentationControls } from "@react-three/drei";
+import {
+    ContactShadows,
+    Environment,
+    Float,
+    PresentationControls
+} from "@react-three/drei";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { Phone } from "./Phone";
@@ -28,10 +33,16 @@ export const Experience = () => {
                 azimuth={[-Math.PI / 2, Math.PI / 2]}
             >
                 <Float rotationIntensity={0.5}>
-                    <Phone position={[-0.2, -0.5, 0]} />
+                    <Phone position={[-0.2, 0.2, 0]} scale={0.5} />
                 </Float>
             </PresentationControls>
 
+            <ContactShadows
+                position-y={-1}
+                intensity={0.3}
+                scale={5}
+                blur={Math.PI}
+            />
         </React.Fragment>
     );
 };
