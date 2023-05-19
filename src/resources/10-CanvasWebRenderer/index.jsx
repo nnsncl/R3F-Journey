@@ -1,13 +1,18 @@
 import React from "react";
-import { Canvas } from "@react-three/fiber";
-import { Experience } from './Experience';
 import { Leva } from "leva";
+import { Canvas } from "@react-three/fiber";
+import { Loader } from "@react-three/drei";
+import { Experience } from './Experience';
 
 export const HTMLRenderer = () => {
     return (
         <React.Fragment>
-            <Leva collapsed />
+
             <Canvas
+                style={{
+                    pointerEvents: 'none',
+                    touchAction: 'none'
+                }}
                 camera={{
                     fov: 45,
                     near: 0.1,
@@ -15,8 +20,12 @@ export const HTMLRenderer = () => {
                     position: [0, 0, 3]
                 }}
             >
-                <Experience />
+                <Leva collapsed hidden />
+                <React.Suspense fallback={null}>
+                    <Experience />
+                </React.Suspense>
             </Canvas>
+            <Loader />
         </React.Fragment>
 
     );
