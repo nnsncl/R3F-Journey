@@ -28,6 +28,7 @@ canvas {
 .html-renderer iframe {
   border: none;
   border-radius: 56px;
+  background: white;
   width: 410px;
   height: 869px;
 }
