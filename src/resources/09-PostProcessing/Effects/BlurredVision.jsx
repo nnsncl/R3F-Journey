@@ -1,11 +1,15 @@
+import { forwardRef } from "react";
 import BlurredVisionEffect from "./BlurredVisionEffect";
 
-const BlurredVision = () => {
-    const effect = new BlurredVisionEffect();
+const BlurredVision = forwardRef((props, ref) => {
+    const effect = new BlurredVisionEffect(props);
 
     return (
-        <primitive object={effect} />
+        <primitive
+            ref={ref}
+            object={effect}
+        />
     )
-}
+})
 
 export default BlurredVision;

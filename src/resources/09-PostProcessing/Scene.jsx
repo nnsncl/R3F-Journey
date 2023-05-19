@@ -56,6 +56,12 @@ export const Experience = () => {
                 <Noise premultiply blendFunction={BlendFunction.SOFT_LIGHT} />
                 <Bloom mipmapBlur intensity={2} luminanceThreshold={0} />
                 <Vignette offset={0.3} darkness={0.9} blendFunction={BlendFunction.NORMAL} />
+                {/* <DepthOfField focusDistance={0.025} focalLength={0.025} bokehScale={6} /> */}
+                {/* <Noise premultiply blendFunction={BlendFunction.SOFT_LIGHT} /> */}
+                {/* <Bloom mipmapBlur intensity={2} luminanceThreshold={0} /> */}
+                {/* <SSR {...SSRProps} /> */}
+                {/* <Glitch delay={[0.5, 1]} duration={[0.1, 0.3]} strength={[0.1, 0.2]} mode={GlitchMode.CONSTANT_WILD} /> */}
+                {/* <Vignette offset={0.3} darkness={0.9} blendFunction={BlendFunction.NORMAL} /> */}
             </EffectComposer>
 
             <OrbitControls makeDefault />
