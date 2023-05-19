@@ -28,7 +28,7 @@ export const Experience = () => {
                 azimuth={[-Math.PI / 1.4, Math.PI / 2]}
             >
                 <Float rotationIntensity={0.5}>
-                    <Phone position={[0, 0.5, 0]} />
+                    <Phone position={[-0.2, -0.5, 0]} />
                 </Float>
             </PresentationControls>
 
