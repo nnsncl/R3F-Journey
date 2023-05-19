@@ -9,10 +9,6 @@ export const HTMLRenderer = () => {
         <React.Fragment>
 
             <Canvas
-                style={{
-                    pointerEvents: 'none',
-                    touchAction: 'none'
-                }}
                 camera={{
                     fov: 45,
                     near: 0.1,
