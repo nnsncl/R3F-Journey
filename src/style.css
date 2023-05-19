@@ -9,10 +9,6 @@ body,
   overflow: hidden;
 }
 
-canvas {
-  touch-action: none;
-}
-
 .label > div {
   font-family: Helvetica, Arial;
   font-size: 10px;
@@ -23,4 +19,13 @@ canvas {
   overflow: hidden;
   border-radius: 36px;
   user-select: none;
+}
+
+.html-renderer iframe {
+  border: none;
+  border-radius: 56px;
+  width: 410px;
+  height: 869px;
+  overflow: scroll;
+  background: white;
 }
