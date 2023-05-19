@@ -8,3 +8,4 @@ export { Text } from "./06-Text/Text";
 export { Portal } from "./07-Portal";
 export { MouseEvents } from "./08-MouseEvents";
 export { PostProcessing } from "./09-PostProcessing";
+export { HTMLRenderer } from "./10-CanvasWebRenderer";
