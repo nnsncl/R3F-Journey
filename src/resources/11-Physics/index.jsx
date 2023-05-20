@@ -8,7 +8,7 @@ export const Physics = () => {
         <React.Fragment>
             <Leva collapsed />
             <Canvas
-                onPointerMissed={() => console.log('Event Outside Canvas geometries')}
+                shadows
                 camera={{
                     fov: 45,
                     near: 0.1,
