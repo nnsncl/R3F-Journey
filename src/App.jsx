@@ -10,13 +10,14 @@ import {
     Portal,
     MouseEvents,
     PostProcessing,
-    HTMLRenderer
+    HTMLRenderer,
+    Physics
 } from "./resources";
 
 const App = () => {
     return (
         <React.StrictMode>
-            <HTMLRenderer />
+            <Physics />
         </React.StrictMode>
     );
 };
