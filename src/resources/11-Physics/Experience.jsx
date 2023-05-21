@@ -12,8 +12,10 @@ export const Experience = () => {
         showDebug: true,
     })
 
+    const [hitSound] = React.useState(new Audio('./sounds/hit.mp3'))
     const impulseRef = React.useRef()
     const carousselRef = React.useRef()
+
 
     const createImpulse = () => {
         const mass = impulseRef.current.mass()
@@ -29,14 +31,19 @@ export const Experience = () => {
             z: Math.random() - 0.5
         })
     }
+    const collisionEnter = () => {
+        // hitSound.currentTime = 0
+        // hitSound.volume = Math.random()
+        // hitSound.play()
+    }
 
     useFrame((state, delta) => {
         const time = state.clock.getElapsedTime()
         const eulerRotation = new THREE.Euler(0, time * 3, 0)
         const quaternionRotation = new THREE.Quaternion()
         const angle = time * 0.5
-        const x = Math.cos(angle)
-        const z = Math.sin(angle)
+        const x = Math.cos(angle) * 2
+        const z = Math.sin(angle) * 2
 
         quaternionRotation.setFromEuler(eulerRotation)
         carousselRef.current.setNextKinematicRotation(quaternionRotation)
@@ -61,6 +68,7 @@ export const Experience = () => {
                     restitution={0.5}
                     friction={0.7}
                     colliders={false}
+                    onCollisionEnter={collisionEnter}
                 >
                     <CuboidCollider args={[0.5, 0.5, 0.5]} mass={1} />
                     <mesh castShadow onClick={createImpulse} >
