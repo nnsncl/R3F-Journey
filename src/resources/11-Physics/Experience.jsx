@@ -69,6 +69,9 @@ export const Experience = () => {
                     friction={0.7}
                     colliders={false}
                     onCollisionEnter={collisionEnter}
+                // onCollisionExit={() => console.log('exit')}
+                // onSleep={() => console.log('sleeping')}
+                // onWake={() => console.log('awake')}
                 >
                     <CuboidCollider args={[0.5, 0.5, 0.5]} mass={1} />
                     <mesh castShadow onClick={createImpulse} >
