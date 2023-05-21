@@ -1,13 +1,42 @@
 import React from 'react'
+import * as THREE from 'three'
 import { useControls } from 'leva'
 import { Perf } from 'r3f-perf'
 import { OrbitControls } from '@react-three/drei'
 import { Debug, Physics, RigidBody, BallCollider, CuboidCollider } from '@react-three/rapier'
+import { useFrame } from '@react-three/fiber'
 
 export const Experience = () => {
     const { showPerfs, showDebug } = useControls('Monitoring', {
         showPerfs: false,
         showDebug: true,
+    })
+
+    const impulseRef = React.useRef()
+    const carousselRef = React.useRef()
+
+    const createImpulse = () => {
+        const mass = impulseRef.current.mass()
+
+        impulseRef.current.applyImpulse({
+            x: 0,
+            y: mass * Math.PI,
+            z: 0,
+        })
+        impulseRef.current.applyTorqueImpulse({
+            x: Math.random() - 0.5,
+            y: Math.random() - 0.5,
+            z: Math.random() - 0.5
+        })
+    }
+
+    useFrame((state, delta) => {
+        const time = state.clock.getElapsedTime()
+        const eulerRotation = new THREE.Euler(0, time * 3, 0)
+        const quaternionRotation = new THREE.Quaternion()
+
+        quaternionRotation.setFromEuler(eulerRotation)
+        carousselRef.current.setNextKinematicRotation(quaternionRotation)
     })
 
     return (
@@ -19,36 +48,73 @@ export const Experience = () => {
             <directionalLight castShadow position={[1, 2, 3]} intensity={1.5} />
             <ambientLight intensity={0.5} />
 
-            <Physics>
+            <Physics gravity={[0, -9.08, 0]} >
                 {showDebug && <Debug />}
+
+                <RigidBody
+                    ref={impulseRef}
+                    position={[2, 2, 0]}
+                    restitution={0.5}
+                    friction={0.7}
+                    colliders={false}
+                >
+                    <CuboidCollider args={[0.5, 0.5, 0.5]} mass={1} />
+                    <mesh castShadow onClick={createImpulse} >
+                        <boxGeometry />
+                        <meshStandardMaterial color='tomato' />
+                    </mesh>
+                </RigidBody>
+                <RigidBody
+                    colliders='ball'
+                    gravityScale={1}
+                >
+                    <mesh castShadow position={[-2, 2, 0]} scale={0.5}>
+                        <sphereGeometry />
+                        <meshStandardMaterial color="yellowgreen" />
+                    </mesh>
+                </RigidBody>
+                <RigidBody
+                    type='fixed'
+                    friction={0.7}
+                >
+                    <mesh receiveShadow position-y={- 1.25}>
+                        <boxGeometry args={[10, 0.5, 10]} />
+                        <meshStandardMaterial color="ivory" />
+                    </mesh>
+                </RigidBody>
+
+                <RigidBody
+                    ref={carousselRef}
+                    type='kinematicPosition'
+                    friction={0}
+                    position={[0, -0.8, 0]}
+                >
+                    <mesh castShadow scale={[0.4, 0.4, 3]} >
+                        <boxGeometry />
+                        <meshStandardMaterial color='mediumpurple' />
+                    </mesh>
+                </RigidBody>
+
+
                 {/* <RigidBody colliders='ball' >
                     <mesh castShadow position={[- 2, 2, 0]}>
                         <sphereGeometry />
                         <meshStandardMaterial color="mediumpurple" />
                     </mesh>
                 </RigidBody> */}
-
-
-                <RigidBody colliders='ball' >
-                    <mesh castShadow position={[0, 5, 0]} scale={0.5}>
-                        <sphereGeometry />
-                        <meshStandardMaterial color="yellowgreen" />
-                    </mesh>
-                </RigidBody>
-                <RigidBody colliders={false} position={[0, 1, 0]} rotation-x={Math.PI * 0.4}>
-                    {/* <CuboidCollider args={[1.5, 1.5, 0.5]} />
+                {/* <RigidBody colliders={false} position={[0, 1, 0]} rotation-x={Math.PI * 0.4}>
+                    <CuboidCollider args={[1.5, 1.5, 0.5]} />
                     <CuboidCollider
                         args={[0.25, 1, 0.25]}
                         position={[0, 0, 1]}
                         rotation={[-Math.PI * 0.3, 0, 0]}
-                    /> */}
+                    />
                     <BallCollider args={[1.5]} />
                     <mesh castShadow >
                         <torusGeometry args={[1, 0.5, 16, 32]} />
                         <meshStandardMaterial color='tomato' />
                     </mesh>
-                </RigidBody>
-
+                </RigidBody> */}
 
                 {/* <RigidBody>
                     <mesh castShadow position={[2, 2, 0]} >
@@ -61,12 +127,7 @@ export const Experience = () => {
                     </mesh>
                 </RigidBody> */}
 
-                <RigidBody type='fixed'>
-                    <mesh receiveShadow position-y={- 1.25}>
-                        <boxGeometry args={[10, 0.5, 10]} />
-                        <meshStandardMaterial color="ivory" />
-                    </mesh>
-                </RigidBody>
+
 
             </Physics>
 
