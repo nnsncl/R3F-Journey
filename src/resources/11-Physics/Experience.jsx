@@ -2,8 +2,15 @@ import React from 'react'
 import * as THREE from 'three'
 import { useControls } from 'leva'
 import { Perf } from 'r3f-perf'
-import { OrbitControls } from '@react-three/drei'
-import { Debug, Physics, RigidBody, BallCollider, CuboidCollider } from '@react-three/rapier'
+import { OrbitControls, useGLTF } from '@react-three/drei'
+import {
+    Debug,
+    Physics,
+    RigidBody,
+    BallCollider,
+    CuboidCollider,
+    CylinderCollider
+} from '@react-three/rapier'
 import { useFrame } from '@react-three/fiber'
 
 export const Experience = () => {
@@ -11,6 +18,7 @@ export const Experience = () => {
         showPerfs: false,
         showDebug: true,
     })
+    const model = useGLTF('./models/hamburger.glb')
 
     const [hitSound] = React.useState(new Audio('./sounds/hit.mp3'))
     const impulseRef = React.useRef()
@@ -79,6 +87,7 @@ export const Experience = () => {
                         <meshStandardMaterial color='tomato' />
                     </mesh>
                 </RigidBody>
+
                 <RigidBody
                     colliders='ball'
                     gravityScale={1}
@@ -86,15 +95,6 @@ export const Experience = () => {
                     <mesh castShadow position={[-2, 2, 0]} scale={0.5}>
                         <sphereGeometry />
                         <meshStandardMaterial color="yellowgreen" />
-                    </mesh>
-                </RigidBody>
-                <RigidBody
-                    type='fixed'
-                    friction={0.7}
-                >
-                    <mesh receiveShadow position-y={- 1.25}>
-                        <boxGeometry args={[10, 0.5, 10]} />
-                        <meshStandardMaterial color="ivory" />
                     </mesh>
                 </RigidBody>
 
@@ -110,6 +110,20 @@ export const Experience = () => {
                     </mesh>
                 </RigidBody>
 
+                <RigidBody position={[0, 4, 0]}  >
+                    {/* <CylinderCollider args={[0.5, 1.25]} /> */}
+                    <primitive object={model.scene} scale={0.25} />
+                </RigidBody>
+
+                <RigidBody
+                    type='fixed'
+                    friction={0.7}
+                >
+                    <mesh receiveShadow position-y={- 1.25}>
+                        <boxGeometry args={[10, 0.5, 10]} />
+                        <meshStandardMaterial color="ivory" />
+                    </mesh>
+                </RigidBody>
 
                 {/* <RigidBody colliders='ball' >
                     <mesh castShadow position={[- 2, 2, 0]}>
@@ -141,12 +155,8 @@ export const Experience = () => {
                         <meshStandardMaterial color="tomato" />
                     </mesh>
                 </RigidBody> */}
-
-
-
             </Physics>
-
-
         </React.Fragment>
     )
 }
+useGLTF.preload('./models/hamburger.glb')
