@@ -34,9 +34,13 @@ export const Experience = () => {
         const time = state.clock.getElapsedTime()
         const eulerRotation = new THREE.Euler(0, time * 3, 0)
         const quaternionRotation = new THREE.Quaternion()
+        const angle = time * 0.5
+        const x = Math.cos(angle)
+        const z = Math.sin(angle)
 
         quaternionRotation.setFromEuler(eulerRotation)
         carousselRef.current.setNextKinematicRotation(quaternionRotation)
+        carousselRef.current.setNextKinematicTranslation({ x: x, y: -0.8, z: z })
     })
 
     return (
