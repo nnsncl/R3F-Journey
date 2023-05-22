@@ -27,13 +27,6 @@ const BlockSpinner = ({ position = [0, 0, 0] }) => {
 
     return (
         <group position={position} >
-            <mesh
-                receiveShadow
-                geometry={boxGeometry}
-                material={materials.floor02}
-                position={[0, -0.1, 0]}
-                scale={[4, 0.2, 4]}
-            />
             <RigidBody
                 ref={spinnerRef}
                 type='kinematicPosition'
@@ -48,6 +41,55 @@ const BlockSpinner = ({ position = [0, 0, 0] }) => {
                     material={materials.obstacle}
                 />
             </RigidBody>
+            <mesh
+                receiveShadow
+                geometry={boxGeometry}
+                material={materials.floor02}
+                position={[0, -0.1, 0]}
+                scale={[4, 0.2, 4]}
+            />
+        </group>
+    )
+}
+const BlockLimbo = ({ position = [0, 0, 0] }) => {
+    const limboRef = React.useRef()
+    const [timeOffset] = React.useState(() => (Math.random() * Math.PI))
+
+    useFrame((state) => {
+        const time = state.clock.getElapsedTime()
+        const floorLevel = 1.15
+        const kinematicMatrix = {
+            x: position[0],
+            y: position[1] + Math.sin(time * timeOffset) + floorLevel,
+            z: position[2]
+        }
+
+        limboRef.current.setNextKinematicTranslation(kinematicMatrix)
+    })
+
+    return (
+        <group position={position} >
+            <RigidBody
+                ref={limboRef}
+                type='kinematicPosition'
+                friction={0}
+                restitution={0.2}
+                position={[0, 0.3, 0]}
+            >
+                <mesh
+                    castShadow
+                    scale={[3.5, 0.3, 0.3]}
+                    geometry={boxGeometry}
+                    material={materials.obstacle}
+                />
+            </RigidBody>
+            <mesh
+                receiveShadow
+                geometry={boxGeometry}
+                material={materials.floor02}
+                position={[0, -0.1, 0]}
+                scale={[4, 0.2, 4]}
+            />
         </group>
     )
 }
@@ -71,8 +113,9 @@ const BlockStart = ({ position = [0, 0, 0] }) => {
 export const Level = () => {
     return (
         <React.Fragment>
-            <BlockStart position={[0, 0, 4]} />
-            <BlockSpinner position={[0, 0, 0]} />
+            <BlockStart position={[0, 0, 8]} />
+            <BlockSpinner position={[0, 0, 4]} />
+            <BlockLimbo position={[0, 0, 0]} />
         </React.Fragment>
     );
 };
