@@ -7,7 +7,7 @@ body,
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
 }
 
 canvas {
@@ -32,4 +32,78 @@ canvas {
   background: white;
   width: 410px;
   height: 869px;
+}
+
+/** Interface **/
+
+.inteface {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
+}
+
+/* Time */
+.time {
+  position: absolute;
+  top: 5%;
+  left: 3%;
+  color: white;
+  font-size: 6vh;
+  text-align: center;
+}
+/* Time */
+.restart {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 40%;
+  left: 0;
+  width: 100%;
+  color: #ffffff;
+  font-size: 10vh;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  background: #00000033;
+  padding-top: 12px;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* Controls */
+.controls {
+  position: absolute;
+  bottom: 5%;
+  right: 3%;
+}
+
+.controls .raw {
+  display: flex;
+  justify-content: center;
+}
+
+.controls .key {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 10px;
+  text-transform: uppercase;
+  width: 16px;
+  height: 16px;
+  margin: 2px;
+  border: 1px solid #ffffff;
+  background: #ffffff33;
+  backdrop-filter: blur(3px);
+  border-radius: 2px;
+}
+.controls .key.large {
+  width: calc((16px * 3) + (2px * 6));
+}
+
+.controls .key.active {
+  background: #ffffff99;
 }
