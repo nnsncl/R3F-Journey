@@ -2,28 +2,59 @@ import React from "react"
 import * as THREE from 'three'
 import { RigidBody, CuboidCollider } from "@react-three/rapier"
 import { useFrame } from "@react-three/fiber"
-import { useGLTF } from "@react-three/drei"
+import { Float, Sparkles, useGLTF } from "@react-three/drei"
 
 THREE.ColorManagement.legacyMode = false
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
 const materials = {
-    floor01: new THREE.MeshStandardMaterial({ color: 'limegreen' }),
-    floor02: new THREE.MeshStandardMaterial({ color: 'greenyellow' }),
-    obstacle: new THREE.MeshStandardMaterial({ color: 'orangered' }),
-    wall: new THREE.MeshStandardMaterial({ color: 'slategrey' }),
+    floor01: new THREE.MeshStandardMaterial({ color: '#0E0E0E' }),
+    floor02: new THREE.MeshStandardMaterial({ color: '#0E0E0E' }),
+    obstacle: new THREE.MeshStandardMaterial({ color: '#0E0E0E' }),
+    wall: new THREE.MeshStandardMaterial({ color: '#0E0E0E' }),
 }
 
 export const Trophy = (props) => {
-    const model = useGLTF('./models/hamburger.glb')
+    // const model = useGLTF('./models/hamburger.glb')
+    // model.scene.children.forEach((mesh) =>
+    //     mesh.castShadow = true
+    // )
 
-    model.scene.children.forEach((mesh) =>
-        mesh.castShadow = true
-    )
     return (
-        <primitive object={model.scene} scale={0.2} {...props} />
+
+        <group>
+            <Float>
+                <RigidBody
+                    type='fixed'
+                    colliders='hull'
+                    position={[0, 1.5, 0]}
+                    rotation={[0, 0.25, 0]}
+                    restitution={0.2}
+                    friction={0}
+                >
+                    <mesh scale={0.5} >
+                        <octahedronGeometry />
+                        <meshStandardMaterial
+                            color={[3, 1, 1]}
+                            toneMapped={false}
+                            metalness={0}
+                            roughness={0}
+                        />
+                    </mesh>
+                </RigidBody>
+            </Float >
+            <Sparkles
+                count={200}
+                size={1}
+                scale={[4, 4, 4]}
+                position-y={2}
+                speed={0.2}
+            />
+        </group >
+
+
     )
 }
-useGLTF.preload('./models/hamburger.glb')
+// useGLTF.preload('./models/hamburger.glb')
 
 export const BlockSpinner = ({ position = [0, 0, 0] }) => {
     const spinnerRef = React.useRef()
@@ -166,22 +197,14 @@ export const BlockStart = ({ position = [0, 0, 0] }) => {
 export const BlockEnd = ({ position = [0, 0, 0] }) => {
     return (
         <group position={position} >
-            <RigidBody
-                type="fixed"
-                colliders='hull'
-                position={[0, 0.5, 0]}
-                restitution={0.2}
-                friction={0}
-            >
-                <Trophy />
-            </RigidBody>
+            <Trophy />
             <RigidBody type='fixed' >
                 <mesh
                     receiveShadow
                     geometry={boxGeometry}
                     material={materials.floor01}
-                    position={[0, 0, 0]}
-                    scale={[4, 0.2, 4]}
+                    position={[0, 0.3, 0]}
+                    scale={[4, 0.8, 4]}
                 />
             </RigidBody>
         </group>

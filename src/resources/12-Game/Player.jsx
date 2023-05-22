@@ -100,7 +100,13 @@ export const Player = () => {
         >
             <mesh castShadow receiveShadow >
                 <icosahedronGeometry args={[0.3, 1]} />
-                <meshStandardMaterial flatShading color='mediumpurple' />
+                <meshStandardMaterial
+                    flatShading
+                    color='#0E0E0E'
+                    toneMapped={false}
+                    metalness={0.3}
+                    roughness={1}
+                />
             </mesh>
         </RigidBody>
     )
