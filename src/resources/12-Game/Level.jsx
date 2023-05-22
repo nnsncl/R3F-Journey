@@ -13,7 +13,7 @@ const materials = {
     wall: new THREE.MeshStandardMaterial({ color: 'slategrey' }),
 }
 
-const Trophy = (props) => {
+export const Trophy = (props) => {
     const model = useGLTF('./models/hamburger.glb')
 
     model.scene.children.forEach((mesh) =>
@@ -25,7 +25,7 @@ const Trophy = (props) => {
 }
 useGLTF.preload('./models/hamburger.glb')
 
-const BlockSpinner = ({ position = [0, 0, 0] }) => {
+export const BlockSpinner = ({ position = [0, 0, 0] }) => {
     const spinnerRef = React.useRef()
     const [speed] = React.useState(() => (Math.random() + 0.2) * Math.random() < 0.5 ? -1 : 1)
 
@@ -64,7 +64,7 @@ const BlockSpinner = ({ position = [0, 0, 0] }) => {
         </group>
     )
 }
-const BlockLimbo = ({ position = [0, 0, 0] }) => {
+export const BlockLimbo = ({ position = [0, 0, 0] }) => {
     const limboRef = React.useRef()
     const [timeOffset] = React.useState(() => (Math.random() * Math.PI))
 
@@ -106,7 +106,7 @@ const BlockLimbo = ({ position = [0, 0, 0] }) => {
         </group>
     )
 }
-const BlockAxe = ({ position = [0, 0, 0] }) => {
+export const BlockAxe = ({ position = [0, 0, 0] }) => {
     const limboRef = React.useRef()
     const [timeOffset] = React.useState(() => (Math.random() * Math.PI))
 
@@ -147,9 +147,7 @@ const BlockAxe = ({ position = [0, 0, 0] }) => {
         </group>
     )
 }
-
-
-const BlockStart = ({ position = [0, 0, 0] }) => {
+export const BlockStart = ({ position = [0, 0, 0] }) => {
     return (
         <RigidBody type='fixed' >
             <group position={position} >
@@ -165,7 +163,7 @@ const BlockStart = ({ position = [0, 0, 0] }) => {
         </RigidBody>
     )
 }
-const BlockEnd = ({ position = [0, 0, 0] }) => {
+export const BlockEnd = ({ position = [0, 0, 0] }) => {
     return (
         <group position={position} >
             <RigidBody
@@ -189,14 +187,32 @@ const BlockEnd = ({ position = [0, 0, 0] }) => {
         </group>
     )
 }
-export const Level = () => {
+
+export const Level = ({
+    count = 5,
+    types = [BlockSpinner, BlockLimbo, BlockAxe]
+}) => {
+    const blocks = React.useMemo(() => {
+        const memoizedBlocks = []
+
+        for (let i = 0; i < count; i++) {
+            const type = types[Math.floor(Math.random() * types.length)]
+            memoizedBlocks.push(type)
+        }
+
+        return memoizedBlocks
+    }, [count, types])
+
     return (
         <React.Fragment>
-            <BlockStart position={[0, 0, 16]} />
-            <BlockSpinner position={[0, 0, 12]} />
-            <BlockLimbo position={[0, 0, 8]} />
-            <BlockAxe position={[0, 0, 4]} />
-            <BlockEnd position={[0, 0, 0]} />
+            <BlockStart position={[0, 0, 0]} />
+            {blocks.map((Block, key) =>
+                <Block
+                    key={key}
+                    position={[0, 0, -(key + 1) * 4]}
+                />
+            )}
+            <BlockEnd position={[0, 0, -(count + 1) * 4]} />
         </React.Fragment>
     );
 };
