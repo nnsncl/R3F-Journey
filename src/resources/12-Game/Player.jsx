@@ -1,15 +1,28 @@
 import React from "react"
-import { RigidBody } from "@react-three/rapier"
+import { RigidBody, useRapier } from "@react-three/rapier"
 import { useFrame } from "@react-three/fiber"
 import { useKeyboardControls } from "@react-three/drei"
 
 export const Player = () => {
     const [subscribedKeys, getKeys] = useKeyboardControls()
-
     const bodyRef = React.useRef()
+
+    const { rapier, world } = useRapier()
+    const rapierWorld = world.raw()
+
     const handleJump = () => {
-        bodyRef.current.applyImpulse({ x: 0, y: 0.5, z: 0 })
+        const origin = bodyRef.current.translation()
+        const direction = { x: 0, y: -1, z: 0 }
+        origin.y -= 0.31
+
+        const ray = new rapier.Ray(origin, direction)
+        const hit = rapierWorld.castRay(ray, 10, true)
+
+        if (hit.toi < 0.15)
+            bodyRef.current.applyImpulse({ x: 0, y: 0.5, z: 0 })
+
     }
+
     React.useEffect(() => {
         subscribedKeys(
             (state) => state.jump,
