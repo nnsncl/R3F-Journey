@@ -11,13 +11,14 @@ import {
     MouseEvents,
     PostProcessing,
     HTMLRenderer,
-    Physics
+    Physics,
+    Game,
 } from "./resources";
 
 const App = () => {
     return (
         <React.StrictMode>
-            <Physics />
+            <Game />
         </React.StrictMode>
     );
 };
