@@ -8,34 +8,51 @@ const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
 const materials = {
     floor01: new THREE.MeshStandardMaterial({ color: 'limegreen' }),
     floor02: new THREE.MeshStandardMaterial({ color: 'greenyellow' }),
-    floor03: new THREE.MeshStandardMaterial({ color: 'orangered' }),
+    obstacle: new THREE.MeshStandardMaterial({ color: 'orangered' }),
     wall: new THREE.MeshStandardMaterial({ color: 'slategrey' }),
 }
 
-
-const SpinnerTrap = () => {
+const BlockSpinner = ({ position = [0, 0, 0] }) => {
     const spinnerRef = React.useRef()
+    const [speed] = React.useState(() => (Math.random() + 0.2) * Math.random() < 0.5 ? -1 : 1)
 
     useFrame((state) => {
         const time = state.clock.getElapsedTime()
-        const eulerRotation = new THREE.Euler(0, time * 3, 0)
+        const eulerRotation = new THREE.Euler(0, time * speed, 0)
         const quaternionRotation = new THREE.Quaternion()
 
         quaternionRotation.setFromEuler(eulerRotation)
         spinnerRef.current.setNextKinematicRotation(quaternionRotation)
     })
+
     return (
-        <RigidBody ref={spinnerRef} type='kinematicPosition' friction={0}>
-            <mesh castShadow scale={[0.4, 0.4, 3]} position={[0, 0.21, 0]}>
-                <boxGeometry />
-                <meshStandardMaterial color='ivory' />
-            </mesh>
-        </RigidBody>
+        <group position={position} >
+            <mesh
+                receiveShadow
+                geometry={boxGeometry}
+                material={materials.floor02}
+                position={[0, -0.1, 0]}
+                scale={[4, 0.2, 4]}
+            />
+            <RigidBody
+                ref={spinnerRef}
+                type='kinematicPosition'
+                friction={0}
+                restitution={0.2}
+                position={[0, 0.3, 0]}
+            >
+                <mesh
+                    castShadow
+                    scale={[3.5, 0.3, 0.3]}
+                    geometry={boxGeometry}
+                    material={materials.obstacle}
+                />
+            </RigidBody>
+        </group>
     )
 }
 
 const BlockStart = ({ position = [0, 0, 0] }) => {
-
     return (
         <RigidBody type='fixed' >
             <group position={position} >
@@ -54,8 +71,8 @@ const BlockStart = ({ position = [0, 0, 0] }) => {
 export const Level = () => {
     return (
         <React.Fragment>
-            <BlockStart position={[0, 0, 0]} />
-            <SpinnerTrap />
+            <BlockStart position={[0, 0, 4]} />
+            <BlockSpinner position={[0, 0, 0]} />
         </React.Fragment>
     );
 };
