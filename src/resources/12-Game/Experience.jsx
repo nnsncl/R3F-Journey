@@ -6,7 +6,7 @@ import { Physics, Debug } from "@react-three/rapier";
 
 import { Lights } from "./Lights";
 import { Level } from "./Level";
-
+import { Player } from "./Player";
 
 export const Experience = () => {
     const { showPerfs, debug } = useControls('monitors', {
@@ -22,6 +22,7 @@ export const Experience = () => {
             <Physics>
                 {debug && <Debug />}
                 <Lights />
+                <Player />
                 <Level />
             </Physics>
         </React.Fragment>
