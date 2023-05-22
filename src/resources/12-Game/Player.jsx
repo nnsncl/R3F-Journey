@@ -24,12 +24,14 @@ export const Player = () => {
     }
 
     React.useEffect(() => {
-        subscribedKeys(
+        const unsubsribeJump = subscribedKeys(
             (state) => state.jump,
             (value) => {
                 value && handleJump()
             }
         )
+
+        return () => unsubsribeJump()
     }, [])
 
     useFrame((_state, delta) => {
@@ -59,6 +61,7 @@ export const Player = () => {
         bodyRef.current.applyImpulse(impulse)
         bodyRef.current.applyTorqueImpulse(torque)
     })
+
     return (
         <RigidBody
             ref={bodyRef}
