@@ -24,7 +24,6 @@ export const Experience = () => {
                 <Lights />
                 <Level />
             </Physics>
-
         </React.Fragment>
     );
 };
