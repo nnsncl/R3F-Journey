@@ -1,15 +1,17 @@
 import React from "react";
-import { OrbitControls } from "@react-three/drei";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
+import { OrbitControls } from "@react-three/drei";
+import { Physics, Debug } from "@react-three/rapier";
 
 import { Lights } from "./Lights";
 import { Level } from "./Level";
 
 
 export const Experience = () => {
-    const { showPerfs } = useControls('perfs', {
+    const { showPerfs, debug } = useControls('monitors', {
         showPerfs: false,
+        debug: true,
     })
 
     return (
@@ -17,8 +19,12 @@ export const Experience = () => {
             {showPerfs && <Perf position="bottom-left" visible={showPerfs} />}
 
             <OrbitControls makeDefault />
-            <Lights />
-            <Level />
+            <Physics>
+                {debug && <Debug />}
+                <Lights />
+                <Level />
+            </Physics>
+
         </React.Fragment>
     );
 };
