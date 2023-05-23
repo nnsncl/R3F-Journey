@@ -3,6 +3,8 @@ import * as THREE from 'three'
 import { RigidBody, useRapier } from "@react-three/rapier"
 import { useFrame } from "@react-three/fiber"
 import { useKeyboardControls } from "@react-three/drei"
+import useGame from "./stores/useGame"
+
 
 export const Player = () => {
     const bodyRef = React.useRef()
@@ -13,6 +15,8 @@ export const Player = () => {
 
     const [smoothCameraPosition] = React.useState(() => new THREE.Vector3(10, 10, 10))
     const [smoothCameraTarget] = React.useState(() => new THREE.Vector3())
+
+    const start = useGame((state) => state.start)
 
     const handleJump = () => {
         const origin = bodyRef.current.translation()
@@ -35,7 +39,12 @@ export const Player = () => {
             }
         )
 
-        return () => unsubsribeJump()
+        const unsubsribeAnyKey = subscribedKeys(() => start())
+
+        return () => {
+            unsubsribeJump()
+            unsubsribeAnyKey()
+        }
     }, [])
 
     useFrame((state, delta) => {

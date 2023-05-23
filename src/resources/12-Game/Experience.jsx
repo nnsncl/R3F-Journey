@@ -2,6 +2,7 @@ import React from "react";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { Physics, Debug } from "@react-three/rapier";
+import { BlendFunction } from "postprocessing";
 import {
     EffectComposer,
     Bloom,
@@ -9,8 +10,8 @@ import {
     DepthOfField,
     Vignette
 } from "@react-three/postprocessing";
-import { BlendFunction } from "postprocessing";
 
+import useGame from "./stores/useGame";
 import { Lights } from "./Lights";
 import { Level } from "./Level";
 import { Player } from "./Player";
@@ -20,7 +21,7 @@ export const Experience = () => {
         showPerfs: false,
         debug: true,
     })
-
+    const blockCount = useGame((state) => state.blocksCount)
     return (
         <React.Fragment>
             {showPerfs && <Perf position="bottom-left" visible={showPerfs} />}
@@ -35,7 +36,7 @@ export const Experience = () => {
                 {debug && <Debug />}
                 <Lights />
                 <Player />
-                <Level />
+                <Level count={blockCount} />
             </Physics>
         </React.Fragment>
     );
