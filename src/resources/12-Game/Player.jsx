@@ -18,6 +18,7 @@ export const Player = () => {
 
     const start = useGame((state) => state.start)
     const end = useGame((state) => state.end)
+    const restart = useGame((state) => state.restart)
     const blocksCount = useGame((state) => state.blocksCount)
 
 
@@ -105,8 +106,11 @@ export const Player = () => {
         const levelSurfaceLength = 4
         const defaultBlocksAmount = 2
         const hasReachedFinalBlock = bodyPosition.z < - (blocksCount * levelSurfaceLength + defaultBlocksAmount)
+        const hasFell = bodyPosition.y < -4
 
         hasReachedFinalBlock && end()
+        hasFell && restart()
+
     })
 
     return (
