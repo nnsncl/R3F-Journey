@@ -17,6 +17,9 @@ export const Player = () => {
     const [smoothCameraTarget] = React.useState(() => new THREE.Vector3())
 
     const start = useGame((state) => state.start)
+    const end = useGame((state) => state.end)
+    const blocksCount = useGame((state) => state.blocksCount)
+
 
     const handleJump = () => {
         const origin = bodyRef.current.translation()
@@ -95,6 +98,15 @@ export const Player = () => {
 
         state.camera.position.copy(smoothCameraPosition)
         state.camera.lookAt(smoothCameraTarget)
+
+        /**
+         * Phases
+         */
+        const levelSurfaceLength = 4
+        const defaultBlocksAmount = 2
+        const hasReachedFinalBlock = bodyPosition.z < - (blocksCount * levelSurfaceLength + defaultBlocksAmount)
+
+        hasReachedFinalBlock && end()
     })
 
     return (
