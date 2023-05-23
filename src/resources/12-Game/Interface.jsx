@@ -1,5 +1,6 @@
 import React from "react"
 import { useKeyboardControls } from "@react-three/drei"
+import useGame from "./stores/useGame"
 
 export const Interface = () => {
     const forward = useKeyboardControls((state) => state.forward)
@@ -8,11 +9,16 @@ export const Interface = () => {
     const leftward = useKeyboardControls((state) => state.leftward)
     const jump = useKeyboardControls((state) => state.jump)
 
+    const restart = useGame((state) => state.restart)
+    const phase = useGame((state) => state.phase)
+
+    console.log(phase)
     return (
         <section className="interface" >
             <div className="time">00</div>
-            <div className="restart">Restart</div>
-
+            {phase === 'ended' && (
+                <div className="restart" onClick={restart} >Restart</div>
+            )}
             <div className="controls">
                 <div className="raw">
                     <div className={`${forward ? 'active' : ''} key`} />
