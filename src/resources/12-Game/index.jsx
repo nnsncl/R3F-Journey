@@ -1,5 +1,4 @@
 import React from "react";
-import { Leva } from "leva";
 import { Canvas } from "@react-three/fiber";
 import { KeyboardControls } from "@react-three/drei";
 import { Experience } from './Experience';
@@ -17,7 +16,6 @@ export const Game = () => {
                     { name: 'jump', keys: ['Space'] }
                 ]}
             >
-                <Leva collapsed />
                 <Canvas
                     shadows
                     camera={{
