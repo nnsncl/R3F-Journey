@@ -34,8 +34,20 @@ export const Player = () => {
             bodyRef.current.applyImpulse({ x: 0, y: 0.5, z: 0 })
 
     }
+    const reset = () => {
+        bodyRef.current.setTranslation({ x: 0, y: 1, z: 0 })
+        bodyRef.current.setLinvel({ x: 0, y: 0, z: 0 })
+        bodyRef.current.setAngvel({ x: 0, y: 0, z: 0 })
+    }
 
     React.useEffect(() => {
+        const unsubscribeReset = useGame.subscribe(
+            (state) => state.phase,
+            (value) => {
+                if (value === 'ready') reset()
+            }
+        )
+        const unsubsribeAnyKey = subscribedKeys(() => start())
         const unsubsribeJump = subscribedKeys(
             (state) => state.jump,
             (value) => {
@@ -43,11 +55,10 @@ export const Player = () => {
             }
         )
 
-        const unsubsribeAnyKey = subscribedKeys(() => start())
-
         return () => {
             unsubsribeJump()
             unsubsribeAnyKey()
+            unsubscribeReset()
         }
     }, [])
 
@@ -59,7 +70,7 @@ export const Player = () => {
         const impulse = { x: 0, y: 0, z: 0 }
         const torque = { x: 0, y: 0, z: 0 }
         const impulseStr = 1 * delta
-        const torqueStr = 1 * delta
+        const torqueStr = 1 * delta * 0.25
 
         if (forward) {
             impulse.z -= impulseStr
@@ -105,11 +116,12 @@ export const Player = () => {
          */
         const levelSurfaceLength = 4
         const defaultBlocksAmount = 2
+
         const hasReachedFinalBlock = bodyPosition.z < - (blocksCount * levelSurfaceLength + defaultBlocksAmount)
         const hasFell = bodyPosition.y < -4
 
-        hasReachedFinalBlock && end()
-        hasFell && restart()
+        if (hasReachedFinalBlock) end()
+        if (hasFell) restart()
 
     })
 

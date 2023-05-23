@@ -8,7 +8,7 @@ export default create(
       phase: "ready",
 
       /**
-       * Phases
+       * Phases methods
        */
       start: () =>
         set((state) => {
