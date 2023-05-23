@@ -29,7 +29,7 @@ export const Experience = () => {
                 <Bloom mipmapBlur intensity={1} luminanceThreshold={1} />
                 <Noise premultiply />
                 <DepthOfField focusDistance={0.01} focalLength={0.04} bokehScale={3} />
-                <Vignette offset={0.3} darkness={0.9} blendFunction={BlendFunction.NORMAL} />
+                <Vignette offset={0.3} darkness={0.6} blendFunction={BlendFunction.NORMAL} />
             </EffectComposer> */}
             <Physics>
                 {debug && <Debug />}

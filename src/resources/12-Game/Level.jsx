@@ -42,19 +42,19 @@ export const Trophy = (props) => {
                     </mesh>
                 </RigidBody>
             </Float >
-            <Sparkles
+            {/* <Sparkles
                 count={200}
                 size={1}
                 scale={[4, 4, 4]}
                 position-y={2}
                 speed={0.2}
-            />
+            /> */}
         </group >
 
 
     )
 }
-// useGLTF.preload('./models/hamburger.glb')
+useGLTF.preload('./models/hamburger.glb')
 
 export const BlockSpinner = ({ position = [0, 0, 0] }) => {
     const spinnerRef = React.useRef()
