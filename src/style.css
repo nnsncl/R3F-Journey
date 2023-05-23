@@ -48,7 +48,8 @@ canvas {
 /* Time */
 .time {
   position: absolute;
-  top: 5%;
+  z-index: 10;
+  bottom: 5%;
   left: 3%;
   color: white;
   font-size: 6vh;
@@ -58,17 +59,17 @@ canvas {
 .restart {
   display: flex;
   justify-content: center;
+  align-items: center;
   position: absolute;
-  top: 40%;
+  top: 0%;
   left: 0;
   width: 100%;
-  color: #ffffff;
-  font-size: 10vh;
-  font-weight: bold;
-  text-transform: uppercase;
+  height: 100vh;
+  color: #ffffff60;
+  font-size: 24px;
   letter-spacing: -1px;
   background: #00000033;
-  padding-top: 12px;
+  backdrop-filter: blur(3px);
   pointer-events: auto;
   cursor: pointer;
 }

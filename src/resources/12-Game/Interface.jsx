@@ -39,25 +39,28 @@ export const Interface = () => {
 
     return (
         <section className="interface" >
-            <div ref={timerRef} className="time" />
+            <h1 ref={timerRef} className="time" />
 
             {phase === 'ended' && (
-                <div className="restart" onClick={restart} >Restart</div>
+                <p className="restart" onClick={restart} >Click anywhere to restart</p>
             )}
 
-            <div className="controls">
-                <div className="raw">
-                    <div className={`${forward ? 'active' : ''} key`} />
-                </div>
-                <div className="raw">
-                    <div className={`${leftward ? 'active' : ''} key`} />
-                    <div className={`${backward ? 'active' : ''} key`} />
-                    <div className={`${rightward ? 'active' : ''} key`} />
-                </div>
-                <div className="raw">
-                    <div className={`${jump ? 'active' : ''} key large`} />
-                </div>
-            </div>
+            {phase == ! 'ended' && (
+                <menu className="controls">
+                    <div className="raw">
+                        <div className={`${forward ? 'active' : ''} key`} />
+                    </div>
+                    <div className="raw">
+                        <div className={`${leftward ? 'active' : ''} key`} />
+                        <div className={`${backward ? 'active' : ''} key`} />
+                        <div className={`${rightward ? 'active' : ''} key`} />
+                    </div>
+                    <div className="raw">
+                        <div className={`${jump ? 'active' : ''} key large`} />
+                    </div>
+                </menu>
+            )}
+
         </section>
     )
 }

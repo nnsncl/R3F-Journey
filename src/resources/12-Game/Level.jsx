@@ -7,10 +7,10 @@ import { Float, Sparkles, useGLTF } from "@react-three/drei"
 THREE.ColorManagement.legacyMode = false
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
 const materials = {
-    floor01: new THREE.MeshStandardMaterial({ color: '#0E0E0E' }),
-    floor02: new THREE.MeshStandardMaterial({ color: '#0E0E0E' }),
-    obstacle: new THREE.MeshStandardMaterial({ color: '#0E0E0E' }),
-    wall: new THREE.MeshStandardMaterial({ color: '#0E0E0E' }),
+    floor01: new THREE.MeshStandardMaterial({ color: '#0E0E0E', metalness: 0, roughness: 0 }),
+    floor02: new THREE.MeshStandardMaterial({ color: '#0E0E0E', metalness: 0, roughness: 0 }),
+    obstacle: new THREE.MeshStandardMaterial({ color: '#0E0E0E', metalness: 0, roughness: 1 }),
+    wall: new THREE.MeshStandardMaterial({ color: '#0E0E0E', metalness: 0, roughness: 0 }),
 }
 
 export const Trophy = (props) => {
@@ -34,7 +34,7 @@ export const Trophy = (props) => {
                     <mesh scale={0.5} >
                         <octahedronGeometry />
                         <meshStandardMaterial
-                            color={[3, 1, 1]}
+                            color={[10, 2, 1]}
                             toneMapped={false}
                             metalness={0}
                             roughness={0}
@@ -42,13 +42,13 @@ export const Trophy = (props) => {
                     </mesh>
                 </RigidBody>
             </Float >
-            {/* <Sparkles
+            <Sparkles
                 count={200}
                 size={1}
                 scale={[4, 4, 4]}
                 position-y={2}
                 speed={0.2}
-            /> */}
+            />
         </group >
 
 
