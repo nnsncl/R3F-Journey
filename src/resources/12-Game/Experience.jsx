@@ -1,6 +1,4 @@
 import React from "react";
-import { useControls } from "leva";
-import { Perf } from "r3f-perf";
 import { Physics, Debug } from "@react-three/rapier";
 import { BlendFunction } from "postprocessing";
 import {
@@ -17,14 +15,10 @@ import { Level } from "./Level";
 import { Player } from "./Player";
 
 export const Experience = () => {
-    const { showPerfs, debug } = useControls('monitors', {
-        showPerfs: false,
-        debug: true,
-    })
     const blockCount = useGame((state) => state.blocksCount)
+    const blockSeed = useGame((state) => state.blockSeed)
     return (
         <React.Fragment>
-            {showPerfs && <Perf position="bottom-left" visible={showPerfs} />}
             <color args={['#0E0E0E']} attach='background' />
             {/* <EffectComposer>
                 <Bloom mipmapBlur intensity={1} luminanceThreshold={1} />
@@ -33,10 +27,9 @@ export const Experience = () => {
                 <Vignette offset={0.3} darkness={0.6} blendFunction={BlendFunction.NORMAL} />
             </EffectComposer> */}
             <Physics>
-                {debug && <Debug />}
                 <Lights />
                 <Player />
-                <Level count={blockCount} />
+                <Level count={blockCount} seed={blockSeed} />
             </Physics>
         </React.Fragment>
     );

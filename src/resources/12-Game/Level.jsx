@@ -246,7 +246,8 @@ const Boundaries = ({ length = 1 }) => {
 }
 export const Level = ({
     count = 5,
-    types = [BlockSpinner, BlockLimbo, BlockAxe]
+    types = [BlockSpinner, BlockLimbo, BlockAxe],
+    seed = 0
 }) => {
     const blocks = React.useMemo(() => {
         const memoizedBlocks = []
@@ -257,7 +258,7 @@ export const Level = ({
         }
 
         return memoizedBlocks
-    }, [count, types])
+    }, [count, types, seed])
 
     return (
         <React.Fragment>
