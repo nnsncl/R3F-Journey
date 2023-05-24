@@ -14,13 +14,16 @@ export const Configurator = () => {
     }
     return (
         <React.Fragment>
-            <Interface />
-            <Canvas shadows camera={{ fov: 45, position: [-1, 0, 0] }} gl={glSettings}>
-                <React.Suspense fallback={null}>
+            <React.Suspense fallback={null}>
+                <Interface />
+                <Canvas shadows camera={{ fov: 45, position: [-1, 0, 0] }} gl={glSettings}>
                     <Experience />
-                </React.Suspense>
-            </Canvas>
-            <Loader />
+                </Canvas>
+            </React.Suspense>
+            <Loader
+                containerStyles={{ background: '#FFFFFF' }}
+                dataStyles={{ color: '#0E0E0E' }}
+            />
         </React.Fragment>
 
     );
