@@ -13,12 +13,13 @@ import {
     HTMLRenderer,
     Physics,
     Game,
+    Configurator,
 } from "./resources";
 
 const App = () => {
     return (
         <React.StrictMode>
-            <Game />
+            <Configurator />
         </React.StrictMode>
     );
 };

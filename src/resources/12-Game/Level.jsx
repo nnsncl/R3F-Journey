@@ -54,7 +54,7 @@ export const Trophy = (props) => {
 
     )
 }
-useGLTF.preload('./models/hamburger.glb')
+// useGLTF.preload('./models/hamburger.glb')
 
 export const BlockSpinner = ({ position = [0, 0, 0] }) => {
     const spinnerRef = React.useRef()
