@@ -1,5 +1,5 @@
 import React from "react";
-import { Float, OrbitControls, Sky, useGLTF } from "@react-three/drei";
+import { Float, Sky } from "@react-three/drei";
 import { Birb } from "./Birb";
 import { Rock } from "./Rock";
 import { Cumulus } from "./Cumulus";
