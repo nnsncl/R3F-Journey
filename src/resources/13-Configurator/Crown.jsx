@@ -5,24 +5,30 @@ Source: https://poly.pizza/m/i0PZVuVlYv
 
 import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
+import useConfigurator from "./stores/useConfigurator";
 
 export function Crown(props) {
     const { nodes, materials } = useGLTF("./models/crown.glb");
+    const colors = useConfigurator((state) => state.colors)
+
     return (
         <group {...props} dispose={null}>
-            <group rotation={[-Math.PI * 0.25, 0, 0]} scale={100}>
+            <group rotation={[-Math.PI * 0.3, -Math.PI * 0.1, 0]} scale={100}>
                 <mesh
                     castShadow
                     receiveShadow
                     geometry={nodes.Crown2_1.geometry}
-                    material={materials.Gold}
-                />
+                >
+                    <meshStandardMaterial color={colors.crown} />
+                </mesh>
                 <mesh
                     castShadow
                     receiveShadow
+                    scale={0.9}
                     geometry={nodes.Crown2_2.geometry}
-                    material={materials.Red}
-                />
+                >
+                    <meshStandardMaterial color={[2, 2, 0]} toneMapped={false} />
+                </mesh>
             </group>
         </group>
     );
