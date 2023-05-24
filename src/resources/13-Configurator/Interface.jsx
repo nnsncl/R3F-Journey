@@ -32,12 +32,10 @@ const Main = styled.main`
 `;
 
 export const Interface = () => {
-
     return (
         <Main>
             <Navigation />
             <h1>Burb King<br />Configurator</h1>
-
             <Configurator />
         </Main>
     )

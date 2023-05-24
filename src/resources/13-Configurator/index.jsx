@@ -2,8 +2,8 @@ import React from "react";
 import { Canvas } from "@react-three/fiber";
 import { Loader } from "@react-three/drei";
 
-import { Experience } from './scene/Experience.jsx';
-import { Interface } from "./Interface.jsx";
+import { Experience } from './Experience';
+import { Interface } from "./Interface";
 
 export const Configurator = () => {
     return (
