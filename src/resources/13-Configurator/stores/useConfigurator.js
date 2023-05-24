@@ -6,12 +6,12 @@ export default create(
     return {
       colors: {
         eyes: "#FAFAFA",
-        pupils: "#000000",
-        beak: "#f9b032",
-        body: "#fa631d",
-        wings: "#fa631d",
-        legs: "#f9b032",
-        crown: "#c2b8a4",
+        pupils: "#0E0E0E",
+        beak: "#fab41d",
+        body: "#dddddd",
+        wings: "#FAFAFA",
+        legs: "#ff7979",
+        crown: "#fab41d",
       },
 
       updateColor: (name, value) =>

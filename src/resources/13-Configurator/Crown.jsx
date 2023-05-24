@@ -27,7 +27,7 @@ export function Crown(props) {
                     scale={0.9}
                     geometry={nodes.Crown2_2.geometry}
                 >
-                    <meshStandardMaterial color={[2, 2, 0]} toneMapped={false} />
+                    <meshStandardMaterial color={[1.1, 1.1, 1.1]} toneMapped={false} />
                 </mesh>
             </group>
         </group>

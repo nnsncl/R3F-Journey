@@ -36,7 +36,7 @@ export function Birb(props) {
                         rotation={[-Math.PI * 0.5, 0, 0]}
                     >
                         <coneGeometry args={[1, 2, 8]} />
-                        <meshStandardMaterial flatShading color={colors.beak} />
+                        <meshStandardMaterial color={colors.beak} />
                     </mesh>
                     <mesh
                         castShadow
@@ -45,7 +45,7 @@ export function Birb(props) {
                         scale={[0.29, 0.53, 0.53]}
                         geometry={nodes.Object_6.geometry}
                     >
-                        <meshStandardMaterial flatShading color={colors.eyes} />
+                        <meshStandardMaterial color={colors.eyes} />
                     </mesh>
                     <mesh
                         castShadow
@@ -56,7 +56,7 @@ export function Birb(props) {
                         scale={[0.1, 0.19, 0.19]}
                         geometry={nodes.Object_8.geometry}
                     >
-                        <meshStandardMaterial flatShading color={colors.pupils} />
+                        <meshStandardMaterial color={colors.pupils} />
                     </mesh>
 
 
@@ -68,7 +68,7 @@ export function Birb(props) {
                         scale={[0.27, 0.64, 0.71]}
                         geometry={nodes.Object_18.geometry}
                     >
-                        <meshStandardMaterial flatShading color={colors.wings} />
+                        <meshStandardMaterial color={colors.wings} />
                     </mesh>
 
                     <mesh
@@ -76,7 +76,7 @@ export function Birb(props) {
                         receiveShadow
                         geometry={nodes.body.geometry}
                     >
-                        <meshStandardMaterial flatShading color={colors.body} />
+                        <meshStandardMaterial color={colors.body} />
                     </mesh>
 
                 </group>

@@ -35,7 +35,7 @@ export const Interface = () => {
     return (
         <Main>
             <Navigation />
-            <h1>Burb King<br />Configurator</h1>
+            <h1>Birb King<br />Configurator</h1>
             <Configurator />
         </Main>
     )
