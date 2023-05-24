@@ -1,6 +1,7 @@
 import React from "react";
 import { Float, Sky } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
 
 import { Birb } from "./Birb";
 import { Rock } from "./Rock";
@@ -19,12 +20,18 @@ export const Experience = () => {
 
     return (
         <React.Fragment>
+            <EffectComposer>
+                <Bloom mipmapBlur intensity={2} luminanceThreshold={1} />
+            </EffectComposer>
+
             <Sky sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} />
             <directionalLight position={[-1, 2, -3]} intensity={1} />
             <ambientLight intensity={0.5} />
             <hemisphereLight intensity={0.5} color="#FAFAFA" position={[0, 1, 0]} />
 
-            <Crown position={[-1.5, 2.3, 2.5]} scale={0.6} />
+            <Float floatIntensity={0.5} rotationIntensity={0.1} speed={2}>
+                <Crown position={[-2, 2.2, 2.5]} scale={0.4} />
+            </Float>
             <Birb
                 scale={0.5}
                 position={[-1.35, 0.75, 2.1]}
@@ -38,6 +45,7 @@ export const Experience = () => {
                 />
             </Float>
             <Rock scale={5} position={[2, -6, 0]} />
+
         </React.Fragment>
     );
 };

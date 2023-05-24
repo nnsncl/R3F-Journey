@@ -11,6 +11,7 @@ export default create(
         body: "#fa631d",
         wings: "#fa631d",
         legs: "#f9b032",
+        crown: "#c2b8a4",
       },
 
       updateColor: (name, value) =>
