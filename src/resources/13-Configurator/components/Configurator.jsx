@@ -11,26 +11,17 @@ const Container = styled.section`
     color: #0E0E0E;
     border-radius: 16px;
     transition: all ease-in-out 0.2s;
-`
-const Header = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 14px;
-    font-size: 12px;
-    color: #000000;
-    /* border-bottom: 2px solid #00000010; */
-
-    h3 {
-        text-transform: capitalize;
-    }
+    pointer-events: auto;
 `
 const Wrapper = styled.div`
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 24px;
+
+    &:first-of-type:not(&:last-of-type) {
+        margin-bottom: 24px;
+    }
 `
 const Frame = styled.div`
     display: flex;
@@ -74,11 +65,15 @@ export const Configurator = () => {
 
     return (
         <div>
-            <Header><h3>{displayedPicker}&nbsp;colors</h3></Header>
-
             {displayedPicker && (
                 <HexColorPicker
-                    style={{ marginBottom: 16 }}
+                    style={{
+                        marginBottom: 16,
+                        pointerEvents: 'auto',
+                        position: 'fixed',
+                        bottom: 86,
+                        left: 24
+                    }}
                     color={colors[displayedPicker]}
                     onChange={(value) => updateColor(displayedPicker, value)}
                 />

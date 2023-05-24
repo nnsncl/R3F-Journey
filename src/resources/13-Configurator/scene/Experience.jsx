@@ -3,13 +3,23 @@ import { Float, Sky } from "@react-three/drei";
 import { Birb } from "./Birb";
 import { Rock } from "./Rock";
 import { Cumulus } from "./Cumulus";
+import { useFrame } from "@react-three/fiber";
 
 export const Experience = () => {
+    useFrame((state) => {
+        state.camera.position.lerp({
+            x: -10 + state.pointer.x * 0.05,
+            y: state.pointer.y * 0.05,
+            z: -(state.pointer.x * 0.05)
+        }, 1)
+
+    })
     return (
         <React.Fragment>
-            <Sky />
+            <Sky sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} />
             <directionalLight position={[-1, 2, -3]} intensity={1} />
             <ambientLight intensity={0.5} />
+            <hemisphereLight intensity={0.5} color="#FAFAFA" position={[0, 1, 0]} />
             <Birb
                 scale={0.5}
                 position={[-1.35, 0.75, 2.1]}

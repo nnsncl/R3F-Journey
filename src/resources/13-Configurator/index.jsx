@@ -9,7 +9,7 @@ export const Configurator = () => {
     return (
         <React.Fragment>
             <Interface />
-            <Canvas shadows camera={{ fov: 45, position: [-10, 0, 0] }}>
+            <Canvas shadows camera={{ fov: 45, position: [-1, 0, 0] }}>
                 <React.Suspense fallback={null}>
                     <Experience />
                 </React.Suspense>
