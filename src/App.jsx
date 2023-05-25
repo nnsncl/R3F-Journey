@@ -14,12 +14,13 @@ import {
     Physics,
     Game,
     Configurator,
+    Landing,
 } from "./resources";
 
 const App = () => {
     return (
         <React.StrictMode>
-            <Configurator />
+            <Landing />
         </React.StrictMode>
     );
 };
