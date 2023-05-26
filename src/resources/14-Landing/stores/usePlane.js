@@ -5,7 +5,7 @@ export default create(
   subscribeWithSelector((set) => {
     return {
       variant: "1",
-      color: "ivory",
+      color: "white",
 
       getVariantName: (id) => {
         if (id === "1") return "Albatros";

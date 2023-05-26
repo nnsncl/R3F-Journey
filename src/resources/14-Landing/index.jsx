@@ -9,6 +9,7 @@ import { Configurator } from "./Configurator";
 
 const Main = styled.main`
     pointer-events: none;
+    color: white;
 `;
 export const Landing = () => {
 

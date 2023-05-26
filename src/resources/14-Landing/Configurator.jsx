@@ -24,6 +24,11 @@ const Container = styled.section`
         font-size: 68px;
         line-height: 1;
         letter-spacing: -3px;
+
+        @media(max-width: 1024px){
+            font-size: 36px;
+            letter-spacing: -1.5px;
+        }
     }
 `
 const Head = styled.hgroup`
@@ -34,6 +39,7 @@ const Head = styled.hgroup`
     pointer-events: auto;
 
     button {
+        color: #0E0E0E60;
         width: fit-content;
         border-radius: 24px;
         border: none;
@@ -42,6 +48,7 @@ const Head = styled.hgroup`
 
         &:hover, &:focus, &:active {
             background-color: white;
+            color: #0E0E0E;
         }
     }
 `
@@ -73,7 +80,7 @@ const Button = styled.button`
     border: 1px solid white;
     border-left: none;
     border-right: none;
-    color: #0E0E0E60;
+    color: #FFFFFF60;
     font-size: 12px;
     text-align: center;
     font-weight: bold;
@@ -84,7 +91,7 @@ const Button = styled.button`
     transition: all ease-in-out 0.2s;
 
     &:hover, &:focus, &:active {
-        color: #0E0E0E;
+        color: #FFFFFF;
     }
     &:hover {
         background-color: #FFFFFF60;
@@ -117,7 +124,7 @@ export const Configurator = () => {
                         key={key}
                         onClick={() => updateVariant(`${Number(key) + 1}`)}
                         style={{
-                            color: `${Number(key) + 1}` === variant && "#0E0E0E"
+                            color: `${Number(key) + 1}` === variant && "#FFFFFF"
                         }}
                     >
                         {`${getVariantName(`${Number(key) + 1}`)}`}
