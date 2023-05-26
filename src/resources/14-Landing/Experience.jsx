@@ -9,18 +9,18 @@ import { Plane } from "./Planes";
 import { Cloud01, Cloud02 } from "./Clouds";
 import { useControls } from "leva";
 
-const LINE_POINTS_AMOUNT = 2000
+const LINE_POINTS_AMOUNT = 1000
 export const Experience = () => {
     const curve = React.useMemo(() => {
         return new THREE.CatmullRomCurve3([
             new THREE.Vector3(0, 0, 0),
-            new THREE.Vector3(0, 0, -10),
-            new THREE.Vector3(-4, 0, -20),
-            new THREE.Vector3(-5, 0, -30),
+            new THREE.Vector3(-1, 0, -10),
+            new THREE.Vector3(-2, 0, -20),
+            new THREE.Vector3(-4, 0, -30),
             new THREE.Vector3(0, 0, -40),
-            new THREE.Vector3(5, 0, -50),
-            new THREE.Vector3(7, 0, -60),
-            new THREE.Vector3(5, 0, -70),
+            new THREE.Vector3(3, 0, -50),
+            new THREE.Vector3(5, 0, -60),
+            new THREE.Vector3(3, 0, -70),
             new THREE.Vector3(0, 0, -80),
             new THREE.Vector3(0, 0, -90),
             new THREE.Vector3(0, 0, -100),
@@ -31,8 +31,8 @@ export const Experience = () => {
     }, [curve])
     const shape = React.useMemo(() => {
         const memoized = new THREE.Shape()
-        memoized.moveTo(0, -0.05)
-        memoized.lineTo(0, 0.05)
+        memoized.moveTo(0, -0.01)
+        memoized.lineTo(0, 0.1)
 
         return memoized
     }, [curve])
@@ -46,17 +46,33 @@ export const Experience = () => {
         },
     })
 
+    const plane = React.useRef()
     const cameraGroup = React.useRef()
     const scroll = useScroll()
     useFrame((_, delta) => {
-
-        const currentPointIndex = Math.min(
-            Math.round(scroll.offset * linePoints.length),
-            linePoints.length - 1
+        const currentPointIndex = Math.min(Math.round(scroll.offset * linePoints.length), linePoints.length - 1)
+        const currentPoint = linePoints[currentPointIndex]
+        const pointAhead = linePoints[Math.min(currentPointIndex + 1), linePoints.length - 1]
+        const xDisplacement = (pointAhead.x - currentPoint.x) * 50
+        const angleRotation = (xDisplacement < 0 ? 1 : -1) * Math.min(Math.abs(xDisplacement), Math.PI * 0.1)
+        const targetQuaternion = new THREE.Quaternion().setFromEuler(
+            new THREE.Euler(
+                plane.current.rotation.x,
+                plane.current.rotation.y,
+                angleRotation
+            )
+        )
+        const cameraQuaternion = new THREE.Quaternion().setFromEuler(
+            new THREE.Euler(
+                cameraGroup.current.rotation.x,
+                angleRotation,
+                cameraGroup.current.rotation.z
+            )
         )
 
-        const currentPoint = linePoints[currentPointIndex]
-        cameraGroup.current.position.lerp(currentPoint, delta)
+        plane.current.quaternion.slerp(targetQuaternion, delta * 0.5)
+        cameraGroup.current.quaternion.slerp(cameraQuaternion, delta * 0.5)
+        cameraGroup.current.position.lerp(currentPoint, delta * 0.5)
     })
 
     return (
@@ -88,13 +104,15 @@ export const Experience = () => {
                     near={0.1}
                     far={200}
                 />
-                <Float>
-                    <Plane
-                        rotation={[Math.PI * 0.5, 0, -Math.PI * 0.48]}
-                        position={[0, 1, 0]}
-                        scale={0.002}
-                    />
-                </Float>
+                <group ref={plane}>
+                    <Float floatIntensity={2} speed={2} >
+                        <Plane
+                            rotation={[Math.PI * 0.5, 0, -Math.PI * 0.48]}
+                            position={[0, 1, 0]}
+                            scale={0.002}
+                        />
+                    </Float>
+                </group>
             </group>
 
             {/* Curved Path */}
@@ -112,7 +130,7 @@ export const Experience = () => {
                     />
                     <meshStandardMaterial
                         color={'white'}
-                        opacity={0.3}
+                        opacity={0.1}
                         transparent
                     />
                 </mesh>
@@ -125,7 +143,7 @@ export const Experience = () => {
                 <Cloud01 position={[12, -12, -4]} />
                 <Cloud01 position={[10, -8, 12]} />
                 <Cloud01 position={[4, -4, 12]} rotation={[Math.PI * 0.25, 0, 0]} />
-                <Cloud02 scale={1.5} position={[35, 4, 60]} rotation={[Math.PI * 0.25, Math.PI * 0.25, 0]} />
+                <Cloud02 scale={0.8} position={[15, 1, 20]} rotation={[Math.PI * 0.25, Math.PI * 0.25, 0]} />
             </group>
 
         </React.Fragment>
