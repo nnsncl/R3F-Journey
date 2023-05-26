@@ -5,6 +5,7 @@ import { Perf } from "r3f-perf";
 import { useFrame } from "@react-three/fiber";
 import { Float, OrbitControls, Sky } from "@react-three/drei";
 
+import { Background } from "./Background";
 import { Plane } from "./Planes";
 import { Cloud01, Cloud02 } from "./Clouds";
 
@@ -13,8 +14,9 @@ export const Experience = () => {
 
     return (
         <React.Fragment>
+            <Background />
             <color attach="background" args={['tomato']} />
-            {/* <fog attach="fog" color="tomato" near={1} far={30} /> */}
+
             <OrbitControls makeDefault enableZoom={true} enablePan={false} />
             <directionalLight
                 position={[-2, 2, 5]}

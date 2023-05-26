@@ -30,7 +30,7 @@ export const Landing = () => {
                     fov: 45,
                     near: 0.1,
                     far: 200,
-                    position: [8, 2, 0]
+                    position: [8, 1, 0]
                 }}
             >
                 <Experience />
