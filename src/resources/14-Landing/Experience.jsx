@@ -11,9 +11,11 @@ export const Experience = () => {
 
     return (
         <React.Fragment>
-            <OrbitControls makeDefault />
+            <color args={['#EDEDED']} attach='background' />
+            {/* <Sky /> */}
+            <OrbitControls makeDefault enableZoom={false} enablePan={false} />
             <directionalLight
-                position={[5, 5, -1]}
+                position={[-2, 2, 5]}
                 intensity={1.5}
                 castShadow
                 shadow-mapSize={[1024, 1024]}
@@ -25,16 +27,11 @@ export const Experience = () => {
                 shadow-camera-left={-10}
             />
             <ambientLight intensity={0.5} />
-            <Sky />
 
             <Float>
-                <Plane position={[0, 0, 0]} />
+                <Plane position={[0, 0, -2]} scale={0.002} />
             </Float>
 
-            {/* <mesh receiveShadow position={[0, 0, 0]} rotation={[-Math.PI * 0.5, 0, 0]} scale={10} >
-                <planeGeometry args={[2, 2, 2, 32]} />
-                <meshStandardMaterial color={'white'} />
-            </mesh> */}
         </React.Fragment>
     );
 };
