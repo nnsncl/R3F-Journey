@@ -20,7 +20,7 @@ export function Plane(props) {
     })
 
     return (
-        <group {...props} dispose={null} rotation={[Math.PI * 0.5, 0, 0]} >
+        <group {...props} dispose={null}  >
             {variant === "1" && (
                 <mesh
                     castShadow

@@ -2,50 +2,67 @@ import React from "react";
 import * as THREE from 'three'
 
 import { useFrame } from "@react-three/fiber";
-import { Float, Line, OrbitControls } from "@react-three/drei";
+import { Float, Line, OrbitControls, PerspectiveCamera, ScrollControls, useScroll } from "@react-three/drei";
 
 import { Background } from "./Background";
 import { Plane } from "./Planes";
 import { Cloud01, Cloud02 } from "./Clouds";
+import { useControls } from "leva";
 
 const LINE_POINTS_AMOUNT = 2000
 export const Experience = () => {
     const curve = React.useMemo(() => {
-        return new THREE.CatmullRomCurve3(
-            [
-                new THREE.Vector3(0, 0, 0),
-                new THREE.Vector3(0, 0, -10),
-                new THREE.Vector3(-4, 0, -20),
-                new THREE.Vector3(-5, 0, -30),
-                new THREE.Vector3(0, 0, -40),
-                new THREE.Vector3(5, 0, -50),
-                new THREE.Vector3(7, 0, -60),
-                new THREE.Vector3(5, 0, -70),
-                new THREE.Vector3(0, 0, -80),
-                new THREE.Vector3(0, 0, -90),
-                new THREE.Vector3(0, 0, -100),
-            ],
-            false,
-            "catmullrom",
-            0.5)
+        return new THREE.CatmullRomCurve3([
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(0, 0, -10),
+            new THREE.Vector3(-4, 0, -20),
+            new THREE.Vector3(-5, 0, -30),
+            new THREE.Vector3(0, 0, -40),
+            new THREE.Vector3(5, 0, -50),
+            new THREE.Vector3(7, 0, -60),
+            new THREE.Vector3(5, 0, -70),
+            new THREE.Vector3(0, 0, -80),
+            new THREE.Vector3(0, 0, -90),
+            new THREE.Vector3(0, 0, -100),
+        ], false, "catmullrom", 0.5)
     }, [])
-    // const linePoints = React.useMemo(() => {
-    //     return curve.getPoints(LINE_POINTS_AMOUNT)
-    // }, [curve])
-    const shape = React.useMemo(() => {
-        const shape = new THREE.Shape()
-        shape.moveTo(0, -0.05)
-        shape.lineTo(0, 0.05)
-
-        return shape
+    const linePoints = React.useMemo(() => {
+        return curve.getPoints(LINE_POINTS_AMOUNT)
     }, [curve])
+    const shape = React.useMemo(() => {
+        const memoized = new THREE.Shape()
+        memoized.moveTo(0, -0.05)
+        memoized.lineTo(0, 0.05)
+
+        return memoized
+    }, [curve])
+
+    const { position, rotation } = useControls('camera', {
+        position: {
+            value: { x: 0, y: 0, z: 0 }
+        },
+        rotation: {
+            value: { x: 0, y: 0, z: 0, }
+        },
+    })
+
+    const cameraGroup = React.useRef()
+    const scroll = useScroll()
+    useFrame((_, delta) => {
+
+        const currentPointIndex = Math.min(
+            Math.round(scroll.offset * linePoints.length),
+            linePoints.length - 1
+        )
+
+        const currentPoint = linePoints[currentPointIndex]
+        cameraGroup.current.position.lerp(currentPoint, delta)
+    })
 
     return (
         <React.Fragment>
-            <Background />
             <color attach="background" args={['tomato']} />
 
-            <OrbitControls makeDefault enableZoom={true} enablePan={true} />
             <directionalLight
                 position={[-2, 2, 5]}
                 intensity={1.5}
@@ -61,10 +78,27 @@ export const Experience = () => {
             />
             <ambientLight intensity={0.5} color={'lightblue'} />
 
-            <group
-                rotation={[0, -Math.PI * 0.5, 0]}
-                position={[5, -5, -2.5]}
-            >
+            {/* Camera Group / Plane */}
+            <group ref={cameraGroup} >
+                <Background />
+                <PerspectiveCamera
+                    makeDefault
+                    position={[0, 1, 12]}
+                    fov={45}
+                    near={0.1}
+                    far={200}
+                />
+                <Float>
+                    <Plane
+                        rotation={[Math.PI * 0.5, 0, -Math.PI * 0.48]}
+                        position={[0, 1, 0]}
+                        scale={0.002}
+                    />
+                </Float>
+            </group>
+
+            {/* Curved Path */}
+            <group position={[0, -2, 0]} >
                 <mesh>
                     <extrudeGeometry
                         args={[
@@ -84,12 +118,14 @@ export const Experience = () => {
                 </mesh>
             </group>
 
-            <group>
-                <Float>
-                    <Plane position={[0, 0, -2]} scale={0.002} />
-                </Float>
-                <Cloud01 position={[-10, -8, 5]} />
-                <Cloud02 position={[-12, -2, -8]} rotation={[Math.PI * 0.25, Math.PI * 0.25, 0]} />
+            {/* Initial Clouds */}
+            <group rotation={[0, Math.PI * 0.6, 0]} >
+                <Cloud02 scale={0.5} position={[6, -4, -6]} rotation={[-Math.PI * 0.25, Math.PI * 0.25, 0]} />
+                <Cloud02 scale={1.5} position={[12, -6, -12]} rotation={[Math.PI * 0.75, 0, 0]} />
+                <Cloud01 position={[12, -12, -4]} />
+                <Cloud01 position={[10, -8, 12]} />
+                <Cloud01 position={[4, -4, 12]} rotation={[Math.PI * 0.25, 0, 0]} />
+                <Cloud02 scale={1.5} position={[35, 4, 60]} rotation={[Math.PI * 0.25, Math.PI * 0.25, 0]} />
             </group>
 
         </React.Fragment>

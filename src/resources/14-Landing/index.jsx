@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Leva } from "leva";
 import { Canvas } from "@react-three/fiber";
+import { ScrollControls } from "@react-three/drei";
 import { sRGBEncoding, ACESFilmicToneMapping } from 'three'
 
 import { Experience } from './Experience';
@@ -16,9 +17,9 @@ export const Landing = () => {
     return (
         <React.Fragment>
             <Leva collapsed />
-            <Main>
+            {/* <Main>
                 <Configurator />
-            </Main>
+            </Main> */}
             <Canvas
                 shadows
                 gl={{
@@ -26,14 +27,10 @@ export const Landing = () => {
                     toneMapping: ACESFilmicToneMapping,
                     outputEncoding: sRGBEncoding
                 }}
-                camera={{
-                    fov: 45,
-                    near: 0.1,
-                    far: 200,
-                    position: [8, 1, 0]
-                }}
             >
-                <Experience />
+                <ScrollControls pages={5} damping={0.3} >
+                    <Experience />
+                </ScrollControls>
             </Canvas>
         </React.Fragment>
 
