@@ -24,6 +24,7 @@ export function Plane(props) {
             >
                 <mesh
                     castShadow
+                    receiveShadow
                     geometry={nodes["Plane_Material_#2_0"].geometry}
                     material={material}
                 />
