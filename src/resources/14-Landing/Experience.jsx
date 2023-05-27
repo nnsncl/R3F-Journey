@@ -2,14 +2,19 @@ import React from "react";
 import * as THREE from 'three'
 
 import { useFrame } from "@react-three/fiber";
-import { Float, Line, OrbitControls, PerspectiveCamera, ScrollControls, useScroll } from "@react-three/drei";
+import { Float, Line, OrbitControls, PerspectiveCamera, ScrollControls, Text, useScroll } from "@react-three/drei";
 
 import { Background } from "./Background";
 import { Plane } from "./Planes";
 import { Cloud01, Cloud02 } from "./Clouds";
 import { useControls } from "leva";
 
-const LINE_POINTS_AMOUNT = 5000
+const LINE_POINTS_AMOUNT = 1000
+const CURVE_DISTANCE = 250
+const CURVE_AHEAD_CAMERA = 0.008
+const CURVE_AHEAD_PLANE = 0.02
+const PLANE_MAX_ANGLE = 35
+
 export const Experience = () => {
     const plane = React.useRef()
     const cameraGroup = React.useRef()
@@ -18,16 +23,13 @@ export const Experience = () => {
     const curve = React.useMemo(() => {
         return new THREE.CatmullRomCurve3([
             new THREE.Vector3(0, 0, 0),
-            new THREE.Vector3(-1, 0, -10),
-            new THREE.Vector3(-2, 0, -20),
-            new THREE.Vector3(-4, 0, -30),
-            new THREE.Vector3(0, 0, -40),
-            new THREE.Vector3(3, 0, -50),
-            new THREE.Vector3(5, 0, -60),
-            new THREE.Vector3(3, 0, -70),
-            new THREE.Vector3(0, 0, -80),
-            new THREE.Vector3(0, 0, -90),
-            new THREE.Vector3(0, 0, -100),
+            new THREE.Vector3(0, 0, -CURVE_DISTANCE),
+            new THREE.Vector3(100, 0, -2 * CURVE_DISTANCE),
+            new THREE.Vector3(-100, 0, -3 * CURVE_DISTANCE),
+            new THREE.Vector3(100, 0, -4 * CURVE_DISTANCE),
+            new THREE.Vector3(0, 0, -5 * CURVE_DISTANCE),
+            new THREE.Vector3(0, 0, -6 * CURVE_DISTANCE),
+            new THREE.Vector3(0, 0, -7 * CURVE_DISTANCE),
         ], false, "catmullrom", 0.5)
     }, [])
 
@@ -44,23 +46,48 @@ export const Experience = () => {
     }, [curve])
 
     useFrame((_, delta) => {
-        const currentPointIndex = Math.min(Math.round(scroll.offset * linePoints.length), linePoints.length - 1)
-        const currentPoint = linePoints[currentPointIndex]
+        const scrollOffset = Math.max(0, scroll.offset)
+        const currentPoint = curve.getPoint(scrollOffset)
+        cameraGroup.current.position.lerp(currentPoint, delta * 24) // Follow the curve points
 
-        const pointAhead = linePoints[Math.min(currentPointIndex + 1), linePoints.length - 1]
-        const xDisplacement = (pointAhead.x - currentPoint.x) * 50
-        const angleRotation = (xDisplacement < 0 ? 1 : -1) * Math.min(Math.abs(xDisplacement), Math.PI * 0.25)
+        const lookAtPoint = curve.getPoint(Math.min(scrollOffset + CURVE_AHEAD_CAMERA, 1))
+        const currentLookAt = cameraGroup.current
+            .getWorldDirection(new THREE.Vector3())
 
-        const targetQuaternion = new THREE.Quaternion().setFromEuler(
-            new THREE.Euler(plane.current.rotation.x, plane.current.rotation.y, angleRotation)
+        const targetLookAt = new THREE.Vector3()
+            .subVectors(currentPoint, lookAtPoint)
+            .normalize()
+
+        const lookAt = currentLookAt.lerp(targetLookAt, delta * 24)
+        cameraGroup.current.lookAt(cameraGroup.current.position.clone().add(lookAt))
+
+        const tangent = curve.getTangent(scrollOffset + CURVE_AHEAD_PLANE)
+        const nonLerpLookAt = new THREE.Group()
+        nonLerpLookAt.position.copy(currentPoint)
+        nonLerpLookAt.lookAt(nonLerpLookAt.position.clone().add(targetLookAt))
+
+        tangent.applyAxisAngle(new THREE.Vector3(0, 1, 0), -nonLerpLookAt.rotation.y)
+
+        let angle = Math.atan2(-tangent.z, tangent.x)
+        angle = -Math.PI / 2 + angle
+
+        let angleDegrees = (angle * 180) / Math.PI
+        angleDegrees *= 2.4 // Stronger angle
+
+        if (angleDegrees < 0) {
+            angleDegrees = Math.max(angleDegrees, -PLANE_MAX_ANGLE)
+        }
+        if (angleDegrees > 0) {
+            angleDegrees = Math.min(angleDegrees, PLANE_MAX_ANGLE)
+        }
+
+        // Set angle back to radiant
+        angle = (angleDegrees * Math.PI) / 180
+
+        const targetAirplaneQuaternion = new THREE.Quaternion().setFromEuler(
+            new THREE.Euler(plane.current.rotation.x, plane.current.rotation.y, angle)
         )
-        const cameraQuaternion = new THREE.Quaternion().setFromEuler(
-            new THREE.Euler(cameraGroup.current.rotation.x, angleRotation, cameraGroup.current.rotation.z)
-        )
-
-        plane.current.quaternion.slerp(targetQuaternion, delta * 0.5)
-        cameraGroup.current.quaternion.slerp(cameraQuaternion, delta * 0.25)
-        cameraGroup.current.position.lerp(currentPoint, delta)
+        plane.current.quaternion.slerp(targetAirplaneQuaternion, delta * 24)
     })
 
     return (
@@ -68,8 +95,8 @@ export const Experience = () => {
             <color attach="background" args={['tomato']} />
 
             <directionalLight
-                position={[-2, 2, 5]}
-                intensity={1.5}
+                position={[0, 3, 1]}
+                intensity={0.1}
                 castShadow
                 shadow-mapSize={[1024, 1024]}
                 shadow-camera-near={10}
@@ -81,6 +108,8 @@ export const Experience = () => {
                 color={'tomato'}
             />
             <ambientLight intensity={0.5} color={'lightblue'} />
+
+            {/* <OrbitControls /> */}
 
             {/* Camera Group / Plane */}
             <group ref={cameraGroup} >
@@ -99,13 +128,37 @@ export const Experience = () => {
                         speed={0.5}
                     >
                         <Plane
-                            rotation={[Math.PI * 0.5, 0, -Math.PI * 0.48]}
+                            rotation={[Math.PI * 0.5, 0, -Math.PI * 0.51]}
                             position={[0, 1, 0]}
                             scale={0.002}
                         />
                     </Float>
                 </group>
             </group>
+
+            {/* Text */}
+            <group position={[-5, 0, -40]} >
+                <Text
+                    color={'white'}
+                    anchorX={'left'}
+                    anchorY={'top'}
+                    fontSize={0.5}
+                    maxWidth={2.5}
+                >
+                    Services
+                </Text>
+                <Text
+                    color={'white'}
+                    anchorX={'left'}
+                    anchorY={'top'}
+                    position-y={-0.5}
+                    fontSize={0.22}
+                    maxWidth={2.5}
+                >
+                    Lorem ipsum dolor sit amet
+                </Text>
+            </group>
+
 
             {/* Curved Path */}
             <group position={[0, -2, 0]} >
@@ -135,6 +188,13 @@ export const Experience = () => {
 
                 <Cloud02 scale={1.2} position={[6, 0, 24]} rotation={[-Math.PI * 0.75, 0, 0]} />
                 <Cloud01 position={[2, -6, 16]} rotation={[-Math.PI * 0.5, 0, 0]} />
+            </group>
+
+            {/* Scene Clouds */}
+            <group rotation={[0, Math.PI * 0.6, 0]} >
+                {/*
+                <Cloud02 scale={1.2} position={[6, 0, 24]} rotation={[-Math.PI * 0.75, 0, 0]} />
+                <Cloud01 position={[2, -6, 16]} rotation={[-Math.PI * 0.5, 0, 0]} /> */}
             </group>
 
         </React.Fragment>
