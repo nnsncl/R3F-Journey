@@ -8,9 +8,10 @@ import { MeshStandardMaterial } from 'three';
 import { useGLTF } from "@react-three/drei";
 
 const material = new MeshStandardMaterial({
-    color: 'tomato',
+    color: 'ivory',
     metalness: 0,
     roughness: 1,
+    envMapIntensity: 0.5
 })
 const modelProps = {
     position: [0, 0, 0],

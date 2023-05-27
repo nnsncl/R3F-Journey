@@ -107,7 +107,7 @@ export const Experience = () => {
                 shadow-camera-left={-10}
                 color={'tomato'}
             />
-            <ambientLight intensity={0.5} color={'lightblue'} />
+            <ambientLight intensity={0.5} color={'tomato'} />
 
             {/* <OrbitControls /> */}
 
@@ -124,11 +124,11 @@ export const Experience = () => {
                 <group ref={plane}>
                     <Float
                         floatIntensity={0.5}
-                        rotationIntensity={0.5}
+                        rotationIntensity={0}
                         speed={0.5}
                     >
                         <Plane
-                            rotation={[Math.PI * 0.5, 0, -Math.PI * 0.51]}
+                            rotation={[Math.PI * 0.55, 0, -Math.PI * 0.50]}
                             position={[0, 1, 0]}
                             scale={0.002}
                         />
@@ -177,6 +177,7 @@ export const Experience = () => {
                         color={'white'}
                         opacity={0.3}
                         transparent
+                        envMapIntensity={2}
                     />
                 </mesh>
             </group>
