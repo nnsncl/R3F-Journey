@@ -9,7 +9,7 @@ import { Plane } from "./Planes";
 import { Cloud01, Cloud02 } from "./Clouds";
 import { useControls } from "leva";
 
-const LINE_POINTS_AMOUNT = 1000
+const LINE_POINTS_AMOUNT = 5000
 export const Experience = () => {
     const plane = React.useRef()
     const cameraGroup = React.useRef()
@@ -93,7 +93,11 @@ export const Experience = () => {
                     far={200}
                 />
                 <group ref={plane}>
-                    <Float floatIntensity={2} speed={2} rotationIntensity={0.5} >
+                    <Float
+                        floatIntensity={0.5}
+                        rotationIntensity={0.5}
+                        speed={0.5}
+                    >
                         <Plane
                             rotation={[Math.PI * 0.5, 0, -Math.PI * 0.48]}
                             position={[0, 1, 0]}
