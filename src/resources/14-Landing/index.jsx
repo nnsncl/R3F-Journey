@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Leva } from "leva";
 import { Canvas } from "@react-three/fiber";
 import { ScrollControls } from "@react-three/drei";
-import { sRGBEncoding, ACESFilmicToneMapping } from 'three'
 
 import { Experience } from './Experience';
 import { Configurator } from "./Configurator";
@@ -22,11 +21,7 @@ export const Landing = () => {
             </Main> */}
             <Canvas
                 shadows
-                gl={{
-                    antialias: true,
-                    toneMapping: ACESFilmicToneMapping,
-                    outputEncoding: sRGBEncoding
-                }}
+                gl={{ antialias: true }}
             >
                 <ScrollControls pages={20} damping={0.5} >
                     <Experience />
