@@ -2,13 +2,15 @@ import React from "react";
 import * as THREE from 'three'
 
 import { useFrame } from "@react-three/fiber";
-import { Float, Line, OrbitControls, PerspectiveCamera, ScrollControls, Text, useScroll } from "@react-three/drei";
+import { Float, OrbitControls, PerspectiveCamera, useScroll } from "@react-three/drei";
 
-import { Background } from "./Background";
 import { Plane } from "./Planes";
+import { Clouds } from "./constants/Clouds";
 import { Cloud01, Cloud02 } from "./Clouds";
-import { useControls } from "leva";
+import { Background } from "./Background";
+import { Content } from "./constants/Content";
 import { TextSection } from "./TextSection";
+
 
 const LINE_POINTS_AMOUNT = 1000
 const CURVE_DISTANCE = 250
@@ -18,11 +20,12 @@ const PLANE_MAX_ANGLE = 42
 const FRICTION_DISTANCE = 42
 
 export const Experience = () => {
+    const scroll = useScroll()
+
     const plane = React.useRef()
     const cameraGroup = React.useRef()
     const cameraRail = React.useRef()
     const lastScroll = React.useRef(0)
-    const scroll = useScroll()
 
     const curvePoints = React.useMemo(() => [
         new THREE.Vector3(0, 0, 0),
@@ -32,8 +35,10 @@ export const Experience = () => {
         new THREE.Vector3(100, 0, -4 * CURVE_DISTANCE),
         new THREE.Vector3(0, 0, -5 * CURVE_DISTANCE),
         new THREE.Vector3(0, 0, -6 * CURVE_DISTANCE),
-        new THREE.Vector3(0, 0, -7 * CURVE_DISTANCE),
     ], [])
+
+    const textSections = React.useMemo(() => Content(curvePoints), [])
+    const clouds = React.useMemo(() => Clouds(curvePoints), [])
 
     const curve = React.useMemo(() => {
         return new THREE.CatmullRomCurve3(curvePoints, false, "catmullrom", 0.5)
@@ -46,51 +51,6 @@ export const Experience = () => {
 
         return memoized
     }, [curve])
-
-    const textSections = React.useMemo(() => {
-        return [
-            {
-                cameraRailDist: -2,
-                position: new THREE.Vector3(
-                    curvePoints[1].x - 6,
-                    curvePoints[1].y,
-                    curvePoints[1].z
-                ),
-                title: `Lorem Ipsum`,
-                subtitle: `Lorem Ipsum Dolor sit amet`
-            },
-            {
-                cameraRailDist: 2,
-                position: new THREE.Vector3(
-                    curvePoints[2].x + 3,
-                    curvePoints[2].y,
-                    curvePoints[2].z
-                ),
-                title: `Lorem Ipsum`,
-                subtitle: `Lorem Ipsum Dolor sit amet 2`
-            },
-            {
-                cameraRailDist: -2,
-                position: new THREE.Vector3(
-                    curvePoints[3].x - 6,
-                    curvePoints[3].y,
-                    curvePoints[3].z
-                ),
-                title: `Lorem Ipsum`,
-                subtitle: `Lorem Ipsum Dolor sit amet 3`
-            },
-            {
-                cameraRailDist: 2,
-                position: new THREE.Vector3(
-                    curvePoints[4].x + 3,
-                    curvePoints[4].y,
-                    curvePoints[4].z
-                ),
-                title: `Lorem Ipsum`,
-                subtitle: `Lorem Ipsum Dolor sit amet 3`
-            },
-        ]
-    }, [])
 
     useFrame((_, delta) => {
         const scrollOffset = Math.max(0, scroll.offset)
@@ -126,7 +86,6 @@ export const Experience = () => {
         lerpedScrollOffset = Math.min(lerpedScrollOffset, 1)
         lerpedScrollOffset = Math.max(lerpedScrollOffset, 0)
         lastScroll.current = lerpedScrollOffset
-
 
         // Curved Camera Path
         const currentPoint = curve.getPoint(lerpedScrollOffset)
@@ -209,8 +168,8 @@ export const Experience = () => {
                 <group ref={plane}>
                     <Float
                         floatIntensity={0.5}
-                        rotationIntensity={0}
-                        speed={0.5}
+                        rotationIntensity={0.2}
+                        speed={2}
                     >
                         <Plane
                             rotation={[Math.PI * 0.55, 0, -Math.PI * 0.50]}
@@ -221,13 +180,8 @@ export const Experience = () => {
                 </group>
             </group>
 
-            {/* Text */}
-            {textSections.map((textSection, key) => (
-                <TextSection key={key} {...textSection} />
-            ))}
-
             {/* Curved Path */}
-            <group position={[0, -2, 0]} >
+            <group position={[0, -2, 6]} >
                 <mesh>
                     <extrudeGeometry
                         args={[
@@ -258,11 +212,10 @@ export const Experience = () => {
             </group>
 
             {/* Scene Clouds */}
-            <group rotation={[0, Math.PI * 0.6, 0]} >
-                {/*
-                <Cloud02 scale={1.2} position={[6, 0, 24]} rotation={[-Math.PI * 0.75, 0, 0]} />
-                <Cloud01 position={[2, -6, 16]} rotation={[-Math.PI * 0.5, 0, 0]} /> */}
-            </group>
+            {clouds.map((cloud, key) => (<Cloud01 key={key} {...cloud} />))}
+
+            {/* Text */}
+            {textSections.map((textSection, key) => <TextSection key={key} {...textSection} />)}
 
         </React.Fragment>
     );
