@@ -17,8 +17,8 @@ export const Background = () => {
                         colorA={"tomato"}
                         colorB={"ivory"}
                         axes={'y'}
-                        start={1}
-                        end={-1}
+                        start={0.5}
+                        end={-0.5}
                     />
                 </LayerMaterial>
             </Sphere>

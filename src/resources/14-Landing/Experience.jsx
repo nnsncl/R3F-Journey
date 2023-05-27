@@ -11,6 +11,10 @@ import { useControls } from "leva";
 
 const LINE_POINTS_AMOUNT = 1000
 export const Experience = () => {
+    const plane = React.useRef()
+    const cameraGroup = React.useRef()
+    const scroll = useScroll()
+
     const curve = React.useMemo(() => {
         return new THREE.CatmullRomCurve3([
             new THREE.Vector3(0, 0, 0),
@@ -26,9 +30,11 @@ export const Experience = () => {
             new THREE.Vector3(0, 0, -100),
         ], false, "catmullrom", 0.5)
     }, [])
+
     const linePoints = React.useMemo(() => {
         return curve.getPoints(LINE_POINTS_AMOUNT)
     }, [curve])
+
     const shape = React.useMemo(() => {
         const memoized = new THREE.Shape()
         memoized.moveTo(0, -0.01)
@@ -37,42 +43,24 @@ export const Experience = () => {
         return memoized
     }, [curve])
 
-    const { position, rotation } = useControls('camera', {
-        position: {
-            value: { x: 0, y: 0, z: 0 }
-        },
-        rotation: {
-            value: { x: 0, y: 0, z: 0, }
-        },
-    })
-
-    const plane = React.useRef()
-    const cameraGroup = React.useRef()
-    const scroll = useScroll()
     useFrame((_, delta) => {
         const currentPointIndex = Math.min(Math.round(scroll.offset * linePoints.length), linePoints.length - 1)
         const currentPoint = linePoints[currentPointIndex]
+
         const pointAhead = linePoints[Math.min(currentPointIndex + 1), linePoints.length - 1]
         const xDisplacement = (pointAhead.x - currentPoint.x) * 50
-        const angleRotation = (xDisplacement < 0 ? 1 : -1) * Math.min(Math.abs(xDisplacement), Math.PI * 0.1)
+        const angleRotation = (xDisplacement < 0 ? 1 : -1) * Math.min(Math.abs(xDisplacement), Math.PI * 0.25)
+
         const targetQuaternion = new THREE.Quaternion().setFromEuler(
-            new THREE.Euler(
-                plane.current.rotation.x,
-                plane.current.rotation.y,
-                angleRotation
-            )
+            new THREE.Euler(plane.current.rotation.x, plane.current.rotation.y, angleRotation)
         )
         const cameraQuaternion = new THREE.Quaternion().setFromEuler(
-            new THREE.Euler(
-                cameraGroup.current.rotation.x,
-                angleRotation,
-                cameraGroup.current.rotation.z
-            )
+            new THREE.Euler(cameraGroup.current.rotation.x, angleRotation, cameraGroup.current.rotation.z)
         )
 
         plane.current.quaternion.slerp(targetQuaternion, delta * 0.5)
-        cameraGroup.current.quaternion.slerp(cameraQuaternion, delta * 0.5)
-        cameraGroup.current.position.lerp(currentPoint, delta * 0.5)
+        cameraGroup.current.quaternion.slerp(cameraQuaternion, delta * 0.25)
+        cameraGroup.current.position.lerp(currentPoint, delta)
     })
 
     return (
@@ -105,7 +93,7 @@ export const Experience = () => {
                     far={200}
                 />
                 <group ref={plane}>
-                    <Float floatIntensity={2} speed={2} >
+                    <Float floatIntensity={2} speed={2} rotationIntensity={0.5} >
                         <Plane
                             rotation={[Math.PI * 0.5, 0, -Math.PI * 0.48]}
                             position={[0, 1, 0]}
@@ -130,7 +118,7 @@ export const Experience = () => {
                     />
                     <meshStandardMaterial
                         color={'white'}
-                        opacity={0.1}
+                        opacity={0.3}
                         transparent
                     />
                 </mesh>
@@ -138,12 +126,11 @@ export const Experience = () => {
 
             {/* Initial Clouds */}
             <group rotation={[0, Math.PI * 0.6, 0]} >
-                <Cloud02 scale={0.5} position={[6, -4, -6]} rotation={[-Math.PI * 0.25, Math.PI * 0.25, 0]} />
-                <Cloud02 scale={1.5} position={[12, -6, -12]} rotation={[Math.PI * 0.75, 0, 0]} />
-                <Cloud01 position={[12, -12, -4]} />
-                <Cloud01 position={[10, -8, 12]} />
-                <Cloud01 position={[4, -4, 12]} rotation={[Math.PI * 0.25, 0, 0]} />
-                <Cloud02 scale={0.8} position={[15, 1, 20]} rotation={[Math.PI * 0.25, Math.PI * 0.25, 0]} />
+                <Cloud02 scale={1.5} position={[24, 2, -16]} rotation={[-Math.PI * 0.25, Math.PI * 0.25, 0]} />
+                <Cloud01 position={[14, -6, -12]} rotation={[-Math.PI * 0.5, 0, 0]} />
+
+                <Cloud02 scale={1.2} position={[6, 0, 24]} rotation={[-Math.PI * 0.75, 0, 0]} />
+                <Cloud01 position={[2, -6, 16]} rotation={[-Math.PI * 0.5, 0, 0]} />
             </group>
 
         </React.Fragment>
