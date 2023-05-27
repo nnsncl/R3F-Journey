@@ -28,7 +28,7 @@ export const Landing = () => {
                     outputEncoding: sRGBEncoding
                 }}
             >
-                <ScrollControls pages={100} damping={1} >
+                <ScrollControls pages={20} damping={0.5} >
                     <Experience />
                 </ScrollControls>
             </Canvas>
