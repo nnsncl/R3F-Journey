@@ -21,6 +21,7 @@ export const Experience = () => {
     const plane = React.useRef()
     const cameraGroup = React.useRef()
     const cameraRail = React.useRef()
+    const lastScroll = React.useRef(0)
     const scroll = useScroll()
 
     const curvePoints = React.useMemo(() => [
@@ -94,7 +95,8 @@ export const Experience = () => {
     useFrame((_, delta) => {
         const scrollOffset = Math.max(0, scroll.offset)
 
-        // Text Sections
+        // Text Sections, Friction near sections
+        let friction = 1
         let resetCamRail = true
         textSections.forEach((textSection) => {
             const distance = textSection.position.distanceTo(
@@ -102,6 +104,8 @@ export const Experience = () => {
             )
 
             if (distance < FRICTION_DISTANCE) {
+                friction = Math.max(distance / FRICTION_DISTANCE, 0.1)
+
                 const targetCameraRailPosition = new THREE.Vector3(
                     (1 - distance / FRICTION_DISTANCE) * textSection.cameraRailDist, 0, 0
                 )  // calc sliding factor
@@ -115,11 +119,20 @@ export const Experience = () => {
             cameraRail.current.position.lerp(targetCameraRailPosition, delta)
         }
 
+        // Calc Lerped scroll offset
+        let lerpedScrollOffset = THREE.MathUtils.lerp(lastScroll.current, scrollOffset, delta * friction)
+
+        // Preserve bellow 0, above 1
+        lerpedScrollOffset = Math.min(lerpedScrollOffset, 1)
+        lerpedScrollOffset = Math.max(lerpedScrollOffset, 0)
+        lastScroll.current = lerpedScrollOffset
+
+
         // Curved Camera Path
-        const currentPoint = curve.getPoint(scrollOffset)
+        const currentPoint = curve.getPoint(lerpedScrollOffset)
         cameraGroup.current.position.lerp(currentPoint, delta * 24) // Follow the curve points
 
-        const lookAtPoint = curve.getPoint(Math.min(scrollOffset + CURVE_AHEAD_CAMERA, 1))
+        const lookAtPoint = curve.getPoint(Math.min(lerpedScrollOffset + CURVE_AHEAD_CAMERA, 1))
         const currentLookAt = cameraGroup.current
             .getWorldDirection(new THREE.Vector3())
 
@@ -130,7 +143,7 @@ export const Experience = () => {
         const lookAt = currentLookAt.lerp(targetLookAt, delta * 24)
         cameraGroup.current.lookAt(cameraGroup.current.position.clone().add(lookAt))
 
-        const tangent = curve.getTangent(scrollOffset + CURVE_AHEAD_PLANE)
+        const tangent = curve.getTangent(lerpedScrollOffset + CURVE_AHEAD_PLANE)
         const nonLerpLookAt = new THREE.Group()
         nonLerpLookAt.position.copy(currentPoint)
         nonLerpLookAt.lookAt(nonLerpLookAt.position.clone().add(targetLookAt))
