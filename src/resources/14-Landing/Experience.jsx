@@ -14,11 +14,13 @@ const LINE_POINTS_AMOUNT = 1000
 const CURVE_DISTANCE = 250
 const CURVE_AHEAD_CAMERA = 0.008
 const CURVE_AHEAD_PLANE = 0.02
-const PLANE_MAX_ANGLE = 35
+const PLANE_MAX_ANGLE = 42
+const FRICTION_DISTANCE = 42
 
 export const Experience = () => {
     const plane = React.useRef()
     const cameraGroup = React.useRef()
+    const cameraRail = React.useRef()
     const scroll = useScroll()
 
     const curvePoints = React.useMemo(() => [
@@ -47,8 +49,9 @@ export const Experience = () => {
     const textSections = React.useMemo(() => {
         return [
             {
+                cameraRailDist: -2,
                 position: new THREE.Vector3(
-                    curvePoints[1].x - 4,
+                    curvePoints[1].x - 6,
                     curvePoints[1].y,
                     curvePoints[1].z
                 ),
@@ -56,8 +59,9 @@ export const Experience = () => {
                 subtitle: `Lorem Ipsum Dolor sit amet`
             },
             {
+                cameraRailDist: 2,
                 position: new THREE.Vector3(
-                    curvePoints[2].x + 4,
+                    curvePoints[2].x + 3,
                     curvePoints[2].y,
                     curvePoints[2].z
                 ),
@@ -65,8 +69,9 @@ export const Experience = () => {
                 subtitle: `Lorem Ipsum Dolor sit amet 2`
             },
             {
+                cameraRailDist: -2,
                 position: new THREE.Vector3(
-                    curvePoints[3].x - 4,
+                    curvePoints[3].x - 6,
                     curvePoints[3].y,
                     curvePoints[3].z
                 ),
@@ -74,8 +79,9 @@ export const Experience = () => {
                 subtitle: `Lorem Ipsum Dolor sit amet 3`
             },
             {
+                cameraRailDist: 2,
                 position: new THREE.Vector3(
-                    curvePoints[4].x + 4,
+                    curvePoints[4].x + 3,
                     curvePoints[4].y,
                     curvePoints[4].z
                 ),
@@ -85,15 +91,31 @@ export const Experience = () => {
         ]
     }, [])
 
-    // const linePoints = React.useMemo(() => {
-    //     return curve.getPoints(LINE_POINTS_AMOUNT)
-    // }, [curve])
-
     useFrame((_, delta) => {
-        /**
-         * Scroll / Camera
-         */
         const scrollOffset = Math.max(0, scroll.offset)
+
+        // Text Sections
+        let resetCamRail = true
+        textSections.forEach((textSection) => {
+            const distance = textSection.position.distanceTo(
+                cameraGroup.current.position
+            )
+
+            if (distance < FRICTION_DISTANCE) {
+                const targetCameraRailPosition = new THREE.Vector3(
+                    (1 - distance / FRICTION_DISTANCE) * textSection.cameraRailDist, 0, 0
+                )  // calc sliding factor
+
+                cameraRail.current.position.lerp(targetCameraRailPosition, delta)
+                resetCamRail = false
+            }
+        })
+        if (resetCamRail) {
+            const targetCameraRailPosition = new THREE.Vector3(0, 0, 0)
+            cameraRail.current.position.lerp(targetCameraRailPosition, delta)
+        }
+
+        // Curved Camera Path
         const currentPoint = curve.getPoint(scrollOffset)
         cameraGroup.current.position.lerp(currentPoint, delta * 24) // Follow the curve points
 
@@ -161,13 +183,16 @@ export const Experience = () => {
             {/* Camera Group / Plane */}
             <group ref={cameraGroup} >
                 <Background />
-                <PerspectiveCamera
-                    makeDefault
-                    position={[0, 1, 12]}
-                    fov={45}
-                    near={0.1}
-                    far={200}
-                />
+                <group ref={cameraRail} >
+                    <PerspectiveCamera
+                        makeDefault
+                        position={[0, 1, 12]}
+                        fov={45}
+                        near={0.1}
+                        far={200}
+                    />
+                </group>
+
                 <group ref={plane}>
                     <Float
                         floatIntensity={0.5}
@@ -184,28 +209,6 @@ export const Experience = () => {
             </group>
 
             {/* Text */}
-            {/* <group position={[-5, 0, -40]} >
-                <Text
-                    color={'white'}
-                    anchorX={'left'}
-                    anchorY={'top'}
-                    fontSize={0.5}
-                    maxWidth={2.5}
-                >
-                    Services
-                </Text>
-                <Text
-                    color={'white'}
-                    anchorX={'left'}
-                    anchorY={'top'}
-                    position-y={-0.5}
-                    fontSize={0.22}
-                    maxWidth={2.5}
-                >
-                    Lorem ipsum dolor sit amet
-                </Text>
-            </group> */}
-
             {textSections.map((textSection, key) => (
                 <TextSection key={key} {...textSection} />
             ))}
