@@ -8,6 +8,7 @@ import { Background } from "./Background";
 import { Plane } from "./Planes";
 import { Cloud01, Cloud02 } from "./Clouds";
 import { useControls } from "leva";
+import { TextSection } from "./TextSection";
 
 const LINE_POINTS_AMOUNT = 1000
 const CURVE_DISTANCE = 250
@@ -20,22 +21,20 @@ export const Experience = () => {
     const cameraGroup = React.useRef()
     const scroll = useScroll()
 
-    const curve = React.useMemo(() => {
-        return new THREE.CatmullRomCurve3([
-            new THREE.Vector3(0, 0, 0),
-            new THREE.Vector3(0, 0, -CURVE_DISTANCE),
-            new THREE.Vector3(100, 0, -2 * CURVE_DISTANCE),
-            new THREE.Vector3(-100, 0, -3 * CURVE_DISTANCE),
-            new THREE.Vector3(100, 0, -4 * CURVE_DISTANCE),
-            new THREE.Vector3(0, 0, -5 * CURVE_DISTANCE),
-            new THREE.Vector3(0, 0, -6 * CURVE_DISTANCE),
-            new THREE.Vector3(0, 0, -7 * CURVE_DISTANCE),
-        ], false, "catmullrom", 0.5)
-    }, [])
+    const curvePoints = React.useMemo(() => [
+        new THREE.Vector3(0, 0, 0),
+        new THREE.Vector3(0, 0, -CURVE_DISTANCE),
+        new THREE.Vector3(100, 0, -2 * CURVE_DISTANCE),
+        new THREE.Vector3(-100, 0, -3 * CURVE_DISTANCE),
+        new THREE.Vector3(100, 0, -4 * CURVE_DISTANCE),
+        new THREE.Vector3(0, 0, -5 * CURVE_DISTANCE),
+        new THREE.Vector3(0, 0, -6 * CURVE_DISTANCE),
+        new THREE.Vector3(0, 0, -7 * CURVE_DISTANCE),
+    ], [])
 
-    const linePoints = React.useMemo(() => {
-        return curve.getPoints(LINE_POINTS_AMOUNT)
-    }, [curve])
+    const curve = React.useMemo(() => {
+        return new THREE.CatmullRomCurve3(curvePoints, false, "catmullrom", 0.5)
+    }, [])
 
     const shape = React.useMemo(() => {
         const memoized = new THREE.Shape()
@@ -45,7 +44,55 @@ export const Experience = () => {
         return memoized
     }, [curve])
 
+    const textSections = React.useMemo(() => {
+        return [
+            {
+                position: new THREE.Vector3(
+                    curvePoints[1].x - 4,
+                    curvePoints[1].y,
+                    curvePoints[1].z
+                ),
+                title: `Lorem Ipsum`,
+                subtitle: `Lorem Ipsum Dolor sit amet`
+            },
+            {
+                position: new THREE.Vector3(
+                    curvePoints[2].x + 4,
+                    curvePoints[2].y,
+                    curvePoints[2].z
+                ),
+                title: `Lorem Ipsum`,
+                subtitle: `Lorem Ipsum Dolor sit amet 2`
+            },
+            {
+                position: new THREE.Vector3(
+                    curvePoints[3].x - 4,
+                    curvePoints[3].y,
+                    curvePoints[3].z
+                ),
+                title: `Lorem Ipsum`,
+                subtitle: `Lorem Ipsum Dolor sit amet 3`
+            },
+            {
+                position: new THREE.Vector3(
+                    curvePoints[4].x + 4,
+                    curvePoints[4].y,
+                    curvePoints[4].z
+                ),
+                title: `Lorem Ipsum`,
+                subtitle: `Lorem Ipsum Dolor sit amet 3`
+            },
+        ]
+    }, [])
+
+    // const linePoints = React.useMemo(() => {
+    //     return curve.getPoints(LINE_POINTS_AMOUNT)
+    // }, [curve])
+
     useFrame((_, delta) => {
+        /**
+         * Scroll / Camera
+         */
         const scrollOffset = Math.max(0, scroll.offset)
         const currentPoint = curve.getPoint(scrollOffset)
         cameraGroup.current.position.lerp(currentPoint, delta * 24) // Follow the curve points
@@ -137,7 +184,7 @@ export const Experience = () => {
             </group>
 
             {/* Text */}
-            <group position={[-5, 0, -40]} >
+            {/* <group position={[-5, 0, -40]} >
                 <Text
                     color={'white'}
                     anchorX={'left'}
@@ -157,8 +204,11 @@ export const Experience = () => {
                 >
                     Lorem ipsum dolor sit amet
                 </Text>
-            </group>
+            </group> */}
 
+            {textSections.map((textSection, key) => (
+                <TextSection key={key} {...textSection} />
+            ))}
 
             {/* Curved Path */}
             <group position={[0, -2, 0]} >
