@@ -4,6 +4,8 @@ import { Leva } from "leva";
 import { Canvas } from "@react-three/fiber";
 import { ScrollControls } from "@react-three/drei";
 
+import { EffectComposer, Noise } from "@react-three/postprocessing";
+
 import { Experience } from './Experience';
 import { Configurator } from "./Configurator";
 
@@ -26,6 +28,9 @@ export const Landing = () => {
                 <ScrollControls pages={20} damping={0.5} >
                     <Experience />
                 </ScrollControls>
+                <EffectComposer>
+                    <Noise opacity={0.3} premultiply />
+                </EffectComposer>
             </Canvas>
         </React.Fragment>
 
