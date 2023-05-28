@@ -32,6 +32,13 @@ export const Landing = () => {
     const play = useLanding((state) => state.play)
     const end = useLanding((state) => state.end)
 
+    // Prevent re-renders glitches
+    const postProcessingEffects = React.useMemo(() => (
+        <EffectComposer>
+            <Noise opacity={0.3} premultiply />
+        </EffectComposer>
+    ), [])
+
     return (
         <React.Suspense fallback={null}>
             <Main>
@@ -41,9 +48,7 @@ export const Landing = () => {
                 <ScrollControls pages={play && !end ? 20 : 0} damping={0.5} >
                     <Experience />
                 </ScrollControls>
-                <EffectComposer>
-                    <Noise opacity={0.3} premultiply />
-                </EffectComposer>
+                {postProcessingEffects}
             </Canvas>
         </React.Suspense>
 
