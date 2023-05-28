@@ -1,4 +1,5 @@
 import { Instance, Instances } from "@react-three/drei"
+import { useFrame } from "@react-three/fiber"
 import React from "react"
 import { AdditiveBlending, DoubleSide, MathUtils } from "three"
 
@@ -15,9 +16,20 @@ const TrailShape = () => {
             y: MathUtils.randFloatSpread(8),
             z: MathUtils.randFloatSpread(12),
         }
+        randSpeed = MathUtils.randFloat(16, 20)
     }
-
     resetRandom()
+
+    useFrame((_, delta) => {
+        if (ref.current) {
+            ref.current.position.z += randSpeed * delta
+
+            if (ref.current.position.z > 5) {
+                resetRandom()
+                ref.current.position.z = randPos.z
+            }
+        }
+    })
 
     return (
         <Instance
