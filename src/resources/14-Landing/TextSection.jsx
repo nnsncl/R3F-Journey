@@ -1,6 +1,6 @@
 import React from "react"
 import { Text } from "@react-three/drei";
-import { fadeOnBeforeCompileFlat } from "./utils/fadeMaterialShader";
+import { fadeOnBeforeCompile } from "./utils/fadeMaterialShader";
 
 
 export const TextSection = ({ title, subtitle, ...restProps }) => {
@@ -11,12 +11,16 @@ export const TextSection = ({ title, subtitle, ...restProps }) => {
                     color={'white'}
                     anchorX={'left'}
                     anchorY={'bottom'}
-                    fontSize={0.5}
-                    maxWidth={3}
-                    lineHeight={1.2}
+                    fontSize={0.66}
+                    maxWidth={5}
+                    lineHeight={1}
                 >
                     {title}
-                    <meshBasicMaterial color={'white'} />
+                    <meshStandardMaterial
+                        color={'white'}
+                        envMapIntensity={2}
+                        onBeforeCompile={fadeOnBeforeCompile}
+                    />
                 </Text>
             )}
 
@@ -25,10 +29,14 @@ export const TextSection = ({ title, subtitle, ...restProps }) => {
                 anchorX={'left'}
                 anchorY={'top'}
                 fontSize={0.25}
-                maxWidth={3}
+                maxWidth={5}
             >
                 {subtitle}
-                <meshBasicMaterial color={'white'} />
+                <meshStandardMaterial
+                    color={'white'}
+                    envMapIntensity={2}
+                    onBeforeCompile={fadeOnBeforeCompile}
+                />
             </Text>
         </group>
     )

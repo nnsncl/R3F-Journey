@@ -36,10 +36,3 @@ const replaceFS = (fragmentShader) =>
 export const fadeOnBeforeCompile = (shader) => {
   shader.fragmentShader = replaceFS(shader.fragmentShader);
 };
-
-export const fadeOnBeforeCompileFlat = (shader) => {
-  shader.fragmentShader = replaceFS(shader.fragmentShader).replace(
-    `#include <output_fragment>`,
-    `gl_FragColor = diffuseColor;`
-  );
-};
