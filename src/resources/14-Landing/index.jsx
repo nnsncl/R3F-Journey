@@ -1,9 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { Leva } from "leva";
 import { Canvas } from "@react-three/fiber";
 import { ScrollControls } from "@react-three/drei";
-
 import { EffectComposer, Noise } from "@react-three/postprocessing";
 
 import { Experience } from './Experience';
@@ -16,15 +14,11 @@ const Main = styled.main`
 export const Landing = () => {
 
     return (
-        <React.Fragment>
-            <Leva collapsed />
-            {/* <Main>
+        <React.Suspense fallback={null}>
+            <Main>
                 <Configurator />
-            </Main> */}
-            <Canvas
-                shadows
-                gl={{ antialias: true }}
-            >
+            </Main>
+            <Canvas shadows gl={{ antialias: true }}>
                 <ScrollControls pages={20} damping={0.5} >
                     <Experience />
                 </ScrollControls>
@@ -32,7 +26,7 @@ export const Landing = () => {
                     <Noise opacity={0.3} premultiply />
                 </EffectComposer>
             </Canvas>
-        </React.Fragment>
+        </React.Suspense>
 
     );
 };

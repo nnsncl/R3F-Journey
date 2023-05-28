@@ -1,7 +1,25 @@
 import React from "react"
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import usePlane from "./stores/usePlane"
+import useLanding from "./stores/useLanding"
 
+const fadeIn = keyframes`
+   from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+`
+const fadeOut = keyframes`
+   from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+`
 const Container = styled.section`
     position: fixed;
     top: 0;
@@ -14,6 +32,8 @@ const Container = styled.section`
 
     display: grid;
     justify-content: flex-start;
+    pointer-events: auto;
+    animation: ${fadeIn} 1s ease-in-out;
 
     h1, h2, h3, h4, h5, h6, p {
         margin: 0;
@@ -36,7 +56,7 @@ const Head = styled.hgroup`
     grid-gap: 12px;
     align-self: flex-end;
     height: fit-content;
-    pointer-events: auto;
+    animation: ${fadeIn} 1s ease-in-out;
 
     button {
         color: #0E0E0E60;
@@ -55,7 +75,6 @@ const Head = styled.hgroup`
 const Menu = styled.menu`
     padding: 0;
     margin: 0;
-    pointer-events: auto;
     align-self: flex-end;
     width: fit-content;
 
@@ -103,20 +122,33 @@ const Button = styled.button`
         background-color: #FFFFFF;
     }
 `
+const ScrollContainer = styled(Container)`
+    pointer-events: none;
+    align-items: center;
+    justify-content: center;
+
+    opacity: ${(props) => props.hasScrolled ? 0 : 1};
+    animation: ${(props) => props.hasScrolled ? fadeOut : fadeIn} 1s ease-in-out;
+`
+
 export const Configurator = () => {
     const variant = usePlane((state) => state.variant)
     const updateVariant = usePlane((state) => state.updateVariant)
     const getVariantName = usePlane((state) => state.getVariantName)
 
-    return (
-        <Container>
+    const play = useLanding((state) => state.play)
+    const hasScrolled = useLanding((state) => state.hasScrolled)
+    const updateStatus = useLanding((state) => state.updateStatus)
+
+    if (!play) return (
+        <Container play={play} >
             <Head>
                 <h1>Lorem Ipsum<br />Dolor sit amet</h1>
                 <small>
                     Personalize your experience by chosing a model or<br />
                     <b>skip this step and go with the default one</b>
                 </small>
-                <Button>Start the experience</Button>
+                <Button onClick={() => updateStatus('play')} >Start the experience</Button>
             </Head>
             <Menu>
                 {[...Array(4)].map((_, key) => (
@@ -132,5 +164,13 @@ export const Configurator = () => {
                 ))}
             </Menu>
         </Container>
+    )
+
+    if (play) return (
+        <ScrollContainer hasScrolled={hasScrolled}>
+            <p>
+                Scroll to begin the journey
+            </p>
+        </ScrollContainer>
     )
 }

@@ -12,6 +12,8 @@ import { Content } from "./constants/Content";
 import { TextSection } from "./TextSection";
 
 import { fadeOnBeforeCompile } from "./utils/fadeMaterialShader";
+import { gsap } from "gsap";
+import useLanding from "./stores/useLanding";
 
 
 const LINE_POINTS_AMOUNT = 1000
@@ -25,9 +27,13 @@ export const Experience = () => {
     const scroll = useScroll()
 
     const plane = React.useRef()
+    const planeTl = React.useRef()
     const cameraGroup = React.useRef()
     const cameraRail = React.useRef()
     const lastScroll = React.useRef(0)
+
+    const play = useLanding((state) => state.play)
+    const updateStatus = useLanding((state) => state.updateStatus)
 
     const curvePoints = React.useMemo(() => [
         new THREE.Vector3(0, 0, 0),
@@ -55,6 +61,11 @@ export const Experience = () => {
     const clouds = React.useMemo(() => Clouds(curvePoints), [])
 
     useFrame((_, delta) => {
+        // Hide scroll indications on scroll
+        if (lastScroll.current <= 0 && scroll.offset > 0) {
+            updateStatus('hasScrolled')
+        }
+
         const scrollOffset = Math.max(0, scroll.offset)
 
         // Text Sections, Friction near sections
@@ -133,6 +144,21 @@ export const Experience = () => {
         plane.current.quaternion.slerp(targetAirplaneQuaternion, delta * 24)
     })
 
+    React.useLayoutEffect(() => {
+        planeTl.current = gsap.timeline()
+        planeTl.current.pause()
+
+        planeTl.current.from(plane.current.rotation, {
+            duration: 3,
+            ease: "power4",
+            y: 0.3,
+        })
+    }, [])
+
+    React.useEffect(() => {
+        if (play) planeTl.current.play()
+    }, [play])
+
     return (
         <React.Fragment>
             <color attach="background" args={['tomato']} />
@@ -174,7 +200,7 @@ export const Experience = () => {
                         speed={2}
                     >
                         <Plane
-                            rotation={[Math.PI * 0.55, 0, -Math.PI * 0.50]}
+                            rotation={[Math.PI * 0.55, 0, -Math.PI * 0.5]}
                             position={[0, 1, 0]}
                             scale={0.002}
                         />
