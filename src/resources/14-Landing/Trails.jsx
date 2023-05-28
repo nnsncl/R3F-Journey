@@ -1,9 +1,10 @@
-import { Instance, Instances } from "@react-three/drei"
+import { Instance, Instances, useScroll } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import React from "react"
 import { AdditiveBlending, DoubleSide, MathUtils } from "three"
 
 const INSTANCES = 420
+const MAX_TRAIL_OPACITY = 0.1
 
 const TrailShape = () => {
     const ref = React.useRef()
@@ -43,13 +44,30 @@ const TrailShape = () => {
 }
 
 export const Trails = () => {
+    const scroll = useScroll()
+    const trailsMaterialRef = React.useRef()
+    const lastScroll = React.useRef(0)
+
+    useFrame((_, delta) => {
+        if (scroll.offset - lastScroll.current > 0.001) {
+            trailsMaterialRef.current.opacity = MAX_TRAIL_OPACITY
+        }
+
+        lastScroll.current = scroll.offset
+        if (trailsMaterialRef.current.opacity > 0) {
+            trailsMaterialRef.current.opacity -= delta * 0.2
+        }
+
+    })
+
     return (
         <group>
             <Instances>
                 <planeGeometry args={[1, 0.01]} />
                 <meshBasicMaterial
+                    ref={trailsMaterialRef}
                     transparent
-                    opacity={0.1}
+                    opacity={0}
                     side={DoubleSide}
                     blending={AdditiveBlending}
                 />
