@@ -1,5 +1,5 @@
 import React from "react"
-import styled, { keyframes } from "styled-components"
+import styled, { keyframes, css } from "styled-components"
 import usePlane from "./stores/usePlane"
 import useLanding from "./stores/useLanding"
 
@@ -20,7 +20,7 @@ const fadeOut = keyframes`
         opacity: 0;
     }
 `
-const Container = styled.section`
+const ContainerStyles = css`
     position: fixed;
     top: 0;
     left: 0;
@@ -33,23 +33,29 @@ const Container = styled.section`
     display: grid;
     justify-content: flex-start;
     pointer-events: auto;
+`
+
+const Container = styled.section`
+    ${ContainerStyles}
+    animation: ${fadeIn} 1s ease-in-out;
+`
+const ScrollContainer = styled.section`
+    ${ContainerStyles}
+
+    pointer-events: none;
+    align-items: center;
+    justify-content: center;
+
+    opacity: ${(props) => props.hasScrolled ? 0 : 1};
+    animation: ${(props) => props.hasScrolled ? fadeOut : fadeIn} 1s ease-in-out;
+`
+const EndContainer = styled.section`
+    ${ContainerStyles}
+    pointer-events: none;
+    align-items: center;
+    justify-content: center;
     animation: ${fadeIn} 1s ease-in-out;
 
-    h1, h2, h3, h4, h5, h6, p {
-        margin: 0;
-        padding: 0;
-    }
-
-    h1 {
-        font-size: 68px;
-        line-height: 1;
-        letter-spacing: -3px;
-
-        @media(max-width: 1024px){
-            font-size: 36px;
-            letter-spacing: -1.5px;
-        }
-    }
 `
 const Head = styled.hgroup`
     display: grid;
@@ -122,23 +128,22 @@ const Button = styled.button`
         background-color: #FFFFFF;
     }
 `
-const ScrollContainer = styled(Container)`
-    pointer-events: none;
-    align-items: center;
-    justify-content: center;
 
-    opacity: ${(props) => props.hasScrolled ? 0 : 1};
-    animation: ${(props) => props.hasScrolled ? fadeOut : fadeIn} 1s ease-in-out;
-`
-
-export const Configurator = () => {
+export const Interface = () => {
     const variant = usePlane((state) => state.variant)
     const updateVariant = usePlane((state) => state.updateVariant)
     const getVariantName = usePlane((state) => state.getVariantName)
 
     const play = useLanding((state) => state.play)
+    const end = useLanding((state) => state.end)
     const hasScrolled = useLanding((state) => state.hasScrolled)
     const updateStatus = useLanding((state) => state.updateStatus)
+
+    if (end) return (
+        <EndContainer>
+            End
+        </EndContainer>
+    )
 
     if (!play) return (
         <Container play={play} >

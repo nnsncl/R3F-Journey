@@ -14,7 +14,7 @@ export const Background = () => {
         <React.Fragment>
             <Environment resolution={256} background >
                 <Sphere
-                    scale={[500, 500, 500]}
+                    scale={[200, 200, 200]}
                     rotation-y={Math.PI * 0.5}
                     rotation-x={Math.PI}
                 >

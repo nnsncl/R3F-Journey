@@ -28,11 +28,13 @@ export const Experience = () => {
 
     const plane = React.useRef()
     const planeTl = React.useRef()
+    const planeOutTl = React.useRef()
     const cameraGroup = React.useRef()
     const cameraRail = React.useRef()
     const lastScroll = React.useRef(0)
 
     const play = useLanding((state) => state.play)
+    const end = useLanding((state) => state.end)
     const updateStatus = useLanding((state) => state.updateStatus)
 
     const curvePoints = React.useMemo(() => [
@@ -65,6 +67,9 @@ export const Experience = () => {
         if (lastScroll.current <= 0 && scroll.offset > 0) {
             updateStatus('hasScrolled')
         }
+
+        // Clear if the scene is ended
+        if (end) return
 
         const scrollOffset = Math.max(0, scroll.offset)
 
@@ -142,12 +147,26 @@ export const Experience = () => {
             new THREE.Euler(plane.current.rotation.x, plane.current.rotation.y, angle)
         )
         plane.current.quaternion.slerp(targetAirplaneQuaternion, delta * 24)
+
+        // End scene animation when the plane reach the last point
+        if (cameraGroup.current.position.z < curvePoints[curvePoints.length - 1].z + 42) {
+            updateStatus('end')
+            planeOutTl.current.play()
+        }
     })
 
     React.useLayoutEffect(() => {
         planeTl.current = gsap.timeline()
         planeTl.current.pause()
 
+        planeOutTl.current = gsap.timeline();
+        planeOutTl.current.pause();
+
+        planeOutTl.current.to(plane.current.position, {
+            duration: 6,
+            ease: "power4",
+            z: -201,
+        })
         planeTl.current.from(plane.current.rotation, {
             duration: 3,
             ease: "power4",
@@ -159,7 +178,8 @@ export const Experience = () => {
         if (play) planeTl.current.play()
     }, [play])
 
-    return (
+    // Memo revents animations jump on first load
+    return React.useMemo(() => (
         <React.Fragment>
             <color attach="background" args={['tomato']} />
 
@@ -247,5 +267,5 @@ export const Experience = () => {
             {textSections.map((textSection, key) => <TextSection key={key} {...textSection} />)}
 
         </React.Fragment>
-    );
+    ), []);
 };

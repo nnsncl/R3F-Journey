@@ -5,6 +5,7 @@ export default create(
   subscribeWithSelector((set) => {
     return {
       play: false,
+      end: false,
       hasScrolled: false,
 
       updateStatus: (status) =>
