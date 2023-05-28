@@ -11,6 +11,8 @@ import { Background } from "./Background";
 import { Content } from "./constants/Content";
 import { TextSection } from "./TextSection";
 
+import { fadeOnBeforeCompile } from "./utils/fadeMaterialShader";
+
 
 const LINE_POINTS_AMOUNT = 1000
 const CURVE_DISTANCE = 250
@@ -37,9 +39,6 @@ export const Experience = () => {
         new THREE.Vector3(0, 0, -6 * CURVE_DISTANCE),
     ], [])
 
-    const textSections = React.useMemo(() => Content(curvePoints), [])
-    const clouds = React.useMemo(() => Clouds(curvePoints), [])
-
     const curve = React.useMemo(() => {
         return new THREE.CatmullRomCurve3(curvePoints, false, "catmullrom", 0.5)
     }, [])
@@ -51,6 +50,9 @@ export const Experience = () => {
 
         return memoized
     }, [curve])
+
+    const textSections = React.useMemo(() => Content(curvePoints), [])
+    const clouds = React.useMemo(() => Clouds(curvePoints), [])
 
     useFrame((_, delta) => {
         const scrollOffset = Math.max(0, scroll.offset)
@@ -194,10 +196,11 @@ export const Experience = () => {
                         ]}
                     />
                     <meshStandardMaterial
-                        color={'white'}
-                        opacity={0.3}
+                        color='white'
+                        opacity={0.1}
                         transparent
                         envMapIntensity={2}
+                        onBeforeCompile={fadeOnBeforeCompile}
                     />
                 </mesh>
             </group>
