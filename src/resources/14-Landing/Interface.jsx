@@ -52,6 +52,7 @@ const ScrollContainer = styled.section`
 const EndContainer = styled.section`
     ${ContainerStyles}
 
+    backdrop-filter: blur(36px);
     pointer-events: auto;
     animation: ${fadeIn} 1s ease-in-out;
 `
@@ -157,12 +158,9 @@ export const Interface = () => {
             {end && (
                 <EndContainer>
                     <Head>
-                        <h2>Lorem Ipsum<br />Dolor sit amet</h2>
-                        <small>
-                            Personalize your experience by chosing a model or<br />
-                            <b>skip this step and go with the default one</b>
-                        </small>
-                        <Button >Start the experience</Button>
+                        <h1>Demandez une démonstration</h1>
+                        <p>Accélérez votre développement avec nos outill SaaS,<br />déjà éprouvé auprès des grands réseaux de distribution d'assurance depuis plus de 4 ans</p>
+                        <Button>Contactez-nous</Button>
                     </Head>
                 </EndContainer>
             )}

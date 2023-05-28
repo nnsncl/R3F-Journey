@@ -13,7 +13,8 @@ export const TextSection = ({ title, subtitle, ...restProps }) => {
                     anchorY={'bottom'}
                     fontSize={0.66}
                     maxWidth={5}
-                    lineHeight={1}
+                    lineHeight={0.9}
+                    position-y={0.1}
                 >
                     {title}
                     <meshStandardMaterial

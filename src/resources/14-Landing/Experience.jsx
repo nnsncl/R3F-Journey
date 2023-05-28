@@ -158,19 +158,19 @@ export const Experience = () => {
     React.useLayoutEffect(() => {
         planeTl.current = gsap.timeline()
         planeTl.current.pause()
+        planeTl.current.from(plane.current.position, {
+            duration: 3,
+            ease: "power4",
+            z: 20,
+            y: -10
+        })
 
         planeOutTl.current = gsap.timeline();
         planeOutTl.current.pause();
-
         planeOutTl.current.to(plane.current.position, {
             duration: 6,
             ease: "power4",
-            z: -201,
-        })
-        planeTl.current.from(plane.current.rotation, {
-            duration: 3,
-            ease: "power4",
-            y: 0.3,
+            z: -10,
         })
     }, [])
 
