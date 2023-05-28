@@ -81,12 +81,22 @@ const Head = styled.hgroup`
     }
 `
 const Menu = styled.menu`
+    position: fixed;
+    bottom: 24px;
+    right: 36px;
+    z-index: 10;
+
     padding: 0;
     margin: 0;
     align-self: flex-end;
     width: fit-content;
+    animation: ${fadeIn} 1s ease-in-out;
+
+    pointer-events: auto;
 
     button {
+        padding: 0 24px;
+
         &:first-of-type {
             border-top-left-radius: 24px;
             border-bottom-left-radius: 24px;
@@ -164,19 +174,23 @@ export const Interface = () => {
                     </Head>
                 </EndContainer>
             )}
-            {/* <Menu>
-                        {[...Array(4)].map((_, key) => (
-                            <Button
-                                key={key}
-                                onClick={() => updateVariant(`${Number(key) + 1}`)}
-                                style={{
-                                    color: `${Number(key) + 1}` === variant && "#FFFFFF"
-                                }}
-                            >
-                                {`${getVariantName(`${Number(key) + 1}`)}`}
-                            </Button>
-                        ))}
-                    </Menu> */}
+
+            {(play && !end && hasScrolled) && (
+                <Menu>
+                    {[...Array(4)].map((_, key) => (
+                        <Button
+                            key={key}
+                            onClick={() => updateVariant(`${Number(key) + 1}`)}
+                            style={{
+                                color: `${Number(key) + 1}` === variant && "#FFFFFF"
+                            }}
+                        >
+                            {`${getVariantName(`${Number(key) + 1}`)}`}
+                        </Button>
+                    ))}
+                </Menu>
+            )}
+
         </React.Fragment>
     )
 }
