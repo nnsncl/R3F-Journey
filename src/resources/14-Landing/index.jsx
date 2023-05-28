@@ -6,6 +6,7 @@ import { EffectComposer, Noise } from "@react-three/postprocessing";
 
 import { Experience } from './Experience';
 import { Interface } from "./Interface";
+import useLanding from "./stores/useLanding";
 
 const Main = styled.main`
     pointer-events: none;
@@ -28,6 +29,8 @@ const Main = styled.main`
     }
 `;
 export const Landing = () => {
+    const play = useLanding((state) => state.play)
+    const end = useLanding((state) => state.end)
 
     return (
         <React.Suspense fallback={null}>
@@ -35,7 +38,7 @@ export const Landing = () => {
                 <Interface />
             </Main>
             <Canvas shadows gl={{ antialias: true }}>
-                <ScrollControls pages={20} damping={0.5} >
+                <ScrollControls pages={play && !end ? 20 : 0} damping={0.5} >
                     <Experience />
                 </ScrollControls>
                 <EffectComposer>
