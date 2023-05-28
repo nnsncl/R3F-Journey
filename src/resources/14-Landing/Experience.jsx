@@ -14,6 +14,7 @@ import { TextSection } from "./TextSection";
 import { fadeOnBeforeCompile } from "./utils/fadeMaterialShader";
 import { gsap } from "gsap";
 import useLanding from "./stores/useLanding";
+import { Trails } from "./Trails";
 
 
 const LINE_POINTS_AMOUNT = 1000
@@ -202,6 +203,7 @@ export const Experience = () => {
 
             {/* Camera Group / Plane */}
             <group ref={cameraGroup} >
+                <Trails />
                 <Background />
                 <group ref={cameraRail} >
                     <PerspectiveCamera
