@@ -6,6 +6,7 @@ Sources: https://sketchfab.com/curiositysphere
 import React from "react";
 import { Vector3, Euler } from 'three';
 import { useGLTF } from "@react-three/drei";
+import { fadeOnBeforeCompile } from "./utils/fadeMaterialShader";
 
 const modelProps = {
     position: new Vector3(0, 0, 0),
@@ -18,26 +19,13 @@ export function Cloud01(props) {
 
     return (
         <group scale={100} {...modelProps} {...props}>
-            <mesh
-                castShadow
-                receiveShadow
-                geometry={nodes.Cloud__0.geometry}
+            <mesh geometry={nodes.Cloud__0.geometry}
             >
                 <meshStandardMaterial
                     transparent
                     color={'ivory'}
                     envMapIntensity={0.5}
-                    onBeforeCompile={(shader) => {
-                        shader.fragmentShader = shader.fragmentShader.replace(
-                            `vec4 diffuseColor = vec4( diffuse, opacity );`,
-                            `
-                            float fadeDist = 250.0;
-                            float dist = length(vViewPosition);
-                            float fadeOpacity = smoothstep(fadeDist, 0.0, dist);
-
-                            vec4 diffuseColor = vec4( diffuse, opacity * fadeOpacity );`
-                        )
-                    }}
+                    onBeforeCompile={fadeOnBeforeCompile}
                 />
             </mesh>
         </group>
@@ -49,11 +37,7 @@ export function Cloud02(props) {
     const { nodes } = useGLTF("./models/cloud_02.glb");
     return (
         <group scale={1} {...modelProps} {...props}>
-            <mesh
-                castShadow
-                receiveShadow
-                geometry={nodes.Cloud02.geometry}
-            >
+            <mesh geometry={nodes.Cloud02.geometry} >
                 <meshStandardMaterial color={'ivory'} envMapIntensity={0.5} transparent />
             </mesh>
         </group>

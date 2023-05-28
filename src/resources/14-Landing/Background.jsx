@@ -7,23 +7,12 @@ export const Background = () => {
     const params = {
         colorA: 'tomato',
         colorB: 'ivory',
-        start: 0.25,
-        end: -0.5
+        start: 0.5,
+        end: -1
     }
     return (
         <React.Fragment>
-            <Sphere scale={[100, 100, 100]} rotation-y={Math.PI * 0.5}>
-                <LayerMaterial color={'#FFFFFF'} side={THREE.BackSide}>
-                    <Gradient
-                        colorA={params.colorA}
-                        colorB={params.colorB}
-                        start={params.start}
-                        end={params.end}
-                        axes={'y'}
-                    />
-                </LayerMaterial>
-            </Sphere>
-            <Environment resolution={256} >
+            <Environment resolution={256} background >
                 <Sphere
                     scale={[500, 500, 500]}
                     rotation-y={Math.PI * 0.5}
