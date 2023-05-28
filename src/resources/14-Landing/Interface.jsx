@@ -30,8 +30,11 @@ const ContainerStyles = css`
     width: calc(100% - (24px * 2));
     height: calc(100vh - (24px * 2));
 
-    display: grid;
-    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
     pointer-events: auto;
 `
 
@@ -43,24 +46,22 @@ const ScrollContainer = styled.section`
     ${ContainerStyles}
 
     pointer-events: none;
-    align-items: center;
-    justify-content: center;
-
     opacity: ${(props) => props.hasScrolled ? 0 : 1};
     animation: ${(props) => props.hasScrolled ? fadeOut : fadeIn} 1s ease-in-out;
 `
 const EndContainer = styled.section`
     ${ContainerStyles}
-    pointer-events: none;
-    align-items: center;
-    justify-content: center;
-    animation: ${fadeIn} 1s ease-in-out;
 
+    pointer-events: auto;
+    animation: ${fadeIn} 1s ease-in-out;
 `
 const Head = styled.hgroup`
-    display: grid;
-    grid-gap: 12px;
-    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+
     height: fit-content;
     animation: ${fadeIn} 1s ease-in-out;
 
@@ -139,43 +140,45 @@ export const Interface = () => {
     const hasScrolled = useLanding((state) => state.hasScrolled)
     const updateStatus = useLanding((state) => state.updateStatus)
 
-    if (end) return (
-        <EndContainer>
-            End
-        </EndContainer>
-    )
+    return (
+        <React.Fragment>
+            {!play
+                ? (<Container play={play} >
+                    <Head>
+                        <h1>La distribution d'assurance<br />de personne, réinventée</h1>
+                        <p>Développeurs des solutions logicielles SaaS innovantes pour les acteurs de la bancassurance depuis 2013</p>
 
-    if (!play) return (
-        <Container play={play} >
-            <Head>
-                <h1>Lorem Ipsum<br />Dolor sit amet</h1>
-                <small>
-                    Personalize your experience by chosing a model or<br />
-                    <b>skip this step and go with the default one</b>
-                </small>
-                <Button onClick={() => updateStatus('play')} >Start the experience</Button>
-            </Head>
-            <Menu>
-                {[...Array(4)].map((_, key) => (
-                    <Button
-                        key={key}
-                        onClick={() => updateVariant(`${Number(key) + 1}`)}
-                        style={{
-                            color: `${Number(key) + 1}` === variant && "#FFFFFF"
-                        }}
-                    >
-                        {`${getVariantName(`${Number(key) + 1}`)}`}
-                    </Button>
-                ))}
-            </Menu>
-        </Container>
-    )
-
-    if (play) return (
-        <ScrollContainer hasScrolled={hasScrolled}>
-            <p>
-                Scroll to begin the journey
-            </p>
-        </ScrollContainer>
+                        <Button onClick={() => updateStatus('play')} >Découvrez nos solutions</Button>
+                    </Head>
+                </Container>)
+                : (<ScrollContainer hasScrolled={hasScrolled}>
+                    <p>Faites défiler pour naviguer</p>
+                </ScrollContainer>)}
+            {end && (
+                <EndContainer>
+                    <Head>
+                        <h2>Lorem Ipsum<br />Dolor sit amet</h2>
+                        <small>
+                            Personalize your experience by chosing a model or<br />
+                            <b>skip this step and go with the default one</b>
+                        </small>
+                        <Button >Start the experience</Button>
+                    </Head>
+                </EndContainer>
+            )}
+            {/* <Menu>
+                        {[...Array(4)].map((_, key) => (
+                            <Button
+                                key={key}
+                                onClick={() => updateVariant(`${Number(key) + 1}`)}
+                                style={{
+                                    color: `${Number(key) + 1}` === variant && "#FFFFFF"
+                                }}
+                            >
+                                {`${getVariantName(`${Number(key) + 1}`)}`}
+                            </Button>
+                        ))}
+                    </Menu> */}
+        </React.Fragment>
     )
 }
