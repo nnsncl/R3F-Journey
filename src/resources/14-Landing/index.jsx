@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Canvas } from "@react-three/fiber";
-import { ScrollControls } from "@react-three/drei";
+import { ScrollControls, useProgress } from "@react-three/drei";
 import { EffectComposer, Noise } from "@react-three/postprocessing";
 
 import useLanding from "./stores/useLanding";
@@ -10,6 +10,7 @@ import { Experience } from './Experience';
 import { Funnel } from "./pages/Funnel"
 import { Introduction } from "./pages/Introduction"
 
+import { SpinLoader, ContainerStyles, fadeIn } from "./styles";
 
 const Main = styled.main`
     pointer-events: none;
@@ -31,17 +32,14 @@ const Main = styled.main`
         }
     }
 `;
-
-const Interface = () => {
-    return (
-        <Main>
-            <Introduction />
-            <Funnel />
-        </Main>
-    )
-}
+const ScrollContainer = styled.section`
+    ${ContainerStyles}
+    animation: ${fadeIn} 1s ease-in-out;
+`
 
 export const Landing = () => {
+    const { progress } = useProgress()
+
     const play = useLanding((state) => state.play)
     const end = useLanding((state) => state.end)
 
@@ -53,8 +51,17 @@ export const Landing = () => {
     ), [])
 
     return (
-        <React.Suspense fallback={null}>
-            <Interface />
+        <React.Suspense fallback={
+            <ScrollContainer>
+                <SpinLoader />
+            </ScrollContainer>
+        }>
+
+            {progress === 100 && (
+                <Main>
+                    <Introduction />
+                    <Funnel />
+                </Main>)}
 
             <Canvas shadows gl={{ antialias: true }}>
                 <ScrollControls pages={play && !end ? 20 : 0} damping={0.5} >
@@ -64,6 +71,5 @@ export const Landing = () => {
             </Canvas>
 
         </React.Suspense>
-
     );
 };

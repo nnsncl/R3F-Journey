@@ -21,6 +21,11 @@ export const fadeOut = keyframes`
         opacity: 0;
     }
 `
+export const spin = keyframes`
+    95%, 100% {
+        transform: rotate(840deg);
+    }
+`
 
 /**
  * Global
@@ -41,6 +46,26 @@ export const ContainerStyles = css`
     justify-content: center;
 
     pointer-events: auto;
+`
+export const SpinLoader = styled.div`
+    position: fixed;
+    top: calc(50% - 24px);
+    left: calc(50% - 24px);
+    width: 48px;
+    height: 48px;
+    background: #FFFFFF;
+    border-radius: 50%;
+    animation: ${spin} 1s ease-in-out infinite alternate;
+
+    ::after{
+        content: "";
+        position: absolute;
+        inset: 6px;
+        border-radius: 50%;
+        border: 6px
+        solid transparent;
+        border-top-color: tomato;
+    }
 `
 export const Button = styled.button`
     all: unset;
@@ -90,6 +115,7 @@ export const Head = styled.hgroup`
         border: none;
         padding: 0 24px;
         background-color: white;
+        animation: ${fadeIn} 1.2s ease-in-out;
 
         &:hover, &:focus, &:active {
             background-color: white;
