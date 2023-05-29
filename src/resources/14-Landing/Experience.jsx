@@ -1,20 +1,21 @@
 import React from "react";
 import * as THREE from 'three'
+import { gsap } from "gsap";
+
+import useLanding from "./stores/useLanding";
 
 import { useFrame } from "@react-three/fiber";
-import { Float, OrbitControls, PerspectiveCamera, useScroll } from "@react-three/drei";
+import { Float, PerspectiveCamera, useScroll } from "@react-three/drei";
 
-import { Plane } from "./Planes";
+import { Plane } from "./components/Planes";
 import { Clouds } from "./constants/Clouds";
-import { Cloud01, Cloud02 } from "./Clouds";
-import { Background } from "./Background";
-import { Content } from "./constants/Content";
-import { TextSection } from "./TextSection";
+import { Cloud01, Cloud02 } from "./components/Clouds";
+import { Background } from "./components/Background";
+import { TextSection } from "./components/TextSection";
+import { Trails } from "./components/Trails";
 
+import { Content } from "./constants/Content";
 import { fadeOnBeforeCompile } from "./utils/fadeMaterialShader";
-import { gsap } from "gsap";
-import useLanding from "./stores/useLanding";
-import { Trails } from "./Trails";
 
 
 const LINE_POINTS_AMOUNT = 1000
@@ -267,6 +268,8 @@ export const Experience = () => {
 
             {/* Text */}
             {textSections.map((textSection, key) => <TextSection key={key} {...textSection} />)}
+
+            {/* Html Renderers */}
 
         </React.Fragment>
     ), []);

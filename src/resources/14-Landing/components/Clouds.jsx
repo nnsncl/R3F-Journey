@@ -6,7 +6,7 @@ Sources: https://sketchfab.com/curiositysphere
 import React from "react";
 import { Vector3, Euler } from 'three';
 import { useGLTF } from "@react-three/drei";
-import { fadeOnBeforeCompile } from "./utils/fadeMaterialShader";
+import { fadeOnBeforeCompile } from "../utils/fadeMaterialShader";
 
 const modelProps = {
     position: new Vector3(0, 0, 0),

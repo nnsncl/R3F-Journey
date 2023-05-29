@@ -1,7 +1,6 @@
 import React from "react"
 import { Text } from "@react-three/drei";
-import { fadeOnBeforeCompile } from "./utils/fadeMaterialShader";
-
+import { fadeOnBeforeCompile } from "../utils/fadeMaterialShader";
 
 export const TextSection = ({ title, subtitle, ...restProps }) => {
     return (
@@ -24,7 +23,6 @@ export const TextSection = ({ title, subtitle, ...restProps }) => {
                     />
                 </Text>
             )}
-
             <Text
                 color={'white'}
                 anchorX={'left'}

@@ -57,7 +57,6 @@ export const Trails = () => {
         if (trailsMaterialRef.current.opacity > 0) {
             trailsMaterialRef.current.opacity -= delta * 0.2
         }
-
     })
 
     return (

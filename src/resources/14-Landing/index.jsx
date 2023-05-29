@@ -4,9 +4,12 @@ import { Canvas } from "@react-three/fiber";
 import { ScrollControls } from "@react-three/drei";
 import { EffectComposer, Noise } from "@react-three/postprocessing";
 
-import { Experience } from './Experience';
-import { Interface } from "./Interface";
 import useLanding from "./stores/useLanding";
+
+import { Experience } from './Experience';
+import { Funnel } from "./pages/Funnel"
+import { Introduction } from "./pages/Introduction"
+
 
 const Main = styled.main`
     pointer-events: none;
@@ -28,6 +31,16 @@ const Main = styled.main`
         }
     }
 `;
+
+const Interface = () => {
+    return (
+        <Main>
+            <Introduction />
+            <Funnel />
+        </Main>
+    )
+}
+
 export const Landing = () => {
     const play = useLanding((state) => state.play)
     const end = useLanding((state) => state.end)
@@ -41,15 +54,15 @@ export const Landing = () => {
 
     return (
         <React.Suspense fallback={null}>
-            <Main>
-                <Interface />
-            </Main>
+            <Interface />
+
             <Canvas shadows gl={{ antialias: true }}>
                 <ScrollControls pages={play && !end ? 20 : 0} damping={0.5} >
                     <Experience />
                 </ScrollControls>
                 {postProcessingEffects}
             </Canvas>
+
         </React.Suspense>
 
     );
