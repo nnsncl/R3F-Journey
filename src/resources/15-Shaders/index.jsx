@@ -7,10 +7,10 @@ export const Shaders = () => {
         <React.Fragment>
             <Canvas
                 camera={{
-                    fov: 45,
+                    fov: 50,
                     near: 0.1,
                     far: 200,
-                    position: [- 4, 3, 6]
+                    position: [0, 0, 5]
                 }}
             >
                 <Experience />
