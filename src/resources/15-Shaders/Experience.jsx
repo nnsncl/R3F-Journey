@@ -23,14 +23,11 @@ export const Experience = () => {
 
     return (
         <React.Fragment>
-            <color args={['#0E0E0E']} attach='background' />
+            <color args={['#000000']} attach='background' />
             <OrbitControls makeDefault />
 
-            <directionalLight position={[1, 2, 3]} intensity={1.5} />
-            <ambientLight intensity={0.5} />
-
             <mesh position={[0, 0, 0]} >
-                <torusGeometry />
+                <torusGeometry args={[1, 0.3, 100, 100]} />
                 <noiseMaterial
                     ref={shaderRef}
                     side={DoubleSide}
