@@ -196,9 +196,9 @@ export const Experience = () => {
                 shadow-camera-right={10}
                 shadow-camera-bottom={-10}
                 shadow-camera-left={-10}
-                color={'tomato'}
+                color={'#00717d'}
             />
-            <ambientLight intensity={0.5} color={'tomato'} />
+            <ambientLight intensity={0.5} color={'#00717d'} />
 
             {/* <OrbitControls /> */}
 
@@ -245,7 +245,7 @@ export const Experience = () => {
                         ]}
                     />
                     <meshStandardMaterial
-                        color='white'
+                        color='#FFFFFF'
                         opacity={0.1}
                         transparent
                         envMapIntensity={2}

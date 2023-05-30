@@ -5,8 +5,8 @@ import { Gradient, LayerMaterial } from "lamina"
 
 export const Background = () => {
     const params = {
-        colorA: 'tomato',
-        colorB: 'ivory',
+        colorA: '#00717d',
+        colorB: '#FFFFFF',
         start: 0.5,
         end: -1
     }

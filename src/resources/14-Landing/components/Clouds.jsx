@@ -23,7 +23,7 @@ export function Cloud01(props) {
             >
                 <meshStandardMaterial
                     transparent
-                    color={'ivory'}
+                    color={'#FFFFFF'}
                     envMapIntensity={0.5}
                     onBeforeCompile={fadeOnBeforeCompile}
                 />
@@ -38,7 +38,7 @@ export function Cloud02(props) {
     return (
         <group scale={1} {...modelProps} {...props}>
             <mesh geometry={nodes.Cloud02.geometry} >
-                <meshStandardMaterial color={'ivory'} envMapIntensity={0.5} transparent />
+                <meshStandardMaterial color={'#FFFFFF'} envMapIntensity={0.5} transparent />
             </mesh>
         </group>
     );
