@@ -45,6 +45,7 @@ void main() {
     vPosition = position;
     vNormal = normal;
 
+    float noiseMultiplier = clamp(abs(vUv.x - 0.5) - 0.1 * PI, 0.0, 1.0);
     vec3 displacement = vec3(0.0);
     vec3 newPosition = vPosition + vNormal * displacement;
 
