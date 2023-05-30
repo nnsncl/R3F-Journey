@@ -15,12 +15,13 @@ import {
     Game,
     Configurator,
     Landing,
+    Shaders,
 } from "./resources";
 
 const App = () => {
     return (
         <React.StrictMode>
-            <Landing />
+            <Shaders />
         </React.StrictMode>
     );
 };

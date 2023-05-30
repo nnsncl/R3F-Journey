@@ -13,3 +13,4 @@ export { Physics } from "./11-Physics";
 export { Game } from "./12-Game";
 export { Configurator } from "./13-Configurator";
 export { Landing } from "./14-Landing";
+export { Shaders } from "./15-Shaders";
