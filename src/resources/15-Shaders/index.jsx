@@ -6,6 +6,9 @@ export const Shaders = () => {
     return (
         <React.Fragment>
             <Canvas
+                gl={{
+                    antialias: true
+                }}
                 camera={{
                     fov: 50,
                     near: 0.1,
