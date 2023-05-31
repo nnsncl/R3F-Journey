@@ -5,5 +5,7 @@ varying vec3 vNormal;
 varying vec2 vUv;
 
 void main() {
-    gl_FragColor = vec4(1, 0, 0, 1);
+    vec2 uv = vUv;
+
+    gl_FragColor = vec4(vec3(step(0.5, fract(uv.x * 10.0))), 1);
 }
