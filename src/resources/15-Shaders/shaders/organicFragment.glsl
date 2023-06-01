@@ -110,6 +110,7 @@ float wave(vec3 position) {
 void main() {
     vec3 coords = vNormal;
     coords.y += uTime * 0.1;
+    coords += cnoise(coords);
 
     float wavePattern = wave(coords);
     gl_FragColor = vec4(vec3(wavePattern), 1.0);
