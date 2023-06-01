@@ -24,12 +24,15 @@ float smoothMod(float axis, float amp, float rad){
 }
 
 float fit(float unscaled, float originalMin, float originalMax, float minAllowed, float maxAllowed) {
-    return (maxAllowed - minAllowed) * (unscaled - originalMin) / (originalMax - originalMin) + minAllowed
+    return (maxAllowed - minAllowed) * (unscaled - originalMin) / (originalMax - originalMin) + minAllowed;
 }
+
 
 void main() {
     vec2 uv = vUv;
     uv.y += uTime * 0.1;
 
-    gl_FragColor = vec4(vec3(smoothMod(uv.y * 15.0, 1.0, 1.5)), 1.0);
+    float pattern = fit(smoothMod(uv.y * 15.0, 1.0, 1.5), 0.35, 0.6, 0.0, 1.0);
+
+    gl_FragColor = vec4(vec3(pattern), 1.0);
 }
