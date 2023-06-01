@@ -3,6 +3,7 @@ uniform float uTime;
 varying vec3 vPosition;
 varying vec3 vNormal;
 varying vec2 vUv;
+varying float vDisplacement;
 
 #define PI 3.14159265358979
 
@@ -108,11 +109,6 @@ float wave(vec3 position) {
 }
 
 void main() {
-    // Varyings
-    vPosition = position;
-    vNormal = normal;
-    vUv = uv;
-
     // Displacement
     vec3 coords = normal;
     coords.y += uTime * 0.1;
@@ -120,8 +116,15 @@ void main() {
     vec3 noisePattern = vec3(cnoise(coords));
     float wavePattern = wave(noisePattern);
 
-    // Boilerplate
-    vec4 modelViewPosition = modelViewMatrix * vec4( position, 1.0 );
+    // Varyings
+    vPosition = position;
+    vNormal = normal;
+    vUv = uv;
+    vDisplacement = wavePattern;
+
+    // Positions
+    vec3 newPosition = normal * vDisplacement;
+    vec4 modelViewPosition = modelViewMatrix * vec4( newPosition, 1.0 );
     vec4 projectedPosition = projectionMatrix * modelViewPosition;
     gl_Position = projectedPosition;
 }
