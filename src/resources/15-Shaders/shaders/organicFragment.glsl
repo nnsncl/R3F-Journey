@@ -23,6 +23,10 @@ float smoothMod(float axis, float amp, float rad){
     return amp * (1.0 / 2.0) - (1.0 / PI) * at;
 }
 
+float fit(float unscaled, float originalMin, float originalMax, float minAllowed, float maxAllowed) {
+    return (maxAllowed - minAllowed) * (unscaled - originalMin) / (originalMax - originalMin) + minAllowed
+}
+
 void main() {
     vec2 uv = vUv;
     uv.y += uTime * 0.1;
