@@ -105,13 +105,13 @@ float fit(float unscaled, float originalMin, float originalMax, float minAllowed
 }
 
 float wave(vec3 position) {
-    return fit(smoothMod(position.y * 6.0, 1.0, 1.5), 0.35, 0.6, 0.0, 1.0);
+    return fit(smoothMod(position.y * -PI, 1.0, PI), 0.42, 0.84, 0.0, 1.0);
 }
 
 void main() {
     // Displacement
     vec3 coords = normal;
-    coords.y += uTime * 0.1;
+    coords.y += uTime * 0.42;
 
     vec3 noisePattern = vec3(cnoise(coords));
     float wavePattern = wave(noisePattern);
@@ -123,7 +123,7 @@ void main() {
     vDisplacement = wavePattern;
 
     // Positions
-    vec3 newPosition = normal * vDisplacement;
+    vec3 newPosition = (position / PI) + normal * vDisplacement;
     vec4 modelViewPosition = modelViewMatrix * vec4( newPosition, 1.0 );
     vec4 projectedPosition = projectionMatrix * modelViewPosition;
     gl_Position = projectedPosition;
