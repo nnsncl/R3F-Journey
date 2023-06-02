@@ -1,5 +1,4 @@
 import React from "react";
-import { DoubleSide } from "three";
 
 import { extend, useFrame } from '@react-three/fiber'
 import { Environment, Float, PresentationControls, shaderMaterial } from "@react-three/drei";
@@ -10,39 +9,38 @@ import {
     DepthOfField
 } from "@react-three/postprocessing";
 
-import torusFragment from './shaders/torusFragment.glsl'
-import torusVertex from './shaders/torusVertex.glsl'
+import noiseVertex from './shaders/noiseVertex.glsl'
+import noiseFragment from './shaders/noiseFragment.glsl'
 
 const NoiseMaterial = shaderMaterial(
     { uTime: 0 },
-    torusVertex,
-    torusFragment
+    noiseVertex,
+    noiseFragment
 )
 extend({ NoiseMaterial })
 
 export const Experience = () => {
-    const shaderRef = React.useRef()
+    const noiseShaderRef = React.useRef()
     const shaderShape = React.useRef()
 
     useFrame((_, delta) => {
-        shaderRef.current.uTime += delta
-        shaderShape.current.rotation.y += Math.PI * (delta * 0.1);
+        noiseShaderRef.current.uTime += delta
+        shaderShape.current.rotation.y += Math.PI * (delta * 0.05);
     })
 
     return (
         <React.Fragment>
             <color args={['#0E0E0E']} attach='background' />
 
-            <EffectComposer multisampling={8} >
-                <Bloom mipmapBlur intensity={10} luminanceThreshold={0.2} />
-                <DepthOfField focusDistance={0.03} focalLength={0.03} bokehScale={10} />
-                <Noise premultiply />
+            <Environment preset="night" resolution={8} />
+            <directionalLight position={[0, 3, 1]} intensity={0.1} color={'#FFFFFF'} />
+            <ambientLight intensity={0.5} color={'#FFFFFF'} />
+
+            <EffectComposer multisampling={16} >
+                <Bloom mipmapBlur intensity={8} luminanceThreshold={0.1} />
+                <DepthOfField focusDistance={0.015} focalLength={0.015} bokehScale={6} />
+                <Noise opacity={0.05} />
             </EffectComposer>
-
-            <Environment preset="city" resolution={16} />
-
-            <directionalLight position={[1, 2, 3]} intensity={1.5} />
-            <ambientLight intensity={0.5} />
 
             <PresentationControls
                 global
@@ -52,17 +50,16 @@ export const Experience = () => {
                 azimuth={[-Math.PI / 3, Math.PI / 3]}
             >
                 <group ref={shaderShape} >
-                    <Float rotationIntensity={2} speed={2} >
-                        <mesh position={[0, 0, 0]} scale={0.6} >
-                            <torusGeometry args={[1, 0.3, 256, 256]} />
-                            <noiseMaterial ref={shaderRef} side={DoubleSide} />
+                    <Float floatIntensity={2} speed={2} >
+                        <mesh position={[0, 0, 0]} scale={1} rotation={[Math.PI * 0.5, Math.PI * 0.25, 0]}>
+                            <torusGeometry args={[1, 0.2, 256, 256]} />
+                            <noiseMaterial ref={noiseShaderRef} />
                         </mesh>
                     </Float>
                 </group>
-
-                <mesh position={[0, -2, 0]} rotation={[-0.2, 0, 0]}>
+                <mesh position={[0, -2, 0]} >
                     <cylinderGeometry />
-                    <meshStandardMaterial color={'#0E0E0E'} metalness={1} roughness={0.1} />
+                    <meshStandardMaterial color={'#000000'} metalness={1} roughness={0.2} />
                 </mesh>
             </PresentationControls>
 
