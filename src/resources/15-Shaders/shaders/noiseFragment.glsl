@@ -1,10 +1,5 @@
-varying vec3 vPosition;
-varying vec2 vUv;
-varying vec3 vNormal;
-varying vec3 vPattern;
-
 uniform float uTime;
-
+varying vec3 vPosition;
 
 #define PI 3.14159265358979
 
@@ -86,10 +81,10 @@ float cnoise(vec3 P) {
 
 
 void main() {
-  float noise = cnoise(vec3(vPosition.z * 10.5));
+  float noise = cnoise(vec3(vPosition.z * 42.0));
 
-  vec3 blendColor = vec3(0.42) / vec3(0.1, 0.42, 1.0);
-  vec3 color = vec3(noise) * blendColor * (sin(clamp((uTime * 21.0), 0.0, 1.0)));
+  vec3 blendColor = vec3(0.42) / vec3(0.5, 0.5, 0.1);
+  vec3 color = vec3(noise) * blendColor * (sin(clamp((uTime * 42.0), 0.0, 1.0)));
 
   gl_FragColor = vec4(color, 1.0);
 }
