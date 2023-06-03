@@ -81,7 +81,7 @@ float cnoise(vec3 P) {
 
 
 void main() {
-  float noise = cnoise(vec3(vPosition.z * 42.0));
+  float noise = cnoise(vec3(vPosition.z * (PI * 10.0)));
 
   vec3 blendColor = vec3(0.42) / vec3(0.5, 0.5, 0.1);
   vec3 color = vec3(noise) * blendColor * (sin(clamp((uTime * 42.0), 0.0, 1.0)));

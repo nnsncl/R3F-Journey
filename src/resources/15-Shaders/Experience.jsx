@@ -1,7 +1,7 @@
 import React from "react";
 
 import { extend, useFrame } from '@react-three/fiber'
-import { Environment, Float, PresentationControls, shaderMaterial } from "@react-three/drei";
+import { Environment, Float, OrbitControls, PresentationControls, shaderMaterial } from "@react-three/drei";
 import {
     EffectComposer,
     Noise,
@@ -24,18 +24,17 @@ export const Experience = () => {
     const noiseShaderRef = React.useRef()
     const shaderShape = React.useRef()
 
-    useFrame((state, delta) => {
+    useFrame((_, delta) => {
         noiseShaderRef.current.uTime += delta
-        // shaderShape.current.rotation.y += Math.PI * (delta * state.mouse.x)
+        shaderShape.current.rotation.y += Math.PI * (delta * 0.1)
     })
 
     return (
         <React.Fragment>
             <color args={['#0E0E0E']} attach='background' />
 
-            <EffectComposer multisampling={8} >
-                <Bloom mipmapBlur intensity={10} luminanceThreshold={0.2} />
-                <DepthOfField focusDistance={0.03} focalLength={0.03} bokehScale={10} />
+            <EffectComposer multisampling={16} >
+                <Bloom mipmapBlur intensity={5} luminanceThreshold={0.1} />
                 <Noise premultiply />
             </EffectComposer>
 
@@ -51,19 +50,14 @@ export const Experience = () => {
                 polar={[-0.2, 0.2]}
                 azimuth={[-Math.PI / 3, Math.PI / 3]}
             >
-                <group ref={shaderShape} >
+                <group ref={shaderShape} position={[0, 0, 0]} >
                     <Float rotationIntensity={2} speed={2} >
-                        <mesh position={[0, 0, 0]} scale={0.6} >
-                            <torusGeometry args={[1, 0.3, 256, 256]} />
+                        <mesh scale={0.8} rotation-y={-Math.PI * 0.75} >
+                            <torusGeometry args={[1, 0.3, 1024, 1024]} />
                             <noiseMaterial ref={noiseShaderRef} side={DoubleSide} />
                         </mesh>
                     </Float>
                 </group>
-
-                <mesh position={[0, -2, 0]} rotation={[-0.2, 0, 0]}>
-                    <cylinderGeometry />
-                    <meshStandardMaterial color={'#0E0E0E'} metalness={1} roughness={0.1} />
-                </mesh>
             </PresentationControls>
         </React.Fragment>
     );
