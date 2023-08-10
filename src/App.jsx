@@ -16,12 +16,13 @@ import {
     Configurator,
     Landing,
     Shaders,
+    ExplodingMesh,
 } from "./resources";
 
 const App = () => {
     return (
         <React.StrictMode>
-            <Shaders />
+            <ExplodingMesh />
         </React.StrictMode>
     );
 };
