@@ -2,6 +2,7 @@ import React from "react";
 import { OrbitControls } from "@react-three/drei";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
+import { Crystal } from "./Crystal";
 
 export const Experience = () => {
     const { showPerfs } = useControls('perfs', {
@@ -15,23 +16,11 @@ export const Experience = () => {
             )}
 
             <OrbitControls makeDefault />
-            <directionalLight position={[1, 2, 3]} intensity={1.5} />
-            <ambientLight intensity={0.5} />
+            <directionalLight position={[1, 5, 3]} intensity={1.5} />
+            <ambientLight intensity={1} />
 
-            <mesh position={[2, 1, 0]} visible="#212121">
-                <sphereGeometry />
-                <meshStandardMaterial color="ivory" />
-            </mesh>
+            <Crystal />
 
-            <mesh position={[-2, 1, 0]} scale={1.5} >
-                <boxGeometry />
-                <meshStandardMaterial color="tomato" />
-            </mesh>
-
-            <mesh position-y={-1} rotation-x={- Math.PI * 0.5} scale={10}>
-                <planeGeometry />
-                <meshStandardMaterial color="#FFFFFF" />
-            </mesh>
         </React.Fragment>
     );
 };
