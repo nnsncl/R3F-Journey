@@ -33,6 +33,17 @@ export function Crystal(props) {
 
     useFrame(() => {
         parentGroup.current.children.forEach((mesh) => {
+            // Toggle visibility on scroll
+            if (scrollData.offset < 0.001) {
+                if (mesh.name === 'origin') mesh.visible = true
+                else mesh.visible = false
+
+            } else {
+                if (mesh.name == 'origin') mesh.visible = false
+                else mesh.visible = true
+            }
+
+
             mesh.position.x = THREE.MathUtils.lerp(
                 mesh.originalPosition.x,
                 mesh.targetPosition.x,
