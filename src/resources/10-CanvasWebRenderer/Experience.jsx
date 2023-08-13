@@ -20,12 +20,12 @@ export const Experience = () => {
             {showPerfs && <Perf position="bottom-left" visible={showPerfs} />}
 
             <EffectComposer>
-                <Bloom mipmapBlur intensity={1} luminanceThreshold={0.2} />
+                <Bloom mipmapBlur intensity={0.1} luminanceThreshold={0.2} />
                 <Noise premultiply />
             </EffectComposer>
 
             <color args={['#0E0E0E']} attach='background' />
-            <Environment preset="city" resolution={512} />
+            {/* <Environment /> */}
 
             <directionalLight position={[1, 2, 3]} intensity={1.5} />
             <ambientLight intensity={0.5} />
