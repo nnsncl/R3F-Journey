@@ -14,58 +14,7 @@ export function Crystal(props) {
     const { nodes, materials } = useGLTF("/models/fract_crystal_2.glb");
     const parentGroup = React.useRef();
 
-    useExplodingMesh(parentGroup, { distance: 10 })
-
-    // const scrollData = useScroll();
-
-    // React.useEffect(() => {
-    //     const groupWorldPos = new THREE.Vector3();
-    //     parentGroup.current.getWorldPosition(groupWorldPos);
-
-    //     parentGroup.current.children.forEach((mesh) => {
-    //         // Create a new prop inside each meshes that stores the original position
-    //         mesh.originalPosition = mesh.position.clone();
-
-    //         const meshWorldPos = new THREE.Vector3();
-    //         mesh.getWorldPosition(meshWorldPos);
-
-    //         // Store vector's distance from origin's center into a new obj var
-    //         mesh.directionVector = meshWorldPos.clone().sub(groupWorldPos).normalize();
-    //         mesh.targetPosition = mesh.originalPosition.clone().add(mesh.directionVector.clone().multiplyScalar(3))
-    //     });
-    // }, []);
-
-    // useFrame(() => {
-    //     parentGroup.current.children.forEach((mesh) => {
-    //         // Toggle visibility on scroll
-    //         if (scrollData.offset < 0.001) {
-    //             if (mesh.name === 'origin') mesh.visible = true
-    //             else mesh.visible = false
-
-    //         } else {
-    //             if (mesh.name == 'origin') mesh.visible = false
-    //             else mesh.visible = true
-    //         }
-
-
-    //         mesh.position.x = THREE.MathUtils.lerp(
-    //             mesh.originalPosition.x,
-    //             mesh.targetPosition.x,
-    //             scrollData.offset, // 0 at page's top, 1 once scrolled
-    //         )
-    //         mesh.position.y = THREE.MathUtils.lerp(
-    //             mesh.originalPosition.y,
-    //             mesh.targetPosition.y,
-    //             scrollData.offset,
-    //         )
-    //         mesh.position.z = THREE.MathUtils.lerp(
-    //             mesh.originalPosition.z,
-    //             mesh.targetPosition.z,
-    //             scrollData.offset,
-    //         )
-    //     });
-    // });
-
+    useExplodingMesh(parentGroup, { distance: 6, enableRotation: true })
     return (
         <group {...props} dispose={null} ref={parentGroup} >
             <mesh
@@ -337,7 +286,7 @@ export function Crystal(props) {
                 name="origin"
                 geometry={nodes.crystal_27.geometry}
                 material={nodes.crystal_27.material}
-                scale={100}
+                scale={42}
             />
         </group>
     );
