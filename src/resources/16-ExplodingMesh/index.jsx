@@ -1,6 +1,7 @@
 import React from "react";
 import { Canvas } from "@react-three/fiber";
 import { Experience } from './Experience';
+import { ScrollControls } from "@react-three/drei";
 
 export const ExplodingMesh = () => {
     return (
@@ -8,9 +9,12 @@ export const ExplodingMesh = () => {
             <Canvas
                 shadows
                 gl={{ antialias: true }}
-                camera={{ position: [3, 3, 3], fov: 30 }}
+                camera={{ position: [0, 0, 5], fov: 30 }}
             >
-                <Experience />
+
+                <ScrollControls pages={4} >
+                    <Experience />
+                </ScrollControls>
             </Canvas>
         </React.Fragment>
 

@@ -10,7 +10,7 @@ export function Crystal(props) {
     const { nodes, materials } = useGLTF("/models/fract_crystal_2.glb");
     return (
         <group {...props} dispose={null}>
-            <group name='fract' >
+            <group name='fract' scale={.98} >
                 <mesh
                     name="crystal_27_cell001"
                     castShadow
