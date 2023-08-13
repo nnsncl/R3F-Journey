@@ -1,6 +1,6 @@
 import React from "react";
 import { Canvas } from "@react-three/fiber";
-import { Experience } from './Experience';
+import { Experience } from './components/Experience';
 import { ScrollControls } from "@react-three/drei";
 
 export const ExplodingMesh = () => {
