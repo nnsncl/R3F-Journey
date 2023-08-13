@@ -6,15 +6,9 @@ export const ExplodingMesh = () => {
     return (
         <React.Fragment>
             <Canvas
-                gl={{
-                    antialias: true
-                }}
-                camera={{
-                    fov: 50,
-                    near: 0.1,
-                    far: 200,
-                    position: [0, 0, 5]
-                }}
+                shadows
+                gl={{ antialias: true }}
+                camera={{ position: [3, 3, 3], fov: 30 }}
             >
                 <Experience />
             </Canvas>
